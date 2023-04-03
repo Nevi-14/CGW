@@ -13,3 +13,19 @@ ion-input, ion-select{
     --padding-bottom: 10px;
     --padding-start:5px;
 }
+
+.hideInput{
+    position: absolute;
+    bottom: -100000000px;
+}
+ion-fab-button {
+    --background: transparent;
+    --box-shadow:none;
+    label{
+        color: #000;
+        font-size: 2rem!important;
+    }
+}
+ion-col{
+    margin-top: 1rem;
+}

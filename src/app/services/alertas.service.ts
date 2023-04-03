@@ -33,7 +33,7 @@ export class AlertasService {
 
   async presentaLoading( message: string ){
     this.isLoading = true;
-    this.loadingCtrl.create({
+   await this.loadingCtrl.create({
       message: message ? message : 'Please wait...'
     }).then(loader => {
       loader.present().then(() => {
@@ -43,14 +43,7 @@ export class AlertasService {
       });
     });
   }
-  async   loadingDissmiss2(){
-    this.isLoading = false;
-    this.loadingCtrl.getTop().then(loader => {
-      if (loader) {
-        loader.dismiss();
-      }
-    });
-  }
+ 
   async   loadingDissmiss(){
     this.isLoading = false;
     let topLoader = await this.loadingCtrl.getTop();
@@ -74,8 +67,7 @@ export class AlertasService {
 
     await alert.present();
 
-    const { role } = await alert.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
+ 
 
 }
 

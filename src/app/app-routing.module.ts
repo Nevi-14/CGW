@@ -32,20 +32,30 @@ const routes: Routes = [
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
   {
-    path: 'adelanto-viaticos',
-    loadChildren: () => import('./pages/adelanto-viaticos/adelanto-viaticos.module').then( m => m.AdelantoViaticosPageModule)
-  },
-  {
     path: 'estado-cuenta',
     loadChildren: () => import('./pages/estado-cuenta/estado-cuenta.module').then( m => m.EstadoCuentaPageModule)
   },
   {
     path: 'filtrar-gastos',
     loadChildren: () => import('./pages/filtrar-gastos/filtrar-gastos.module').then( m => m.FiltrarGastosPageModule)
-  },  {
+  },
+  {
     path: 'dashboard',
     loadChildren: () => import('./pages/dashboard/dashboard.module').then( m => m.DashboardPageModule)
-  }
+  },  {
+    path: 'crear-adelanto-viaticos',
+    loadChildren: () => import('./pages/crear-adelanto-viaticos/crear-adelanto-viaticos.module').then( m => m.CrearAdelantoViaticosPageModule)
+  },
+  {
+    path: 'detalle-adelanto-viatico',
+    loadChildren: () => import('./pages/detalle-adelanto-viatico/detalle-adelanto-viatico.module').then( m => m.DetalleAdelantoViaticoPageModule)
+  },
+  {
+    path: 'liquidacion-viaticos',
+    loadChildren: () => import('./pages/liquidacion-viaticos/liquidacion-viaticos.module').then( m => m.LiquidacionViaticosPageModule)
+  },
+
+
 
 
 

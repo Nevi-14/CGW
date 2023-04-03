@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertasService } from '../../services/alertas.service';
+import { UsuariosService } from '../../services/usuarios.service';
+import { ConfiguracionesService } from '../../services/configuraciones';
 
 
 @Component({
@@ -14,21 +16,55 @@ export class InicioSesionPage implements OnInit {
   showPass = false;
   usuario: string = null;
   clave: string = null;
+  logingURL = '';
 
-  constructor( public route: Router,
-               private alertas: AlertasService ) { }
+  constructor( 
+    public route: Router,
+    private alertas: AlertasService,
+    public usuariosService: UsuariosService,
+    public activatedRoute: ActivatedRoute,
+    public configuracionesService: ConfiguracionesService 
+               
+               
+               ) { }
 
   ngOnInit() {
+  }
+
+
+  ionViewWillEnter(){
+this.logingURL = this.activatedRoute.snapshot.queryParamMap.get('returnto') || 'inicio';
+this.configuracionesService.title = this.logingURL.split('/')[2];
+ 
+
   }
 
   loginMethod(){
     console.log(this.usuario);
     console.log(this.clave);
+    this.alertas.presentaLoading('Cargando datos..');
+    this.usuariosService.getUsuarioIdToPtomise(this.usuario).then(resp =>{
+      console.log('resp', resp)
+      this.alertas.loadingDissmiss();
+      if(resp.length ==0){
+     this.alertas.message('APP', 'Lo sentimos usuario o contraseña incorrectos..')
+      }else if (resp[0].usuario == this.usuario  && resp[0].clave == this.clave){
+        localStorage.setItem('usuario', JSON.stringify(resp[0]));
+        this.usuariosService.usuario = resp[0]
+        this.route.navigateByUrl(this.logingURL);
+      }else{
+        this.alertas.message('APP', 'Lo sentimos usuario o contraseña incorrectos..')
+      }
 
-    this.alertas.presentaLoading('Espere x favor...');
+    }, error =>{
+      this.alertas.loadingDissmiss();
 
-    this.route.navigate(['/inicio']);
-    this.alertas.loadingDissmiss();
+
+    })
+
+ 
+
+
 
 /**
  * 

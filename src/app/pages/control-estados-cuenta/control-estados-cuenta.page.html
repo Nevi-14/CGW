@@ -1,0 +1,137 @@
+
+<ion-header class="ion-no-border">
+  <ion-toolbar class="ion-padding">
+    <ion-title class="ion-text-capitalize" class="title"><strong>Control Estados Cuenta</strong></ion-title>
+    <ion-searchbar *ngIf="estadosCuentaArray.length > 0;" (ionChange)="onSearchChange($event)" slot="end" style="width:50%;margin-top: 1rem;" mode="ios" placeholder="Buscar Colaborador"  type="text"   [debounce]="250"  ></ion-searchbar>
+    <ion-fab-button  size="small"  class="margin-right" (click)="estadoCuenta()" slot="end" color="dark"  >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+ 
+    <ion-fab-button  size="small"  (click)="cargarDatos()" class="margin-right" slot="end" color="dark"  >
+      <ion-icon name="refresh"></ion-icon>
+    </ion-fab-button>
+  </ion-toolbar>
+</ion-header>
+
+ 
+<ion-content >
+ 
+
+<ion-grid >
+  <ion-row>
+    <ion-col size="12">
+    
+      <ion-list>
+
+        <ion-item *ngIf="estadosCuentaArray.length == 0;" lines="none">
+       
+            <ion-grid  >
+              <ion-row>
+                <ion-col size="12" class="ion-text-center ion-margin-top">
+                  <img height="150" src="assets/imgs/empty-box.svg" alt="">
+                </ion-col>
+                <ion-col size="12" class="ion-text-center">
+                  <strong class="ion-text-capitalize">No hay datos que mostrar</strong>
+                </ion-col>
+              
+              </ion-row>
+            </ion-grid>
+    
+        </ion-item>
+        <ion-item lines="full" *ngIf="estadosCuentaArray.length > 0;" >
+          <ion-grid >
+            <ion-row>
+              <ion-col size="2">
+                <ion-label><strong>
+                  Remitente
+                </strong></ion-label>
+                      </ion-col>
+              <ion-col size="2">
+        <ion-label><strong>
+          Destintario
+        </strong></ion-label>
+              </ion-col>
+              <ion-col size="2">
+        <ion-label><strong>
+          Fecha
+        </strong></ion-label>
+              </ion-col>
+        
+              <ion-col size="2">
+              <ion-label><strong>
+                Monto
+              </strong></ion-label>
+              </ion-col>
+              <ion-col size="2">
+                <ion-label><strong>
+                  Archivo
+                </strong></ion-label>
+                </ion-col>
+              <ion-col size="2">
+                
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+   
+      <ion-list class="fixed-scroll">
+    
+        <ion-item     *ngFor="let estado of estadosCuentaArray | filtro: textoBuscar:'destinatario' ; let i = index;">
+          <ion-grid >
+            <ion-row>
+              <ion-col size="2">
+                <ion-label>{{estado.remitente}}</ion-label>
+                      </ion-col>
+              <ion-col size="2">
+        <ion-label>{{estado.destinatario}}</ion-label>
+              </ion-col>
+              
+              <ion-col size="2">
+        <ion-label>{{estado.fecha | date : 'shortDate' }}</ion-label>
+              </ion-col>
+        
+              <ion-col size="2">
+              <ion-label>  {{estado.monto}}</ion-label>
+              </ion-col>
+
+              <ion-col size="2">
+                <ion-badge *ngIf="!estado.archivo" color="primary" mode="ios">Sin Archivos</ion-badge>
+                <ion-label *ngIf="estado.archivo">
+                  <a slot="end"   href="{{ url+estado.id}}" target="_blank" download> 
+                    <ion-fab-button   size="small" >
+                  
+                      <ion-icon name="cloud-download-outline">
+                   
+          
+                      </ion-icon>
+                      
+                    </ion-fab-button>
+                  
+                  </a>
+                
+                  
+                </ion-label>
+                      </ion-col>
+              <ion-col size="2">
+   
+      <ion-button (click)="enviarCorreo(estado)"  fill="clear"   >
+        <ion-icon color="primary" slot="icon-only" name="mail"></ion-icon>
+      </ion-button>
+      
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+      
+   
+       
+      
+      
+      </ion-col>
+  </ion-row>
+</ion-grid>
+ 
+  </ion-content>
+ 

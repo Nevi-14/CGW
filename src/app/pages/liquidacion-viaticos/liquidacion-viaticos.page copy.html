@@ -1,0 +1,148 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button (click)="cerrarModal()"  fill="clear" slot="start">
+      <ion-icon color="dark" size="large" name="arrow-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title>Liquidación Viáticos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-grid >
+ 
+ 
+
+  <ion-row style="height: 100%;">
+
+    <ion-col size="12" *ngIf="gastos.length == 0" >
+      <ion-item class="ion-padding">
+        <ion-icon color="danger" slot="start" size="large" name="alert-circle-outline"></ion-icon>
+    <strong><h5>Selecciona un gasto para proceder</h5></strong>
+      </ion-item>
+      
+    </ion-col>
+    <ion-col size="12" style="height: 30%;">
+      <ion-item lines="none" class="ion-margin-bottom"  *ngIf="gastos.length > 0">
+<ion-grid >
+  <ion-row>
+
+    <ion-col size="12">
+      <ion-row>
+        <ion-col size="12">
+          <strong>Resumen De Gastos</strong>
+        </ion-col>
+        <ion-col size="12">
+          {{value1 | date }}
+        </ion-col>
+        <ion-col size="12">
+          {{value2 | date }}
+        </ion-col>
+      </ion-row>
+    </ion-col>
+    <ion-col size="6">
+      <ion-toolbar color="{{color}}" style="border-radius: 10px;margin-top: 1rem;">
+        <ion-title>{{message}}</ion-title>
+
+  
+      </ion-toolbar>
+ 
+
+    </ion-col>
+    <ion-col size="6">
+<ion-toolbar>
+  <ion-fab-button   (click)="actualizarGasto('A')" size="small" color="success" slot="end">
+       
+  </ion-fab-button>
+  <ion-fab-button  (click)="actualizarGasto('P')"  size="small" color="warning" slot="end">
+   
+  </ion-fab-button>
+  <ion-fab-button   (click)="actualizarGasto('R')" size="small" color="danger" slot="end">
+   
+  </ion-fab-button>
+  <ion-fab-button   (click)="trash()" size="small" color="danger" slot="end">
+   <ion-icon   name="trash"></ion-icon>
+  </ion-fab-button>
+</ion-toolbar>
+
+    </ion-col>
+  </ion-row>
+</ion-grid>
+         
+        </ion-item>
+
+    </ion-col>
+
+    <ion-col size="12" *ngIf="estadoGasto == 'R'">
+      <ion-label>Observaciones / motivo del porque se impide el registro..</ion-label>
+      <ion-item>
+    <ion-input type="text" placeholder="observaciones"></ion-input>
+      </ion-item>
+    </ion-col>
+
+    <ion-col size="12" style="height: 65%; overflow: auto;">
+   
+      <ion-item   *ngFor="let gasto of gastos">
+        <ion-grid >
+          <ion-row>
+            <ion-col size="12" style=" display: flex;justify-content: flex-start;align-items: center;">
+              <ion-label class="ion-text-capitalize"><strong>#{{gasto.referencia}}</strong></ion-label>
+              
+              <ion-badge style="margin-left: 0.5rem;"  color="primary" mode="ios">{{gasto.fecha | date}}</ion-badge>
+           
+            </ion-col>
+            <ion-col size="6" style=" display: flex;justify-content: flex-start;align-items: center;" class="ion-padding">
+         
+              
+           
+                <ion-label  ><strong>Estado</strong></ion-label>
+                <ion-label  >
+                  <ion-badge style="margin-left: 0.5rem;" color="warning" mode="ios">{{gasto.procesado == 'N' ? 'Pendiente' : 'Finalizado'}}</ion-badge>
+                </ion-label>
+            
+              
+        
+            </ion-col>
+            <ion-col size="6" style=" display: flex;justify-content: flex-end;align-items: center;">
+        
+              
+              
+            
+       
+                      <ion-label  ><strong>{{gasto.monto | colones}}</strong></ion-label>
+                 
+        
+            </ion-col>
+            
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      
+    </ion-col>
+
+  </ion-row>
+ 
+
+ 
+ 
+</ion-grid>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+ <ion-grid >
+  <ion-row>
+    <ion-col size="12"   *ngIf="gastos.length >  0">
+      <ion-toolbar class="ion-text-right">
+        <ion-title>Total: {{total | colones}}</ion-title>
+      </ion-toolbar>
+    </ion-col>
+
+    <ion-col  size="12"    class="ion-padding"  *ngIf="gastos.length >  0">
+      <ion-button  (click)="actualizar()"  expand="block" fill="solid"  color="dark">
+        Liquidar Gastos
+       </ion-button>
+    </ion-col>
+  </ion-row>
+ </ion-grid>
+  </ion-toolbar>
+</ion-footer>

@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
-import { format } from 'date-fns';
-
+ 
 
 @Component({
   selector: 'app-calendario-popover',
@@ -19,10 +18,10 @@ export class CalendarioPopoverPage implements OnInit {
 
   ngOnInit() {
    
- 
+
 
   }
- async formatDate(value: string) {
+ async formatDate(value: any) {
 
     const popover = await this.popOverCtrl.getTop();
     if (popover){

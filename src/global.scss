@@ -551,3 +551,18 @@ ion-input, ion-select{
   --padding-bottom: 10px;
   --padding-start:5px;
 }
+
+* {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+
+
+.page-title {
+font-size: 1.5rem;
+letter-spacing: 0.1rem;
+color: #222428;
+}

@@ -12,7 +12,8 @@ export class ConfiguracionesService {
   elementos =[]
   isPRD:boolean;
   url: string;
-
+  chartHeight ='0px';
+  title = "";
 
   constructor(
     public loadingCtrl: LoadingController,

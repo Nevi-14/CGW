@@ -4,6 +4,7 @@
       <ion-icon color="dark" size="large" name="arrow-back-outline"></ion-icon>
     </ion-button>
     <ion-title>Filtrar Gastos</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
@@ -14,65 +15,61 @@
       <ion-col size="6">
         <ion-label>Factura</ion-label>
         <ion-item lines="none" class="ion-item">
-           <ion-input  type="text" placeholder="factura"  ></ion-input>
+           <ion-input  [(ngModel)]="factura" type="text" placeholder="factura"  ></ion-input>
           </ion-item>
       </ion-col>
       <ion-col size="6">
-<ion-toolbar>
-  <ion-fab-button slot="end" size="small" color="dark">
-    <ion-icon name="refresh"></ion-icon>
-   </ion-fab-button>
-</ion-toolbar>
-      </ion-col>
+        <ion-label>Estado</ion-label>
+        <ion-item lines="none" class="ion-item">
 
+    <ion-select [(ngModel)]="estado"   placeholder="Seleccionar Estado">
+      <ion-select-option *ngFor="let estado of estados" [value]="estado.id">{{estado.description}}</ion-select-option>
+
+    </ion-select>
+
+          </ion-item>
+      </ion-col>
       
       <ion-col size="12" class="ion-margin-bottom">
         <ion-item lines="none">
           <ion-label><strong>Fecha Actual</strong></ion-label>
-          <ion-checkbox slot="end"></ion-checkbox>
+          <ion-checkbox [(ngModel)]="fechaActual" slot="end"></ion-checkbox>
         </ion-item>
 
       </ion-col>
       <ion-col size="6">
         <ion-label>Fecha Inicio</ion-label>
         <ion-item lines="none" class="ion-item">
-           <ion-input readonly type="text" placeholder="fecha inicio" (click)="fechaPopOver()"></ion-input>
+           <ion-input readonly [value]="value1 | date " type="text" placeholder="fecha inicio" (click)="fechaPopOver(0)"></ion-input>
           </ion-item>
       </ion-col>
 
       <ion-col size="6">
         <ion-label>Fecha Fin</ion-label>
         <ion-item lines="none" class="ion-item">
-           <ion-input readonly type="text" placeholder="fecha fin" (click)="fechaPopOver()"></ion-input>
+           <ion-input readonly  [value]="value2 | date "  type="text" placeholder="fecha fin" (click)="fechaPopOver(1)"></ion-input>
           </ion-item>
       </ion-col>
+
       <ion-col size="12">
-        <ion-list>
-          <ion-list-header>
-     <ion-searchbar mode="ios" placeholder="Buscar Usuario"  type="text"   [debounce]="250"  ></ion-searchbar>
-          </ion-list-header>
-          <ion-item>
-            <ion-label>Usuario 1</ion-label>
-            <ion-checkbox slot="end"></ion-checkbox>
-          </ion-item>
+        <ion-radio-group [value]="usuario">
+          <ion-list>
+            <ion-list-header>
+       <ion-searchbar style="max-width: 90%;" (ionChange)="onSearchChange($event)" mode="ios" placeholder="Buscar Usuario"  type="text"   [debounce]="250"  ></ion-searchbar>
 
-          <ion-item>
-            <ion-label>Usuario 2</ion-label>
-            <ion-checkbox slot="end"></ion-checkbox>
-          </ion-item>
-
-
-          <ion-item>
-            <ion-label>Usuario 3</ion-label>
-            <ion-checkbox slot="end"></ion-checkbox>
-          </ion-item>
-
-
-          <ion-item>
-            <ion-label>Usuario 4</ion-label>
-            <ion-checkbox slot="end"></ion-checkbox>
-          </ion-item>
-        </ion-list>
+       <ion-fab-button   size="small" color="danger">
+        <ion-icon name="close-outline"></ion-icon>
+       </ion-fab-button>
+            </ion-list-header>
+            <ion-item (click)="seleccionarUsuario(usuario, i+1)"  *ngFor="let usuario of usuarios | filtro: textoBuscar:'usuario' let i = index;">
+              <ion-label>{{usuario.usuario}}</ion-label>
+            <ion-radio [value]="usuario.usuario"></ion-radio>
+            </ion-item>
+      
+          
+          </ion-list>
+        </ion-radio-group>
+  
         
       </ion-col>
     </ion-row>
@@ -81,7 +78,7 @@
 </ion-content>
 <ion-footer class="ion-no-border">
   <ion-toolbar class="ion-padding">
-<ion-button (click)="cerrarModal()" expand="block" fill="solid" color="dark">
+<ion-button (click)="generarConsulta()" expand="block" fill="solid" color="dark">
  Generar Consulta
 </ion-button>
   </ion-toolbar>

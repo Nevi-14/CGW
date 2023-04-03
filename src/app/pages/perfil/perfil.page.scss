@@ -1,7 +1,21 @@
 .height{
 
-    height: 180px;
-    width:180px;
+    height: 200px;
+    width:200px;
     margin: 0 auto;
    margin-bottom: 3rem;
 }
+
+ion-img {
+
+    width: 200px;
+  height: 200px;
+  }
+  img {
+
+    width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: 50%;
+  object-fit: cover;
+  }

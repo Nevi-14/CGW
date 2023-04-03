@@ -9,43 +9,65 @@
 
 <ion-content class="ion-padding">
 
-
-  <ion-col size="6">
-    <ion-label>Colaborador </ion-label>
- <ion-item class="ion-item" lines="none">
-   
-  <ion-select   placeholder="Colaborador">
-    <ion-select-option value="nelson">Nelson Morera</ion-select-option>
-    <ion-select-option value="mauricio">Mauricio Herra</ion-select-option>
-  </ion-select>
- </ion-item>
+  <ion-grid >
+    <ion-row>
+      <ion-col size="6">
     
-  </ion-col>
-  <ion-col size="6">
-
-    <ion-label>Fecha</ion-label>
-    <ion-item class="ion-item" lines="none">
-     <ion-input type="text" placeholder="Fecha"></ion-input>
-    </ion-item>
-  </ion-col>
-
-  <ion-col size="12">
-
-    <ion-label>Monto</ion-label>
-    <ion-item class="ion-item" lines="none">
-     <ion-input type="number" placeholder="Monto"></ion-input>
-    </ion-item>
-  </ion-col>
-
-  <ion-col size="12">
-
-    <ion-label>Archivo</ion-label>
-    <ion-item class="ion-item" lines="none">
-     <ion-input type="text" placeholder="archivo"></ion-input>
-    </ion-item>
-  </ion-col>
-
+        <ion-label>Fecha</ion-label>
+        <ion-item (click)="fecha()" class="ion-item" lines="none">
+         <ion-input  readonly  [value]="formatoFecha  | date" type="text" placeholder="Fecha"></ion-input>
+        </ion-item>
+      </ion-col>
+    
+      <ion-col size="6">
+    
+        <ion-label>Monto</ion-label>
+        <ion-item class="ion-item" lines="none">
+         <ion-input name="monto" [(ngModel)]="estadoCuenta.monto" type="number" placeholder="Monto"></ion-input>
+        </ion-item>
+      </ion-col>
+  
+      <ion-col size="12">
+        <ion-label>Archivo</ion-label>
+        <ion-item class="ion-item" lines="none">
+    
+            <ion-input [value]="fileName" placeholder="Archivo" ></ion-input>
+            <ion-fab-button size="small" slot="end" >
+              <label for="input" style="font-size: 20pt; padding: 20px" >
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+              </label>
+              <input  id="input" type="file" class="hideInput" (change)="adjuntarArchivo($event)">
+            </ion-fab-button>
+          </ion-item>
+       
+      </ion-col>
+      <ion-col size="12">
+        <ion-radio-group [value]="usuario">
+          <ion-list>
+            <ion-list-header>
+       <ion-searchbar mode="ios" placeholder="Buscar Usuario"  type="text"   [debounce]="250"  ></ion-searchbar>
+            </ion-list-header>
+            <ion-item (click)="seleccionarUsuario(usuario, i+1)"  *ngFor="let usuario of usuarios; let i = index;">
+              <ion-label>{{usuario.usuario}}</ion-label>
+            <ion-radio [value]="usuario.usuario"></ion-radio>
+            </ion-item>
+      
+          
+          </ion-list>
+        </ion-radio-group>
+  
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
 
  
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="ion-padding">
+<ion-button (click)="generarPost()" expand="block" fill="solid" color="dark">
+Enviar Estado De Cuenta
+</ion-button>
+  </ion-toolbar>
+</ion-footer>

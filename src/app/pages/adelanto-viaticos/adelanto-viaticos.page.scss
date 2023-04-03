@@ -1,17 +1,19 @@
-
-
-.hideInput{
-    position: absolute;
-    bottom: -100000000px;
+ 
+ion-input, ion-select {
+    border-radius: 30px;
+    border: solid 1px rgba(218,218,218,1);
+    height: 2.5rem;
+    width: 100%;
+padding: 0.2rem;
 }
-ion-fab-button {
-    --background: transparent;
-    --box-shadow:none;
-    label{
-        color: #000;
-        font-size: 2rem!important;
-    }
+ion-label{
+    font-weight: 500;
 }
-ion-col{
-    margin-top: 1rem;
+.description {
+    height: 4rem;
 }
+.has-focus {
+    border: 2px solid #5b9bd1 !important;
+  }
+ 
+   

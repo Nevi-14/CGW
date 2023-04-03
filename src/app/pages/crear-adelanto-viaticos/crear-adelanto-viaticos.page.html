@@ -1,0 +1,131 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button (click)="cerrarModal()"  fill="clear" slot="start">
+      <ion-icon color="dark" size="large" name="arrow-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title>Adelanto Viáticos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item class="ion-no-padding" lines="full" *ngFor="let adelantoViatico of adelantoVaticos">
+
+
+    <ion-grid >
+      <ion-row>
+        <ion-col size="12">
+          <ion-toolbar style="margin-bottom: 1rem;">
+            <ion-title slot="end">Colaborador</ion-title>
+            <ion-chip slot="end" color="dark" mode="ios" outline="true">
+              <ion-avatar >
+                <img   src="../assets/imgs/user.svg" />
+              </ion-avatar>
+              <ion-label>{{adelantoViatico.destinatario}}</ion-label>
+            </ion-chip>
+            <ion-button (click)="edit()"   slot="end" fill="clear" shape="round">
+              <ion-icon size="large" color="dark" name="create-outline"></ion-icon>
+             </ion-button>
+       <ion-button  (click)="delete()" slot="end" fill="clear" shape="round">
+        <ion-icon size="large" color="danger" name="trash-outline"></ion-icon>
+       </ion-button>
+
+          </ion-toolbar>
+        </ion-col>
+        <ion-col size="4">
+  <ion-row>
+    <ion-col size="12">
+      <img height="100" src="../assets/imgs/invoice.svg" alt="">
+    </ion-col>
+  
+  </ion-row>
+  
+        </ion-col>
+        <ion-col size="4">
+          <ion-row>
+   
+            <ion-col size="12">
+              <ion-label>Fecha Transacción {{adelantoViatico.fechaTransaccion  | date:'shortDate'}}</ion-label>
+            </ion-col>
+            <ion-col size="12">
+              <ion-label>Fecha Inicial {{adelantoViatico.fechaInicial  | date:'shortDate'}}</ion-label>
+            </ion-col>
+            <ion-col size="12">
+              <ion-label>Fecha Final {{adelantoViatico.fechaFinal | date:'shortDate'}}</ion-label>
+            </ion-col>
+  
+          </ion-row>
+        </ion-col>
+  
+        <ion-col size="4">
+         
+        </ion-col>
+  
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-list class="ion-padding">
+            <ion-item>
+      <ion-grid >
+        <ion-row>
+          <ion-col size="4">
+            <ion-label><strong># Transacción</strong></ion-label>
+            </ion-col>
+          <ion-col size="4">
+          <ion-label><strong>Descripción</strong></ion-label>
+          </ion-col>
+          <ion-col size="4">
+            <ion-label><strong>Monto</strong></ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+            </ion-item>
+            <ion-item>
+              <ion-grid >
+                <ion-row>
+                  <ion-col size="4">
+                    <ion-label>{{adelantoViatico.numeroTransaccion}}</ion-label>
+                  </ion-col>
+                  <ion-col size="4">
+                  <ion-label>{{adelantoViatico.detalle}}</ion-label>
+                  </ion-col>
+                  <ion-col size="4" class="ion-text-right">
+                    <ion-label>{{adelantoViatico.monto | colones : 2 : '.' : ',' :  adelantoViatico.moneda }}</ion-label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+                    </ion-item>
+  
+                    <ion-item lines="none">
+                      <ion-grid >
+                        <ion-row>
+                          <ion-col size="6">
+                          <ion-label><strong>Total</strong></ion-label>
+                          </ion-col>
+                          <ion-col size="6"  class="ion-text-right">
+                            <ion-label>{{adelantoViatico.monto | colones : 2 : '.' : ',' :  adelantoViatico.moneda }}</ion-label>
+                          </ion-col>
+                        </ion-row>
+                      </ion-grid>
+                            </ion-item>
+          </ion-list>
+        </ion-col>
+  
+   
+      </ion-row>
+  
+    </ion-grid>
+
+
+
+
+ 
+  </ion-item>
+
+</ion-content>
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="ion-padding">
+<ion-button (click)="generarPost()" expand="block" fill="solid" color="dark">
+ Guardar Registros
+</ion-button>
+  </ion-toolbar>
+</ion-footer>
