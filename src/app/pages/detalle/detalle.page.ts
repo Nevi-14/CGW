@@ -9,9 +9,10 @@ export class DetallePage implements OnInit {
   image = '../assets/imgs/devCodingLogo.svg';
   public appPages = [
     { title: 'Inicio', url: '/inicio/detalle', icon: 'home' },
-    { title: 'Dashboard', url: '/inicio/dashboard', icon: 'pie-chart' },
-    { title: 'Control Viáticos', url: '/inicio/control-viaticos', icon: 'cash' },
-    { title: 'Adelanto Viáticos', url: '/inicio/control-adelanto-viaticos', icon: 'document-text' },
+    { title: 'Acceso', url: '/inicio/control-matriz-acceso', icon: 'shield' },
+    { title: 'Gestión Anticipos', url: '/inicio/control-anticipos', icon: 'document-text' },
+ //   { title: 'Viáticos', url: '/inicio/control-viaticos', icon: 'cash' },
+ { title: 'Gestión Gastos', url: '/inicio/dashboard', icon: 'pie-chart' },
     { title: 'Estados Cuenta', url: '/inicio/control-estados-cuenta', icon: 'card' }
    
   ];

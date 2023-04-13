@@ -14,9 +14,7 @@ export const environment = {
  
   // APIS
 
-// USUARIOS
-getUsuarios:'get/usuarios',
-getUsuarioID:'get/usuario?id=',
+
 // GASTOS
 getGastos:'get/gastos/estado/rango/fecha?estado=',
 putGastos:'put/gasto?id=',
@@ -24,8 +22,8 @@ getFacturaGastos:'get/gasto?id=',
 getUsuarioGastos:'get/gastos/usuario?id=',
 getUsuarioGastosRangoFecha:'get/usuario/gastos/estado/rango/fecha?id=',
 // ADELANTO VIATICOS
-getAdelantoViaticos:'get/adelanto/viaticos',
-postAdelantoViaticos:'post/adelanto/viaticos',
+getAdelantoViaticos:'get/anticipos',
+postAdelantoViaticos:'post/anticipo',
 // ESTADOS CUENTA
 getEstadosCuenta:'get/estados/cuenta',
 postEstadosCuenta:'post/estados/cuenta',
@@ -46,7 +44,40 @@ postAsientoDiario:'post/asiento-diario',
 
 //  DIARIO
 getDiario:'get/diario',
-postDiario:'post/diario'
+postDiario:'post/diario',
+getusuariosExactus:'get/usuarios/exactus',
+getGastosAnticipos:'get/gastos/anticipo?id=',
+
+
+// USUARIOS
+getUsuarios:'get/usuarios',
+getUsuarioID:'get/usuario?correo=',
+postUsuario:'post/usuario',
+putUsuario:'put/usuario?id=',
+deleteUsuario:'delete/usuario?id=',
+// COMPANIAS
+getCompanias:'get/companias',
+// MODULOS
+getModulos:'get/modulos',
+// DEPARTAMENTOS
+getDepartamentos:'get/departamentos',
+postDepartamento:'post/departamento',
+putDepartamento:'put/departamento?id=',
+deleteDepartamento:'delete/departamento?id=',
+
+// ROLES
+getRoles:'get/roles',
+postRole:'post/role',
+putRole:'put/role?id=',
+deleteRole:'delete/role?id=',
+// MATRIZ ACCESO
+getMatrizAcceso:'get/matriz-accesos',
+getMatrizAccesoUsuario:'get/matriz-acceso?id=',
+getMatrizAccesoRoleUsuario:'get/matriz-acceso?usuario=',
+postMatrizAcceo:'post/matriz-acceso',
+putMatrizAcceso:'put/matriz-acceso?id=',
+deleteMatrizAcceso:'delete/matriz-accceso?id='
+
 
 };
 

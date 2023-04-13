@@ -25,7 +25,7 @@ export class CrearAdelantoViaticosPage implements OnInit {
   ) { }
 
   ngOnInit() {
-   
+   console.log(this.adelantoVaticos,'adelantos')
   }
 
   cerrarModal(){
@@ -63,38 +63,38 @@ export class CrearAdelantoViaticosPage implements OnInit {
 
     let movDir:ONE_MOVDIR = {
 
-      Numero : this.adelantoVaticos[i].numeroTransaccion,
+      Numero : this.adelantoVaticos[i].numerO_TRANSACCION,
       Tipo: 'N/D',
       Subtipo:'N/D',
-      Fecha: this.adelantoVaticos[i].fechaTransaccion,
+      Fecha: this.adelantoVaticos[i].fechA_TRANSACCION,
       Monto:this.adelantoVaticos[i].monto,
       TipoAsiento:'CB',
       Paquete:'CB',
       Concepto:`Pago de
       viáticos +
-      ${format(this.adelantoVaticos[i].fechaInicial,'MM/dd/yyyy')} +
-      ${format(this.adelantoVaticos[i].fechaFinal,'MM/dd/yyyy')}`,
+      ${format(this.adelantoVaticos[i].fechA_INICIAL,'MM/dd/yyyy')} +
+      ${format(this.adelantoVaticos[i].fechA_FINAL,'MM/dd/yyyy')}`,
       Asiento: numAsiento
 
    }
 
    console.log('movDir', movDir);
-await this.procesoContableService.syncPostMovDirToPromise(movDir);
+//await this.procesoContableService.syncPostMovDirToPromise(movDir);
 let asientoDiario:ONE_Asiento_Diario = {
 
   NumAsiento:numAsiento,
   Tipo:'CB',
   Paquete:'CB',
-  Concepto:`Pago de viáticos ${format(this.adelantoVaticos[i].fechaInicial,'MM/dd/yyyy')} + ${format(this.adelantoVaticos[i].fechaFinal,'MM/dd/yyyy')}`, 
+  Concepto:`Pago de viáticos ${format(this.adelantoVaticos[i].fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoVaticos[i].fechA_FINAL,'MM/dd/yyyy')}`, 
   Monto:this.adelantoVaticos[i].monto,
-  Fecha:this.adelantoVaticos[i].fechaTransaccion  // Fecha Transac 
+  Fecha:this.adelantoVaticos[i].fechA_TRANSACCION  // Fecha Transac 
 
 }
 
 
 console.log('asientoDiario', asientoDiario);
 
-await this.procesoContableService.syncPostAsientoDiarioToPromise(asientoDiario);
+//await this.procesoContableService.syncPostAsientoDiarioToPromise(asientoDiario);
 
 let diario:ONE_Diario[]=[
 {
@@ -103,7 +103,7 @@ let diario:ONE_Diario[]=[
   CuentaConta:'1-01-02-002-007',
   DebitoTotal:null,
   CreditoLocal:this.adelantoVaticos[i].monto,
-  Referencia:`Pago de viáticos ${format(this.adelantoVaticos[i].fechaInicial,'MM/dd/yyyy')} + ${format(this.adelantoVaticos[i].fechaFinal,'MM/dd/yyyy')}`
+  Referencia:`Pago de viáticos ${format(this.adelantoVaticos[i].fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoVaticos[i].fechA_FINAL,'MM/dd/yyyy')}`
 },
 {
  NumAsiento:numAsiento,
@@ -111,7 +111,7 @@ let diario:ONE_Diario[]=[
  CuentaConta:'1-01-05-004-011',
  DebitoTotal:this.adelantoVaticos[i].monto,
  CreditoLocal:null,
- Referencia:`Pago de viáticos + ${format(this.adelantoVaticos[i].fechaInicial,'MM/dd/yyyy')}  + ${format(this.adelantoVaticos[i].fechaFinal,'MM/dd/yyyy')}`
+ Referencia:`Pago de viáticos + ${format(this.adelantoVaticos[i].fechA_INICIAL,'MM/dd/yyyy')}  + ${format(this.adelantoVaticos[i].fechA_FINAL,'MM/dd/yyyy')}`
 },
 {
  NumAsiento:numAsiento,
@@ -119,7 +119,7 @@ let diario:ONE_Diario[]=[
  CuentaConta:'7-99-01-009-000',
  DebitoTotal:null,
  CreditoLocal:this.adelantoVaticos[i].monto,
- Referencia:`Pago de viáticos ${format(this.adelantoVaticos[i].fechaInicial,'MM/dd/yyyy')} + ${format(this.adelantoVaticos[i].fechaFinal,'MM/dd/yyyy')} +  ${this.adelantoVaticos[i].destinatario}`
+ Referencia:`Pago de viáticos ${format(this.adelantoVaticos[i].fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoVaticos[i].fechA_FINAL,'MM/dd/yyyy')} +  ${this.adelantoVaticos[i].usuario}`
 }
 
 ]
@@ -127,14 +127,15 @@ let diario:ONE_Diario[]=[
 
 console.log('diario', diario);
 
-await this.procesoContableService.syncPostDiarioToPromise(diario);
+//Wawait this.procesoContableService.syncPostDiarioToPromise(diario);
 console.log('this.adelantoVaticos[i]',this.adelantoVaticos[i])
+console.log(this.adelantoVaticos[i])
 await this.adelantoViaticosService.syncPostAdelantoViaticosToPromise(this.adelantoVaticos[i]); 
 
       if(i == this.adelantoVaticos.length -1){
    await      this.alertasService.loadingDissmiss();
        this.cerrarModal();
-       this.router.navigateByUrl('/inicio/control-adelanto-viaticos', { replaceUrl: true })
+       this.router.navigateByUrl('/inicio/control-anticipos', { replaceUrl: true })
       }
     }
 

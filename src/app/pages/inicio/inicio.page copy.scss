@@ -13,16 +13,22 @@ div{
   }
   }
   
- 
+  ion-thumbnail{
+    height: 40px;
+    width: 40px;
+  }
   
   .split-pane-visible >.expand-menu  {
-    min-width: 250px!important;
-    max-width: 250px!important;
+    min-width: 200px!important;
+    max-width: 200px!important;
   
   }
   ion-item {
     --background: transparent!important;
     color: #fff;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+ 
   }
   ion-menu ion-content {
     --background: var(--ion-item-background, var(--ion-background-color, #222428));
@@ -155,7 +161,7 @@ div{
   
 @media(min-width:768px){
   ion-router-outlet{
-    margin-top: 63px;
+    margin-top: 55px;
   }
   
 }

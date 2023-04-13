@@ -12,9 +12,13 @@ import { PerfilPage } from '../perfil/perfil.page';
 export class InicioPage implements OnInit {
   public appPages = [
     { title: 'Inicio', url: '/inicio/detalle', icon: 'home' },
-    { title: 'Dashboard', url: '/inicio/dashboard', icon: 'pie-chart' },
-    { title: 'Anticipos', url: '/inicio/control-anticipos', icon: 'document-text' },
-    { title: 'Gastos', url: '/inicio/control-viaticos', icon: 'cash' },
+    { title: 'Departamentos', url: '/inicio/control-departamentos', icon: 'business' },
+    { title: 'Roles', url: '/inicio/control-roles', icon: 'eye-off' },
+    { title: 'Usuarios', url: '/inicio/control-usuarios', icon: 'people' },
+    { title: 'Acceso', url: '/inicio/control-matriz-acceso', icon: 'shield' },
+    { title: 'Gestión Anticipos', url: '/inicio/control-anticipos', icon: 'document-text' },
+    //{ title: 'Viáticos', url: '/inicio/control-viaticos', icon: 'cash' },
+    { title: 'Gestion Gastos', url: '/inicio/control-gastos', icon: 'pie-chart' },
     { title: 'Estados Cuenta', url: '/inicio/control-estados-cuenta', icon: 'card' },
     { title: 'Mi Perfil', url: 'perfil', icon: 'person' },
     { title: 'Cerrar Sesión', url: 'salir', icon: 'exit' }

@@ -21,21 +21,18 @@
   <ion-label>Nombre</ion-label>
   <ion-label>{{usuariosService.usuario.nombre}}</ion-label>
 </ion-item>
-<ion-item>
-  <ion-label>Rol</ion-label>
-  <ion-label>{{usuariosService.usuario.rol}}</ion-label>
-</ion-item>
+ 
 <ion-item>
   <ion-label>Usuario</ion-label>
   <ion-label>{{usuariosService.usuario.usuario}}</ion-label>
 </ion-item>
 <ion-item>
   <ion-label>Correo</ion-label>
-  <ion-label>{{usuariosService.usuario.email}}</ion-label>
+  <ion-label>{{usuariosService.usuario.correo}}</ion-label>
 </ion-item>
 <ion-item>
   <ion-label>Estado</ion-label>
-  <ion-label>{{usuariosService.usuario.estatus}}</ion-label>
+  <ion-label><ion-badge color="warning" mode="ios">{{usuariosService.usuario.estatus ? 'Activo' : 'Inactivo'}}</ion-badge></ion-label>
 </ion-item>
 
 

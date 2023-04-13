@@ -1,0 +1,254 @@
+<ion-header class="ion-no-border ion-padding">
+<ion-row>
+  <ion-col size="8">
+    <ion-toolbar>
+      <ion-title class="ion-text-capitalize" class="page-title"><strong>Registrar Anticipos</strong></ion-title>
+ 
+    </ion-toolbar>
+
+  </ion-col>
+  <ion-col size="4" *ngIf="adelantoVaticos.length > 0">
+
+       
+    <ion-item button style="max-width: 60%;"  detail lines="none" (click)="crearAdelantoViaticos()">
+      <ion-card slot="start" color="dark">
+  
+        <ion-card-content>
+          ANTICIPOS -   {{adelantoVaticos.length}}
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+
+
+
+  </ion-col>
+</ion-row>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-grid style="height: 100%;">
+    <ion-row style="height: 100%;">
+
+      <ion-col size="12" size-md="4" style="height: 100%;">
+
+  
+
+
+   <ion-row style="height: 100%;">
+    <ion-col size="12" style="height: 100%;">
+
+      <ion-toolbar  style="height: 20%;">
+
+ <ion-grid >
+  <ion-row>
+    <ion-col size="12">
+      <ion-title><strong>Colaboradores</strong></ion-title>
+    </ion-col>
+    <ion-col size="12">
+      <ion-searchbar (ionChange)="onSearchChange($event)" mode="ios" placeholder="Buscar Colaborador" type="text"
+      [debounce]="250"></ion-searchbar>
+  
+
+    </ion-col>
+  </ion-row>
+ </ion-grid>
+
+      </ion-toolbar>
+       <ion-list  style="height: 80%;overflow: auto;">
+        <ion-item lines="none" *ngFor="let usuario of usuarios| filtro: textoBuscar:'usuario'; let i = index;"  >
+
+          <ion-avatar  slot="start">
+            <img   src="../assets/imgs/user.svg" />
+          </ion-avatar>
+
+          <ion-label slot="start">{{usuario.usuario}}</ion-label>
+          <ion-checkbox class="ion-margin-right" slot="end" name="usuario" [(ngModel)]="usuario.seleccionado"  (ionChange)="agregarUsuario($event,i)"  ></ion-checkbox>
+        </ion-item>
+       </ion-list>
+        
+      
+
+
+    </ion-col>
+   </ion-row>
+
+      </ion-col>
+
+      <ion-col size="12" size-md="8" style="height: 100%;">
+ 
+        <ion-grid>
+          <ion-row>
+
+            <ion-col size="4">
+
+              <ion-row>
+                <ion-col size="12">
+                  <ion-label><strong>Monto Limite</strong></ion-label>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-input class="ion-text-right" name="montoMaximo" [(ngModel)]="montoMaximo"     type="number" placeholder="monto"></ion-input>
+                </ion-col>
+              </ion-row>
+
+
+
+
+            </ion-col>
+            <ion-col size="4">
+              <ion-row>
+                <ion-col size="12">
+                  <ion-label><strong>Moneda </strong> <ion-badge color="primary"
+                      mode="ios">{{adelantoViatico.moneda}}</ion-badge></ion-label>
+                </ion-col>
+                <ion-col size="12">
+
+                  <ion-select [(ngModel)]="adelantoViatico.moneda" placeholder="Seleccionar">
+                    <ion-select-option value="₡">Colones</ion-select-option>
+                    <ion-select-option value="$">Dolares</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col size="4">
+
+              <ion-row>
+                <ion-col size="12">
+                  <ion-label><strong>Justificación</strong></ion-label>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-input   name="detalle" [(ngModel)]="adelantoViatico.detalle"
+                    type="text" placeholder="justificación"></ion-input>
+                </ion-col>
+              </ion-row>
+
+
+
+
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-row>
+                <ion-col size="4">
+
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-label><strong>Fecha Transacción</strong> </ion-label>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-input (click)="fecha('fechaTransaccion')" readonly
+                        [value]="adelantoViatico.fechA_TRANSACCION  | date" type="text" placeholder="fecha"></ion-input>
+                    </ion-col>
+                  </ion-row>
+
+                </ion-col>
+                <ion-col size="4">
+
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-label><strong>Fecha Inicial</strong></ion-label>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-input (click)="fecha('fechaInicial')" readonly [value]="adelantoViatico.fechA_INICIAL  | date"
+                        type="text" placeholder="Fecha"></ion-input>
+                    </ion-col>
+                  </ion-row>
+
+
+                </ion-col>
+                <ion-col size="4">
+                  <ion-row>
+                    <ion-col size="12">
+
+                      <ion-label><strong>Fecha Final</strong></ion-label>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-input readonly [value]="adelantoViatico.fechA_FINAL  | date" type="text"
+                        placeholder="Fecha"></ion-input>
+                    </ion-col>
+                  </ion-row>
+
+
+
+                </ion-col>
+
+              </ion-row>
+            </ion-col>
+
+
+
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-list class="transparent">
+
+                <ion-grid>
+                  <ion-row>
+
+                    <ion-col size="4">
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-label><strong>Compañia</strong></ion-label>
+                        </ion-col>
+                        <ion-col size="12">
+                          <ion-select (ionChange)="compania($event)" [(ngModel)]="adelantoViatico.coD_COMPANIA"
+                            placeholder="Seleccionar">
+                            <ion-select-option [value]="compania.cia"
+                              *ngFor="let compania of clientes">{{compania.cia}}</ion-select-option>
+
+                          </ion-select>
+                        </ion-col>
+                      </ion-row>
+                    </ion-col>
+                    <ion-col size="4">
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-label><strong># Transacción</strong></ion-label>
+                        </ion-col>
+                        <ion-col size="12">
+                          <ion-input name="numero_transaccion" [(ngModel)]="adelantoViatico.numerO_TRANSACCION"
+                            type="text" placeholder="número transacción"></ion-input>
+                        </ion-col>
+                      </ion-row>
+
+
+
+                    </ion-col>
+          
+                    <ion-col size="4">
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-label><strong>Monto</strong></ion-label>
+                        </ion-col>
+                        <ion-col size="12">
+                          <ion-input name="monto" [(ngModel)]="adelantoViatico.monto" type="number"
+                            placeholder="monto"></ion-input>
+                        </ion-col>
+                      </ion-row>
+
+                    </ion-col>
+
+         
+                    <ion-col size="12" class="ion-text-center">
+                      <ion-button expand="block" (click)="agregarAdelanto()" style="height: 3.5rem;margin: 0 auto;margin-top: 2rem; width: 60%;"
+                          fill="solid" color="dark">
+                        Agregar Anticipo
+                      </ion-button>
+                    </ion-col>
+
+                  </ion-row>
+                </ion-grid>
+
+
+
+              </ion-list>
+            </ion-col>
+
+
+          </ion-row>
+
+        </ion-grid>
+ 
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { InicioPage } from './inicio.page';
-
+ 
 const routes: Routes = [
   {
     path: '',
@@ -15,23 +15,40 @@ const routes: Routes = [
       },
       {
         path: 'detalle',
-        loadChildren: () => import('../detalle/detalle.module').then( m => m.DetallePageModule)
+        loadChildren: () => import('../detalle/detalle.module').then( m => m.DetallePageModule),
+      },
+      {
+        path: 'control-departamentos',
+        loadChildren: () => import('../control-departamentos/control-departamentos.module').then( m => m.ControlDepartamentosPageModule)
+      },
+      {
+        path: 'control-usuarios',
+        loadChildren: () => import('../control-usuarios/control-usuarios.module').then( m => m.ControlUsuariosPageModule)
+      },
+      {
+        path: 'control-roles',
+        loadChildren: () => import('../control-roles/control-roles.module').then( m => m.ControlRolesPageModule)
+      },
+    
+      {
+        path: 'control-matriz-acceso',
+        loadChildren: () => import('../control-matriz-acceso/control-matriz-acceso.module').then( m => m.ControlMatrizAccesoPageModule)
       },
       {
         path: 'control-viaticos',
         loadChildren: () => import('../control-viaticos/control-viaticos.module').then( m => m.ControlViaticosPageModule)
       },
       {
-        path: 'dashboard',
-        loadChildren: () => import('../dashboard/dashboard.module').then( m => m.DashboardPageModule)
+        path: 'control-gastos',
+        loadChildren: () => import('../control-gastos/control-gastos.module').then( m => m.ControlGastosPageModule)
       },
       {
         path: 'control-anticipos',
-        loadChildren: () => import('../control-adelanto-viaticos/control-adelanto-viaticos.module').then( m => m.ControlAdelantoViaticosPageModule)
+        loadChildren: () => import('../control-anticipos/control-anticipos.module').then( m => m.ControlAnticiposPageModule)
       },
       {
-        path: 'adelanto-viaticos',
-        loadChildren: () => import('../adelanto-viaticos/adelanto-viaticos.module').then( m => m.AdelantoViaticosPageModule)
+        path: 'registro-anticipos',
+        loadChildren: () => import('../registro-anticipos/registro-anticipos.module').then( m => m.RegistroAnticiposPageModule)
       },
       {
         path: 'control-estados-cuenta',

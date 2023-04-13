@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { adelantoViaticos } from '../models/adelantoViaticos';
+import { LineaGasto, adelantoViaticos } from '../models/adelantoViaticos';
 
 
 @Injectable({
@@ -30,6 +30,13 @@ export class AdelantoViaticosService {
     return this.http.get<adelantoViaticos[]>(URL);
   }
 
+  private getGastosAnticipo(id:number) {
+
+    let URL = this.getAPI(environment.getGastosAnticipos);
+        URL = URL + id;
+    console.log('URL', URL)
+    return this.http.get<LineaGasto[]>(URL);
+  }
   private postAdelantoViaticos(adelanto: adelantoViaticos) {
     const URL = this.getAPI(environment.postAdelantoViaticos);
     const options = {
@@ -45,6 +52,11 @@ export class AdelantoViaticosService {
 
   syncGetAdelantoViaticosToPromise() {
     return this.getAdelantoViaticos().toPromise();
+  }
+
+
+  syncGetGastosAnticipo(id) {
+    return this.getGastosAnticipo(id).toPromise();
   }
   syncPostAdelantoViaticosToPromise(adelanto: adelantoViaticos) {
     return this.postAdelantoViaticos(adelanto).toPromise();

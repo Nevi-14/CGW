@@ -1,13 +1,22 @@
 export class Usuario {
 
     constructor(
+      public id:number,
       public  usuario:string,
       public     empleado:string,
       public   nombre:string,
       public  clave: string,
-      public  email:string,
+      public  correo:string,
       public  estatus:string,
-      public   rol:string,
-      public  fecha:string
+      public  fecha:string,
+      public seleccionado:boolean
     ){}
+}
+
+export interface UsuariosCitrix {
+  usuario: string;
+  nombre:  string;
+  clave:    string;
+  cia:    string;
+seleccionado:boolean
 }

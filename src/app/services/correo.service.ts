@@ -59,7 +59,7 @@ export class CorreoService {
 
         this.alertasService.presentaLoading('Enviando correo...')
         let correo:email = {
-          toEmail:resp[i].email,
+          toEmail:resp[i].correo,
           file:estado.archivo,
           subject:'Estado De Cuenta ' + estado.archivo,
           body:'Se adjunta el estado de cuenta '+ estado.archivo

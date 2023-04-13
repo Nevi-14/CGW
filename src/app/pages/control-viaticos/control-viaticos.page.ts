@@ -75,7 +75,9 @@ this.weeks = this.weeks_Of_Month(this.y, this.m)
   }
 
   cargarDatos(){
- this.gastosService.getViaticos('P',this.value1, this.value2);
+ this.gastosService.getGastosToPromise('P',this.value1, this.value2).then(resp  =>{
+  this.gastos = resp;
+ })
   }
   seleccionarGasto(gasto:gastos, index:number){
 this.gastoIndex = index;

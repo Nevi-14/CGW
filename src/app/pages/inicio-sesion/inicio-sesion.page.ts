@@ -14,7 +14,7 @@ export class InicioSesionPage implements OnInit {
 
   image = '../assets/imgs/devCodingLogo.svg';
   showPass = false;
-  usuario: string = null;
+  correo: string = null;
   clave: string = null;
   logingURL = '';
 
@@ -33,22 +33,22 @@ export class InicioSesionPage implements OnInit {
 
 
   ionViewWillEnter(){
-this.logingURL = this.activatedRoute.snapshot.queryParamMap.get('returnto') || 'inicio';
+this.logingURL = this.activatedRoute.snapshot.queryParamMap.get('returnto') || 'inicio/detalle';
 this.configuracionesService.title = this.logingURL.split('/')[2];
  
 
   }
 
   loginMethod(){
-    console.log(this.usuario);
+    console.log(this.correo);
     console.log(this.clave);
     this.alertas.presentaLoading('Cargando datos..');
-    this.usuariosService.getUsuarioIdToPtomise(this.usuario).then(resp =>{
+    this.usuariosService.getUsuarioIdToPtomise(this.correo).then(resp =>{
       console.log('resp', resp)
       this.alertas.loadingDissmiss();
       if(resp.length ==0){
      this.alertas.message('APP', 'Lo sentimos usuario o contraseña incorrectos..')
-      }else if (resp[0].usuario == this.usuario  && resp[0].clave == this.clave){
+      }else if (resp[0].correo == this.correo  && resp[0].clave == this.clave){
         localStorage.setItem('usuario', JSON.stringify(resp[0]));
         this.usuariosService.usuario = resp[0]
         this.route.navigateByUrl(this.logingURL);

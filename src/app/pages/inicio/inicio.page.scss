@@ -13,6 +13,7 @@ ion-thumbnail {
   border: none;
   background-color: #222428;
   transition: all 0.25s ease-in;
+  --overflow: hidden;
 }
 .split-pane-visible>.expand-menu {
   min-width: 240px !important;
@@ -41,3 +42,17 @@ ion-footer{
     margin-right: 1rem;
   }
 }
+.no-scroll {
+  background-color: #222428;
+  --offset-bottom: auto!important;
+  
+  --overflow: hidden;
+  
+  overflow: auto;
+  
+  &::-webkit-scrollbar {
+  
+    display: none;
+  
+  }
+  }

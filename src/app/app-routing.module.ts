@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes, CanLoad } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
+import { MatrizAccesoGuard } from './guards/matriz-acceso.guard';
+import { UsuarioAutenticadoGuard } from './guards/usuario-autenticado.guard';
 
 const routes: Routes = [
 
@@ -21,7 +22,8 @@ const routes: Routes = [
   {
     path: 'inicio',
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule),
-    canLoad:[AuthGuard]
+    canLoad:[UsuarioAutenticadoGuard],
+    canActivate:[MatrizAccesoGuard]
   },
   {
     path: 'control-viaticos',
@@ -40,9 +42,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/filtrar-gastos/filtrar-gastos.module').then( m => m.FiltrarGastosPageModule)
   },
   {
-    path: 'dashboard',
-    loadChildren: () => import('./pages/dashboard/dashboard.module').then( m => m.DashboardPageModule)
-  },  {
     path: 'crear-adelanto-viaticos',
     loadChildren: () => import('./pages/crear-adelanto-viaticos/crear-adelanto-viaticos.module').then( m => m.CrearAdelantoViaticosPageModule)
   },
@@ -54,8 +53,38 @@ const routes: Routes = [
     path: 'liquidacion-viaticos',
     loadChildren: () => import('./pages/liquidacion-viaticos/liquidacion-viaticos.module').then( m => m.LiquidacionViaticosPageModule)
   },
+  {
+    path: 'crear-matriz-acceso',
+    loadChildren: () => import('./pages/crear-matriz-acceso/crear-matriz-acceso.module').then( m => m.CrearMatrizAccesoPageModule)
+  },  {
+    path: 'editar-matriz-acceso',
+    loadChildren: () => import('./pages/editar-matriz-acceso/editar-matriz-acceso.module').then( m => m.EditarMatrizAccesoPageModule)
+  },
+  {
+    path: 'crear-usuario',
+    loadChildren: () => import('./pages/crear-usuario/crear-usuario.module').then( m => m.CrearUsuarioPageModule)
+  },
+  {
+    path: 'editar-usuario',
+    loadChildren: () => import('./pages/editar-usuario/editar-usuario.module').then( m => m.EditarUsuarioPageModule)
+  },
+  {
+    path: 'crear-role',
+    loadChildren: () => import('./pages/crear-role/crear-role.module').then( m => m.CrearRolePageModule)
+  },
+  {
+    path: 'editar-role',
+    loadChildren: () => import('./pages/editar-role/editar-role.module').then( m => m.EditarRolePageModule)
+  },
+  {
+    path: 'crear-departamento',
+    loadChildren: () => import('./pages/crear-departamento/crear-departamento.module').then( m => m.CrearDepartamentoPageModule)
+  },
 
 
+
+
+ 
 
 
 

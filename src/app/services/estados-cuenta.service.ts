@@ -24,6 +24,7 @@ getAPI(api:string){
 
 private getEstadosCuenta(){
 const URL = this.getAPI(environment.getEstadosCuenta);
+console.log('URL',URL)
 return this.http.get<estadosCuenta[]>(URL);
 }
 private getArchivoEstadosCuenta(ID){
