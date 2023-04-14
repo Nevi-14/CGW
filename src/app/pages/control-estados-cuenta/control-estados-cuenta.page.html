@@ -3,7 +3,7 @@
   <ion-toolbar class="ion-padding">
     <ion-title class="ion-text-capitalize" class="page-title">Estados De Cuenta</ion-title>
     <ion-searchbar *ngIf="estadosCuentaArray.length > 0;" (ionChange)="onSearchChange($event)" slot="end" style="width:50%;margin-top: 1rem;" mode="ios" placeholder="Buscar Colaborador"  type="text"   [debounce]="250"  ></ion-searchbar>
-    <ion-fab-button  size="small"  class="margin-right" (click)="estadoCuenta()" slot="end" color="dark"  >
+    <ion-fab-button  *ngIf="usuariosService.moduloAcceso.c" size="small"  class="margin-right" (click)="estadoCuenta()" slot="end" color="dark"  >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
  
@@ -125,7 +125,7 @@
                       </ion-col>
               <ion-col size="2">
    
-      <ion-button (click)="enviarCorreo(estado)"  fill="clear"   >
+      <ion-button *ngIf="usuariosService.moduloAcceso.aprobador" (click)="enviarCorreo(estado)"  fill="clear"   >
         <ion-icon color="primary" slot="icon-only" name="mail"></ion-icon>
       </ion-button>
       

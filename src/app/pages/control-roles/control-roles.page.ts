@@ -5,6 +5,7 @@ import { RolesService } from 'src/app/services/roles.service';
 import { CrearRolePage } from '../crear-role/crear-role.page';
 import { EditarRolePage } from '../editar-role/editar-role.page';
 import { Roles } from 'src/app/models/roles';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
   selector: 'app-control-roles',
@@ -17,7 +18,8 @@ export class ControlRolesPage implements OnInit {
 public alertasService:AlertasService,
 public modalCtrl:ModalController,
 public rolesService:RolesService,
-public alertCrl:AlertController
+public alertCrl:AlertController,
+public usuariosService: UsuariosService
 
 
   ) { }

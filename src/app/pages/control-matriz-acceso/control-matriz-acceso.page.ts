@@ -10,6 +10,7 @@ import { CompaniasService } from 'src/app/services/companias.service';
 import { DepartamentosService } from 'src/app/services/departamentos.service';
 import { RolesService } from 'src/app/services/roles.service';
 import { MatrizAccesoView } from 'src/app/models/matrizAccesoView';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
   selector: 'app-control-matriz-acceso',
@@ -26,10 +27,12 @@ export class ControlMatrizAccesoPage implements OnInit {
   public companiaService: CompaniasService,
   public departamentosService: DepartamentosService,
   public rolesService:RolesService,
-  public alertCrl: AlertController
+  public alertCrl: AlertController,
+  public usuariosService:UsuariosService
   ) { }
 
   ngOnInit() {
+   console.log(this.usuariosService.moduloAcceso, 'accesos')
     this.alertasService.presentaLoading('Cargando datos...')
     this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
 //
@@ -96,8 +99,8 @@ export class ControlMatrizAccesoPage implements OnInit {
     }
   }
   async EditarMatrizAcceso(acceso1:MatrizAccesoView) {
-let acceso = await this.matrizAccesoService.syncGetMatrizAccesoByIDtoToPromise(acceso1.id);  
- console.log(acceso)
+let acceso = await this.matrizAccesoService.syncGetMatrizAccesoIDtoToPromise(acceso1.id);  
+ console.log(acceso, 'to edit')
     this.isOpen = true;
 
     const modal = await this.modalCtrl.create({
@@ -123,10 +126,9 @@ let acceso = await this.matrizAccesoService.syncGetMatrizAccesoByIDtoToPromise(a
 
 
   async borrarMatrizAcceso(acceso1:MatrizAccesoView) {
-    let acceso = await this.matrizAccesoService.syncGetMatrizAccesoByIDtoToPromise(acceso1.id);  
     const alert = await this.alertCrl.create({
       subHeader:'Dione',
-      message:`¿Desea borrar el acceso # ${acceso[0].id}?`,
+      message:`¿Desea borrar el acceso # ${acceso1.id}?`,
       buttons:[
         {
           text:'cancelar',
@@ -140,7 +142,7 @@ let acceso = await this.matrizAccesoService.syncGetMatrizAccesoByIDtoToPromise(a
           role:'confirm',
           handler:async ()=>{
   this.alertasService.presentaLoading('Borrando datos..');
-  this.matrizAccesoService.syncDeleteMatrizAccesoToPromise(acceso[0].id).then( resp =>{
+  this.matrizAccesoService.syncDeleteMatrizAccesoToPromise(acceso1.id).then( resp =>{
     this.alertasService.loadingDissmiss();
     this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
       this.matrizAccesoService.matrizAcceso = accesos;

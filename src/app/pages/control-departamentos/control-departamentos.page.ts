@@ -5,6 +5,7 @@ import { DepartamentosService } from 'src/app/services/departamentos.service';
 import { CrearDepartamentoPage } from '../crear-departamento/crear-departamento.page';
 import { Departamentos } from 'src/app/models/departamentos';
 import { EditarDepartamentoPage } from '../editar-departamento/editar-departamento.page';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
   selector: 'app-control-departamentos',
@@ -17,7 +18,8 @@ export class ControlDepartamentosPage implements OnInit {
   public alertasService:AlertasService,
   public modalCtrl:ModalController,
   public departamentosService:DepartamentosService,
-  public alertCrl: AlertController  
+  public alertCrl: AlertController,
+  public usuariosService: UsuariosService  
   ) { }
 
   ngOnInit() {

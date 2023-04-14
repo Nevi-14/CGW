@@ -20,7 +20,15 @@
         <ion-col size="12">
          
             <ion-select name="modulo" [(ngModel)]="acceso.iD_MODULO"   placeholder="Seleccionar">
-              <ion-select-option *ngFor="let modulo of modulosService.modulos"  [value]="modulo.id">{{modulo.descripcion}}</ion-select-option>
+
+
+              <ng-template ngFor let-modulo [ngForOf]="modulosService.modulos"
+              let-i="index"  >
+            
+              <ion-select-option  *ngIf="i > 0"  [value]="modulo.id">{{modulo.descripcion}}</ion-select-option>
+            </ng-template>
+           
+    
             </ion-select>
         
         </ion-col>
@@ -62,7 +70,7 @@
                
               </ion-col>
               <ion-col size="12">
-           
+     
                 <ion-select  name="role" [(ngModel)]="acceso.iD_ROLE"    placeholder="Seleccionar">
                   <ion-select-option  *ngFor="let role of rolesService.roles"  [value]="role.id">{{role.nombre}}</ion-select-option>
                 </ion-select>
@@ -115,7 +123,7 @@
                 Lectura
               </ion-col>
               <ion-col size="12">
-                <ion-toggle name="r" [(ngModel)]="acceso.r"></ion-toggle>
+                <ion-toggle  [disabled]="true" name="r" [(ngModel)]="acceso.r"></ion-toggle>
               </ion-col>
               
             </ion-row>

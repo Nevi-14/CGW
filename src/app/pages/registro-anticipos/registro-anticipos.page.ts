@@ -24,7 +24,7 @@ export class RegistroAnticiposPage implements OnInit {
 
   adelantoViatico: adelantoViaticos = {
     id : null,
-    iD_MATRIZ_ACCESO: 1,
+    iD_MATRIZ_ACCESO: this.usuariosService.moduloAcceso.id,
    estatus: 'P',
    coD_COMPANIA :null,
    fechA_INICIAL: new Date(),

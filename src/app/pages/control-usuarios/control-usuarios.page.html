@@ -4,7 +4,7 @@
     <ion-title class="ion-text-capitalize" class="page-title"> 
       Usuarios</ion-title>
     <ion-searchbar    slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar usuario"  type="text"   [debounce]="250"  ></ion-searchbar>
-    <ion-fab-button (click)="crearUsuario()"  size="small"    class="margin-right"  slot="end" color="dark"  >
+    <ion-fab-button *ngIf="usuariosService.moduloAcceso.c" (click)="crearUsuario()"  size="small"    class="margin-right"  slot="end" color="dark"  >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
 
@@ -51,7 +51,7 @@
 <ion-content>
 <ion-grid   style="height: 100%;">
 <ion-list>
-  <ion-item  *ngFor="let usuario of usuariosSerice.usuarios" >
+  <ion-item  *ngFor="let usuario of usuariosService.usuarios" >
 <ion-grid >
   <ion-row>
     <ion-col>
@@ -68,10 +68,10 @@
     </ion-col>
  
     <ion-col style="display: flex;justify-content: flex-start;align-items: center;">
- <ion-button  (click)="borrarUsuario(usuario)"  fill="clear"  >
+ <ion-button  *ngIf="usuariosService.moduloAcceso.d" (click)="borrarUsuario(usuario)"  fill="clear"  >
 <ion-icon color="danger" slot="icon-only" name="trash"></ion-icon>
  </ion-button>
- <ion-button (click)="editarUsuario(usuario)"   fill="clear"  >
+ <ion-button *ngIf="usuariosService.moduloAcceso.u"  (click)="editarUsuario(usuario)"   fill="clear"  >
   <ion-icon color="primary" slot="icon-only" name="create"></ion-icon>
    </ion-button>
     </ion-col>
@@ -80,7 +80,7 @@
 </ion-grid>
   </ion-item>
 </ion-list>
-  <ion-row  *ngIf="usuariosSerice.usuarios.length == 0" 
+  <ion-row  *ngIf="usuariosService.usuarios.length == 0" 
   style="height: 100%;display: flex;justify-content: center;align-items: center;">
   <ion-col size="12">
     <ion-list>

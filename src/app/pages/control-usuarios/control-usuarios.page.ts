@@ -16,7 +16,7 @@ export class ControlUsuariosPage implements OnInit {
   isOpen:boolean = false;
   constructor(
 
-public usuariosSerice:UsuariosService,
+public usuariosService:UsuariosService,
 public alertasService:AlertasService,
 public modalCtrl:ModalController,
 public alertCrl: AlertController
@@ -25,9 +25,9 @@ public alertCrl: AlertController
 
   ngOnInit() {
     this.alertasService.presentaLoading('cargando datos..');
-    this.usuariosSerice.syncGetUsuariosToPromise().then(usuarios=>{
+    this.usuariosService.syncGetUsuariosToPromise().then(usuarios=>{
       this.alertasService.loadingDissmiss();
-      this.usuariosSerice.usuarios = usuarios;
+      this.usuariosService.usuarios = usuarios;
     }, error =>{
       this.alertasService.loadingDissmiss();
     })
@@ -100,10 +100,10 @@ public alertCrl: AlertController
           role:'confirm',
           handler:async ()=>{
   this.alertasService.presentaLoading('Borrando datos..');
-  this.usuariosSerice.syncDeleteUsuarioToPromise(usuario.id).then( resp =>{
+  this.usuariosService.syncDeleteUsuarioToPromise(usuario.id).then( resp =>{
     this.alertasService.loadingDissmiss();
-    this.usuariosSerice.syncGetUsuariosToPromise().then(usuarios =>{
-      this.usuariosSerice.usuarios = usuarios;
+    this.usuariosService.syncGetUsuariosToPromise().then(usuarios =>{
+      this.usuariosService.usuarios = usuarios;
     }, error =>{
       this.alertasService.loadingDissmiss();
       this.alertasService.message('Dione','Lo sentimos algo salio mal...')

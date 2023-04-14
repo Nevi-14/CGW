@@ -5,6 +5,7 @@ import { EstadosCuentaService } from 'src/app/services/estados-cuenta.service';
 import { EstadoCuentaPage } from '../estado-cuenta/estado-cuenta.page';
 import { AlertasService } from '../../services/alertas.service';
 import { CorreoService } from '../../services/correo.service';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
   selector: 'app-control-estados-cuenta',
@@ -22,6 +23,7 @@ export class ControlEstadosCuentaPage implements OnInit {
   public alertasService: AlertasService,
   public estadosCuentaService:EstadosCuentaService ,
   public correoService: CorreoService, 
+  public usuariosService: UsuariosService
   ) { }
 
   ngOnInit() {

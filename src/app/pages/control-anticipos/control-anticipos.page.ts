@@ -4,6 +4,7 @@ import { adelantoViaticos } from 'src/app/models/adelantoViaticos';
 import { AdelantoViaticosService } from 'src/app/services/adelanto-viaticos.service';
 import { AlertasService } from '../../services/alertas.service';
 import { Router } from '@angular/router';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
   selector: 'app-control-anticipos',
@@ -18,7 +19,8 @@ export class ControlAnticiposPage implements OnInit {
 public modalCtrl: ModalController,
 public adelantoViaticosService:AdelantoViaticosService,
 public alertasService: AlertasService,
-public router:Router
+public router:Router,
+public usuariosService: UsuariosService
 
 
   ) { }

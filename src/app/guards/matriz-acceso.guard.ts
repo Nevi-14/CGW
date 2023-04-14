@@ -34,12 +34,34 @@ export class MatrizAccesoGuard implements CanActivate {
         .subscribe((event:any) => {
             let url = event.urlAfterRedirects ;
             console.log(url)
+            this.usuariosService.syncGetUsuarioMatrizAccesosToPromise(this.usuariosService.usuario.id).then( accesos =>{
+console.log(this.currentUrl, 'current module')
+this.usuariosService.accesoModulos  = [];
+this.usuariosService.accesoModulos = accesos;
+if(this.currentUrl == '/inicio-sesion' || this.currentUrl == '/inicio/detalle') return true
+let indexControlAnticipos = accesos.findIndex(e => e.ruta == '/inicio/control-anticipos')
+if(indexControlAnticipos >=0 &&  this.currentUrl == '/inicio/registro-anticipos' || indexControlAnticipos >=0 &&  this.currentUrl == '/inicio/detalle-anticipo' ) {
+  this.usuariosService.moduloAcceso = null;
+  this.usuariosService.moduloAcceso = accesos[indexControlAnticipos];
+  return true;
+}
+let index = accesos.findIndex( e => e.ruta == this.currentUrl);
 
-          if(url == '/inicio/control-anticipos'){
-            this.alertasService.message('Access Denied',url)
-        //  this.router.navigateByUrl(this.previousUrl)
-            return false;
-          }
+              console.log('accesos',accesos)
+              if(index >= 0){
+                this.usuariosService.moduloAcceso = null;
+                this.usuariosService.moduloAcceso = accesos[index];
+             //this.alertasService.message('Ruta Encontrada',url)
+            //  this.router.navigateByUrl(this.previousUrl)
+                return true;
+              }else {
+                this.alertasService.message('Dione', `Acceso denegado - contacte al administrador para el  acceso al modulo.`)
+                this.router.navigateByUrl(this.previousUrl)
+              }
+            }, error =>{
+              this.alertasService.message('DiOne','Error cargando permisos');
+            })
+     
          // this.alertasService.message('Allowed URL',this.currentUrl)
           return true;
         

@@ -33,6 +33,12 @@ export class MatrizAccesoService {
     console.log('URL', URL)
     return this.http.get<MatrizAccesoView[]>(URL);
   }
+  private getMatrizAccesosBYID(id:number){
+    let URL = this.getAPI(environment.getMatrizAccesoBYID);
+        URL = URL + id;
+    console.log('URL', URL)
+    return this.http.get<MatrizAccesoView[]>(URL);
+  }
   private postMatrizAcceso(matrizAcceso:MatrizAcceso){
     const URL = this.getAPI(environment.postMatrizAcceo);
     const options = {
@@ -82,7 +88,10 @@ export class MatrizAccesoService {
   syncGetMatrizAccesoByIDtoToPromise(id:number){
     return  this.getMatrizAccesosID(id).toPromise();
    }
-  
+   syncGetMatrizAccesoIDtoToPromise(id:number){
+    return  this.getMatrizAccesosBYID(id).toPromise();
+   }
+   
   syncPostMatrizAccesoToPromise(matrizAcceso:MatrizAcceso){
     return this.postMatrizAcceso(matrizAcceso).toPromise();
   }

@@ -68,13 +68,14 @@ export class CrearAdelantoViaticosPage implements OnInit {
         await this.lineaAnticiposService.syncPostLineaAnticipoToPromise(linea) .then(resp =>{
 
 
-        }, error =>{
+        }, async (error) =>{
+          await this.alertasService.loadingDissmiss();
           this.alertasService.message('Dione','Lo sentimos algo salio mal..')
         })
       })
       
-    }, error =>{
-      this.alertasService.loadingDissmiss();
+    }, async (error) =>{
+      await this.alertasService.loadingDissmiss();
       this.alertasService.message('Dione','Lo sentimos algo salio mal..')
     })
    
@@ -160,6 +161,7 @@ console.log(this.adelantoVaticos[i])
         this.adelantoViaticosService.lineasAnticipo = []
    await      this.alertasService.loadingDissmiss();
        this.cerrarModal();
+       this.alertasService.message('Dione','Anticipo se guardo con éxito!.')
        this.router.navigateByUrl('/inicio/control-anticipos', { replaceUrl: true })
       }
     }

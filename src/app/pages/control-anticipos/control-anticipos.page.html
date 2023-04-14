@@ -2,7 +2,7 @@
   <ion-toolbar class="ion-padding">
     <ion-title class="ion-text-capitalize" class="page-title">Control Anticipos</ion-title>
     <ion-searchbar *ngIf="adelantoViaticosArray.length > 0;" (ionChange)="onSearchChange($event)"  slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar compañia"  type="text"   [debounce]="250"  ></ion-searchbar>
-    <ion-fab-button  size="small"  class="margin-right" (click)="adelantoViaticos()" slot="end" color="dark"  >
+    <ion-fab-button *ngIf="usuariosService.moduloAcceso.c"  size="small"  class="margin-right" (click)="adelantoViaticos()" slot="end" color="dark"  >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
  
@@ -113,7 +113,7 @@
           </ion-col>
           <ion-col size="1" style="display: flex; justify-content: flex-start;align-items: center;">
  
-       <ion-fab-button (click)="detalleAdeltanto(adelanto)" color="dark" size="small">
+       <ion-fab-button *ngIf="usuariosService.moduloAcceso.u" (click)="detalleAdeltanto(adelanto)" color="dark" size="small">
         <ion-icon name="create"></ion-icon>
        </ion-fab-button>
                   </ion-col>

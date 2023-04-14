@@ -26,7 +26,7 @@ acceso:MatrizAcceso = {
    administrador: false,
    aprobador: false,
    c: false,
-   r: false,
+   r: true,
    u: false,
    d: false
 }

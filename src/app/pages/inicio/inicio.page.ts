@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { MenuController, Platform, ModalController } from '@ionic/angular';
 import { ConfiguracionesService } from '../../services/configuraciones';
 import { PerfilPage } from '../perfil/perfil.page';
+import { UsuariosService } from 'src/app/services/usuarios.service';
+import { MatrizAccesoView } from 'src/app/models/matrizAccesoView';
 
 @Component({
   selector: 'app-inicio',
@@ -37,7 +39,8 @@ export class InicioPage implements OnInit {
     public menuCtrl: MenuController,
     public plt: Platform,
     public configuracionesService: ConfiguracionesService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public usuariosService:UsuariosService
 
 
   ) { }
@@ -50,6 +53,16 @@ export class InicioPage implements OnInit {
     //console.log( this.userService.usuarioActual.Foto)
     this.width = this.plt.width();
     this.toggleMenu()
+  }
+
+
+  revisarAcceso(ruta:string){
+   let i =  this.usuariosService.accesoModulos.findIndex( e => e.ruta == ruta);
+   if (i >=0){
+    return true;
+   }
+
+   return false;
   }
 
   // REMVOE MENU ON BIGGER SCREENS

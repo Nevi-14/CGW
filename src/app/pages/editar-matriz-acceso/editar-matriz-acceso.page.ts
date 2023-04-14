@@ -29,6 +29,7 @@ export class EditarMatrizAccesoPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.acceso)
  
   }
 

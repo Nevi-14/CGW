@@ -73,8 +73,9 @@ putRole:'put/role?id=',
 deleteRole:'delete/role?id=',
 // MATRIZ ACCESO
 getMatrizAcceso:'get/matriz-accesos',
-getMatrizAccesoUsuario:'get/matriz-acceso?id=',
-getMatrizAccesoRoleUsuario:'get/matriz-acceso?usuario=',
+getMatrizAccesoUsuario:'get/matriz-acceso/usuario?id=',
+getMatrizAccesoCheckModuloUsuario:'get/matriz-acceso/usuario?id=',
+getMatrizAccesoBYID:'get/matriz-acceso?id=',
 postMatrizAcceo:'post/matriz-acceso',
 putMatrizAcceso:'put/matriz-acceso?id=',
 deleteMatrizAcceso:'delete/matriz-acceso?id='

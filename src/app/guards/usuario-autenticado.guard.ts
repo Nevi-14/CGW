@@ -17,6 +17,7 @@ export class UsuarioAutenticadoGuard implements CanLoad {
     route: Route,
     segments: UrlSegment[]): boolean | UrlTree  {
     if( this.usuariosService.usuario){
+    
      
       return true;
     }else {
