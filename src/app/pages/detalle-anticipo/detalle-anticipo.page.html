@@ -2,7 +2,32 @@
 
  
 <ion-content class="ion-padding">
-
+  <ion-grid style="height: 100%;width: 80%;" >
+    <ion-row style="height: 100%;">
+         <ion-col size="6">
+   <ion-row>
+    <ion-col size="12">
+      <ion-toolbar>
+        <ion-title>Reporte Gastos</ion-title>
+      </ion-toolbar>
+      <ion-list>
+        <ion-item *ngFor="let gasto of [1,1,1,1,1,1]" detail>
+          <ion-fab-button color="success" size="small" slot="start">
+           0
+          </ion-fab-button>
+          <ion-label>Gasto</ion-label>
+  
+        </ion-item>
+      </ion-list>
+    </ion-col>
+   </ion-row>
+         </ion-col>
+      <ion-col size="6"  class="ion-padding">
+        <app-pie-chart ></app-pie-chart>
+                </ion-col>
+    </ion-row>
+  </ion-grid>
+  
   <ion-grid  style="max-width: 80%;">
     <ion-row>
 
@@ -76,12 +101,11 @@
           <ion-label slot="start">{{usuario.usuario}}
       
             <p style="margin-top: 0.5rem;">
-              <ion-badge color="warning" mode="ios">{{usuario.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
+              <ion-badge color="primary" mode="ios">{{usuario.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
             </p>
       
           </ion-label>
-       
-      
+          <ion-badge  slot="end" color="warning" mode="ios">{{usuario.estatus ?  'Pendiente' : 'Requiere Aprobación'}}</ion-badge>
           <span slot="end"  style="position: relative;">
             <ion-fab-button size="small">
               <ion-icon name="mail"></ion-icon>
@@ -96,47 +120,74 @@
           <ion-grid >
             <ion-row>
               <ion-col size="6">
-              <ion-label><strong>Total</strong></ion-label>
+              <ion-label><strong>Pendientes</strong></ion-label>
               </ion-col>
               <ion-col size="6"  class="ion-text-right">
                 <ion-label>
-                  <ion-badge color="warning" mode="ios">{{adelantosService.adelantoViatico.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
+                  <ion-badge color="warning" mode="ios">0</ion-badge>
                 </ion-label>
               </ion-col>
             </ion-row>
           </ion-grid>
        
                 </ion-item>
+        <ion-item lines="none">
+          <ion-grid >
+            <ion-row>
+              <ion-col size="6">
+              <ion-label><strong>Sobrantes</strong></ion-label>
+              </ion-col>
+              <ion-col size="6"  class="ion-text-right">
+                <ion-label>
+                  <ion-badge color="warning" mode="ios">{{0 | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+       
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-grid >
+                    <ion-row>
+                      <ion-col size="6">
+                      <ion-label><strong>Excedentes</strong></ion-label>
+                      </ion-col>
+                      <ion-col size="6"  class="ion-text-right">
+                        <ion-label>
+                          <ion-badge color="warning" mode="ios">{{0 | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
+                        </ion-label>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+               
+                        </ion-item>
+
+                        <ion-item lines="none">
+                          <ion-grid >
+                            <ion-row>
+                              <ion-col size="6">
+                              <ion-label><strong>Total</strong></ion-label>
+                              </ion-col>
+                              <ion-col size="6"  class="ion-text-right">
+                                <ion-label>
+                                  <ion-badge color="warning" mode="ios">{{adelantosService.adelantoViatico.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
+                                </ion-label>
+                              </ion-col>
+                            </ion-row>
+                          </ion-grid>
+                       
+                                </ion-item>
+      </ion-col>
+      <ion-col size="12" class="ion-padding">
+        <ion-button   expand="block" fill="solid" color="dark" mode="ios">
+          Liquidar Anticipo
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
 
 
-  <ion-grid style="height: 100%;width: 80%;" >
-    <ion-row style="height: 100%;">
-         <ion-col size="6">
-   <ion-row>
-    <ion-col size="12">
-      <ion-toolbar>
-        <ion-title>Reporte Gastos</ion-title>
-      </ion-toolbar>
-      <ion-list>
-        <ion-item *ngFor="let gasto of [1,1,1,1,1,1]" detail>
-          <ion-fab-button color="success" size="small" slot="start">
-           0
-          </ion-fab-button>
-          <ion-label>Gasto</ion-label>
-  
-        </ion-item>
-      </ion-list>
-    </ion-col>
-   </ion-row>
-         </ion-col>
-      <ion-col size="6"  class="ion-padding">
-        <app-pie-chart ></app-pie-chart>
-                </ion-col>
-    </ion-row>
-  </ion-grid>
   
   </ion-content>
   <app-pie-pagina></app-pie-pagina>
