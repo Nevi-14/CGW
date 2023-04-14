@@ -35,14 +35,6 @@ const routes: Routes = [
         loadChildren: () => import('../control-matriz-acceso/control-matriz-acceso.module').then( m => m.ControlMatrizAccesoPageModule)
       },
       {
-        path: 'control-viaticos',
-        loadChildren: () => import('../control-viaticos/control-viaticos.module').then( m => m.ControlViaticosPageModule)
-      },
-      {
-        path: 'control-gastos',
-        loadChildren: () => import('../control-gastos/control-gastos.module').then( m => m.ControlGastosPageModule)
-      },
-      {
         path: 'control-anticipos',
         loadChildren: () => import('../control-anticipos/control-anticipos.module').then( m => m.ControlAnticiposPageModule)
       },
@@ -53,6 +45,10 @@ const routes: Routes = [
       {
         path: 'control-estados-cuenta',
         loadChildren: () => import('../control-estados-cuenta/control-estados-cuenta.module').then( m => m.ControlEstadosCuentaPageModule)
+      },
+      {
+        path: 'detalle-anticipo',
+        loadChildren: () => import('../detalle-anticipo/detalle-anticipo.module').then( m => m.DetalleAnticipoPageModule)
       }
     ]
   },

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CrearMatrizAccesoPage } from '../crear-matriz-acceso/crear-matriz-acceso.page';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { MatrizAccesoService } from 'src/app/services/matriz-acceso.service';
 import { MatrizAcceso } from 'src/app/models/matrizAcceso';
@@ -9,6 +9,7 @@ import { ModulosService } from 'src/app/services/modulos.service';
 import { CompaniasService } from 'src/app/services/companias.service';
 import { DepartamentosService } from 'src/app/services/departamentos.service';
 import { RolesService } from 'src/app/services/roles.service';
+import { MatrizAccesoView } from 'src/app/models/matrizAccesoView';
 
 @Component({
   selector: 'app-control-matriz-acceso',
@@ -24,7 +25,8 @@ export class ControlMatrizAccesoPage implements OnInit {
   public modulosService: ModulosService  ,
   public companiaService: CompaniasService,
   public departamentosService: DepartamentosService,
-  public rolesService:RolesService
+  public rolesService:RolesService,
+  public alertCrl: AlertController
   ) { }
 
   ngOnInit() {
@@ -93,7 +95,7 @@ export class ControlMatrizAccesoPage implements OnInit {
 
     }
   }
-  async EditarMatrizAcceso(acceso1:MatrizAcceso) {
+  async EditarMatrizAcceso(acceso1:MatrizAccesoView) {
 let acceso = await this.matrizAccesoService.syncGetMatrizAccesoByIDtoToPromise(acceso1.id);  
  console.log(acceso)
     this.isOpen = true;
@@ -118,5 +120,44 @@ let acceso = await this.matrizAccesoService.syncGetMatrizAccesoByIDtoToPromise(a
 
     }
   }
+
+
+  async borrarMatrizAcceso(acceso1:MatrizAccesoView) {
+    let acceso = await this.matrizAccesoService.syncGetMatrizAccesoByIDtoToPromise(acceso1.id);  
+    const alert = await this.alertCrl.create({
+      subHeader:'Dione',
+      message:`¿Desea borrar el acceso # ${acceso[0].id}?`,
+      buttons:[
+        {
+          text:'cancelar',
+          role:'cancel',
+          handler:()=>{
+            console.log('cancel')
+          }
+        },
+        {
+          text:'continuar',
+          role:'confirm',
+          handler:async ()=>{
+  this.alertasService.presentaLoading('Borrando datos..');
+  this.matrizAccesoService.syncDeleteMatrizAccesoToPromise(acceso[0].id).then( resp =>{
+    this.alertasService.loadingDissmiss();
+    this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
+      this.matrizAccesoService.matrizAcceso = accesos;
+    }, error =>{
+      this.alertasService.loadingDissmiss();
+      this.alertasService.message('Dione','Lo sentimos algo salio mal...')
+    })
+  }, error =>{
+    this.alertasService.loadingDissmiss();
+    this.alertasService.message('Dione','Lo sentimos algo salio mal...')
+  })
+          }
+        }
+      ]
+    })
+    alert.present();
+  
+    }
 
 }

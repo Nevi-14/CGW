@@ -1,13 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { adelantoViaticos } from 'src/app/models/adelantoViaticos';
+import { adelantoViaticos, anticipo } from 'src/app/models/adelantoViaticos';
 import { AdelantoViaticosService } from '../../services/adelanto-viaticos.service';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { ONE_Asiento_Diario, ONE_MOVDIR } from 'src/app/models/procesoContable';
 import { ONE_Diario } from '../../models/procesoContable';
 import { format } from 'date-fns';
 import { ProcesoContableService } from '../../services/proceso-contable.service';
+import { LineasAnticiposService } from 'src/app/services/lineas-anticipos.service';
 
 @Component({
   selector: 'app-crear-adelanto-viaticos',
@@ -15,13 +16,14 @@ import { ProcesoContableService } from '../../services/proceso-contable.service'
   styleUrls: ['./crear-adelanto-viaticos.page.scss'],
 })
 export class CrearAdelantoViaticosPage implements OnInit {
-  @Input() adelantoVaticos:adelantoViaticos[]=[];
+  @Input() adelantoVaticos:anticipo[]=[];
   constructor(
    public  modalCtrl:ModalController,
    public router:Router,
    public adelantoViaticosService: AdelantoViaticosService,
    public alertasService:AlertasService,
-   public procesoContableService:ProcesoContableService 
+   public procesoContableService:ProcesoContableService ,
+   public lineaAnticiposService:LineasAnticiposService
   ) { }
 
   ngOnInit() {
@@ -59,7 +61,26 @@ export class CrearAdelantoViaticosPage implements OnInit {
    this.alertasService.presentaLoading('Guardando cambios...')
     for(let i =0; i < this.adelantoVaticos.length ; i++){
 
-    let numAsiento = this.randomID();  
+    await this.adelantoViaticosService.syncPostAdelantoViaticosToPromise(this.adelantoVaticos[i].adelantoViatico).then(  (resp:adelantoViaticos) =>{
+      this.adelantoVaticos[i].adelantoViatico.id = resp.id
+      this.adelantoVaticos[i].lineasAnticipo.forEach( async (linea) =>{
+        linea.iD_ANTICIPO =this.adelantoVaticos[i].adelantoViatico.id;
+        await this.lineaAnticiposService.syncPostLineaAnticipoToPromise(linea) .then(resp =>{
+
+
+        }, error =>{
+          this.alertasService.message('Dione','Lo sentimos algo salio mal..')
+        })
+      })
+      
+    }, error =>{
+      this.alertasService.loadingDissmiss();
+      this.alertasService.message('Dione','Lo sentimos algo salio mal..')
+    })
+   
+
+/**
+ *     let numAsiento = this.randomID();  
 
     let movDir:ONE_MOVDIR = {
 
@@ -119,20 +140,24 @@ let diario:ONE_Diario[]=[
  CuentaConta:'7-99-01-009-000',
  DebitoTotal:null,
  CreditoLocal:this.adelantoVaticos[i].monto,
- Referencia:`Pago de viáticos ${format(this.adelantoVaticos[i].fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoVaticos[i].fechA_FINAL,'MM/dd/yyyy')} +  ${this.adelantoVaticos[i].usuario}`
+ Referencia:`Pago de viáticos ${format(this.adelantoVaticos[i].fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoVaticos[i].fechA_FINAL,'MM/dd/yyyy')} +  ${this.adelantoVaticos[i]}`
 }
 
 ]
-
-
 console.log('diario', diario);
+
+ */
+
+
 
 //Wawait this.procesoContableService.syncPostDiarioToPromise(diario);
 console.log('this.adelantoVaticos[i]',this.adelantoVaticos[i])
 console.log(this.adelantoVaticos[i])
-await this.adelantoViaticosService.syncPostAdelantoViaticosToPromise(this.adelantoVaticos[i]); 
+//await this.adelantoViaticosService.syncPostAdelantoViaticosToPromise(this.adelantoVaticos[i]); 
 
       if(i == this.adelantoVaticos.length -1){
+        this.adelantoViaticosService.adelantoVaticos = [];
+        this.adelantoViaticosService.lineasAnticipo = []
    await      this.alertasService.loadingDissmiss();
        this.cerrarModal();
        this.router.navigateByUrl('/inicio/control-anticipos', { replaceUrl: true })

@@ -7,14 +7,14 @@
     </ion-toolbar>
 
   </ion-col>
-  <ion-col size="4" *ngIf="adelantoVaticos.length > 0">
+  <ion-col size="4" *ngIf="adelantoViaticosService.adelantoVaticos.length > 0">
 
        
     <ion-item button style="max-width: 60%;"  detail lines="none" (click)="crearAdelantoViaticos()">
       <ion-card slot="start" color="dark">
   
         <ion-card-content>
-          ANTICIPOS -   {{adelantoVaticos.length}}
+          ANTICIPOS -   {{adelantoViaticosService.adelantoVaticos.length}}
         </ion-card-content>
       </ion-card>
     </ion-item>
@@ -252,3 +252,5 @@
 
   </ion-grid>
 </ion-content>
+
+<app-pie-pagina></app-pie-pagina>

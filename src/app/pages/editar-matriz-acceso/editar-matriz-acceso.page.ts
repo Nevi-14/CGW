@@ -37,4 +37,22 @@ export class EditarMatrizAccesoPage implements OnInit {
 
   }
 
+  generarPost(){
+    this.alertasService.presentaLoading('Guardando cambios..');
+    this.matrizAccesoService.syncPutMatrizAccesoToPromise(this.acceso).then(resp =>{
+      this.alertasService.loadingDissmiss();
+      this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
+        this.matrizAccesoService.matrizAcceso = accesos;
+        this.modalCtrl.dismiss();
+        this.alertasService.message('Dione','Acceso actualizado');
+      }, error =>{
+        this.alertasService.loadingDissmiss();
+        this.alertasService.message('Dione','Lo sentimos algo salio mal..');
+      })
+    }, error =>{
+      this.alertasService.loadingDissmiss();
+      this.alertasService.message('Dione','Lo sentimos algo salio mal..');
+    })
+  }
+
 }

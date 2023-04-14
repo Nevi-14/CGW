@@ -10,8 +10,7 @@ export const environment = {
   preURL2:'https://api_isa',
   postURL: 'api-coris-control-viaticos/api/',
   prdMode: true,
-  mapboxKey:'pk.eyJ1IjoibWhlcnJhIiwiYSI6ImNrcWxhdXk4eTByMDUyd28xNnZ2b2hoMjMifQ.IrIAxPGO4oFiRVR8U5sqkA',
- 
+  
   // APIS
 
 
@@ -24,6 +23,9 @@ getUsuarioGastosRangoFecha:'get/usuario/gastos/estado/rango/fecha?id=',
 // ADELANTO VIATICOS
 getAdelantoViaticos:'get/anticipos',
 postAdelantoViaticos:'post/anticipo',
+// LINEA ANTICIPOS
+postLineaAnticipos:'post/linea/anticipo',
+getLineasAnticipos:'get/linea/anticipo?id=',
 // ESTADOS CUENTA
 getEstadosCuenta:'get/estados/cuenta',
 postEstadosCuenta:'post/estados/cuenta',
@@ -76,7 +78,7 @@ getMatrizAccesoUsuario:'get/matriz-acceso?id=',
 getMatrizAccesoRoleUsuario:'get/matriz-acceso?usuario=',
 postMatrizAcceo:'post/matriz-acceso',
 putMatrizAcceso:'put/matriz-acceso?id=',
-deleteMatrizAcceso:'delete/matriz-accceso?id='
+deleteMatrizAcceso:'delete/matriz-acceso?id='
 
 
 };

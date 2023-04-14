@@ -8,7 +8,7 @@ export class Usuario {
       public  clave: string,
       public  correo:string,
       public  estatus:string,
-      public  fecha:string,
+      public  fecha:Date,
       public seleccionado:boolean
     ){}
 }

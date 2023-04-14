@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { EditarMatrizAccesoPage } from './editar-matriz-acceso.page';
+import { PiePaginaComponent } from './pie-pagina.component';
 
-describe('EditarMatrizAccesoPage', () => {
-  let component: EditarMatrizAccesoPage;
-  let fixture: ComponentFixture<EditarMatrizAccesoPage>;
+describe('PiePaginaComponent', () => {
+  let component: PiePaginaComponent;
+  let fixture: ComponentFixture<PiePaginaComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditarMatrizAccesoPage ],
+      declarations: [ PiePaginaComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EditarMatrizAccesoPage);
+    fixture = TestBed.createComponent(PiePaginaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

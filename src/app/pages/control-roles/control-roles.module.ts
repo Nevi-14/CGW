@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ControlRolesPageRoutingModule } from './control-roles-routing.module';
 
 import { ControlRolesPage } from './control-roles.page';
+import { ComponentModule } from 'src/app/components/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ControlRolesPageRoutingModule
+    ControlRolesPageRoutingModule,
+    ComponentModule
   ],
   declarations: [ControlRolesPage]
 })

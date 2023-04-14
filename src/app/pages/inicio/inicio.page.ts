@@ -18,7 +18,6 @@ export class InicioPage implements OnInit {
     { title: 'Acceso', url: '/inicio/control-matriz-acceso', icon: 'shield' },
     { title: 'Gestión Anticipos', url: '/inicio/control-anticipos', icon: 'document-text' },
     //{ title: 'Viáticos', url: '/inicio/control-viaticos', icon: 'cash' },
-    { title: 'Gestion Gastos', url: '/inicio/control-gastos', icon: 'pie-chart' },
     { title: 'Estados Cuenta', url: '/inicio/control-estados-cuenta', icon: 'card' },
     { title: 'Mi Perfil', url: 'perfil', icon: 'person' },
     { title: 'Cerrar Sesión', url: 'salir', icon: 'exit' }
@@ -33,7 +32,6 @@ export class InicioPage implements OnInit {
   small: boolean;
   image = '../assets/islena.png';
   isOpen = false;
-  year = new Date().getFullYear();
   constructor(
     public router: Router,
     public menuCtrl: MenuController,

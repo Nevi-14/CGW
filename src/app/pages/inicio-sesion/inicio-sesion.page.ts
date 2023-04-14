@@ -57,6 +57,7 @@ this.configuracionesService.title = this.logingURL.split('/')[2];
       }
 
     }, error =>{
+      this.alertas.message('APP', 'Lo sentimos algo salio mal')
       this.alertas.loadingDissmiss();
 
 

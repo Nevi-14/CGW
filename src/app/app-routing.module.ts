@@ -26,10 +26,6 @@ const routes: Routes = [
     canActivate:[MatrizAccesoGuard]
   },
   {
-    path: 'control-viaticos',
-    loadChildren: () => import('./pages/control-viaticos/control-viaticos.module').then( m => m.ControlViaticosPageModule)
-  },
-  {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
@@ -46,17 +42,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/crear-adelanto-viaticos/crear-adelanto-viaticos.module').then( m => m.CrearAdelantoViaticosPageModule)
   },
   {
-    path: 'detalle-adelanto-viatico',
-    loadChildren: () => import('./pages/detalle-adelanto-viatico/detalle-adelanto-viatico.module').then( m => m.DetalleAdelantoViaticoPageModule)
-  },
-  {
     path: 'liquidacion-viaticos',
     loadChildren: () => import('./pages/liquidacion-viaticos/liquidacion-viaticos.module').then( m => m.LiquidacionViaticosPageModule)
   },
   {
     path: 'crear-matriz-acceso',
     loadChildren: () => import('./pages/crear-matriz-acceso/crear-matriz-acceso.module').then( m => m.CrearMatrizAccesoPageModule)
-  },  {
+  },
+  {
     path: 'editar-matriz-acceso',
     loadChildren: () => import('./pages/editar-matriz-acceso/editar-matriz-acceso.module').then( m => m.EditarMatrizAccesoPageModule)
   },
@@ -80,6 +73,11 @@ const routes: Routes = [
     path: 'crear-departamento',
     loadChildren: () => import('./pages/crear-departamento/crear-departamento.module').then( m => m.CrearDepartamentoPageModule)
   },
+  {
+    path: 'editar-departamento',
+    loadChildren: () => import('./pages/editar-departamento/editar-departamento.module').then( m => m.EditarDepartamentoPageModule)
+  },
+  
 
 
 

@@ -32,6 +32,7 @@ private getUsuarioID(id){
 
   let URL = this.getAPI(environment.getUsuarioID);
       URL = URL + id;
+      console.log(URL)
       return this.http.get<Usuario[]>(URL);
 }
 private getUsuarios(){
@@ -46,7 +47,7 @@ private getUsuariosExactus(){
 }
 
 
-private postUsuario(usuario:Usuarios){
+private postUsuario(usuario:Usuario){
   const URL = this.getAPI(environment.postUsuario);
   const options = {
     headers: {
@@ -60,7 +61,7 @@ private postUsuario(usuario:Usuarios){
 }
 
 
-private putUsuario(usuario:Usuarios){
+private putUsuario(usuario:Usuario){
   let URL = this.getAPI(environment.putUsuario);
       URL = URL + usuario.id
   const options = {
@@ -105,10 +106,10 @@ syncGetUsuariosExactusToPromise(){
 }
 
  
-syncPostUsuarioToPromise(usuario:Usuarios){
+syncPostUsuarioToPromise(usuario:Usuario){
   return this.postUsuario(usuario).toPromise();
 }
-syncPutUsuarioToPromise(usuario:Usuarios){
+syncPutUsuarioToPromise(usuario:Usuario){
   return this.putUsuario(usuario).toPromise();
 }
 

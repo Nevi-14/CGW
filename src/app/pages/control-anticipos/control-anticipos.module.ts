@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { ControlAnticiposPage } from './control-anticipos.page';
 import { ControlAnticiposPageRoutingModule } from './control-anticipos-routing.module';
+import { ComponentModule } from 'src/app/components/component.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ControlAnticiposPageRoutingModule } from './control-anticipos-routing.m
     FormsModule,
     IonicModule,
     ControlAnticiposPageRoutingModule,
-    PipesModule
+    PipesModule,
+    ComponentModule
   ],
   declarations: [ControlAnticiposPage]
 })

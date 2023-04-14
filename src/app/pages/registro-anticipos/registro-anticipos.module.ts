@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { RegistroAnticiposPage } from './registro-anticipos.page';
 import { RegistroAnticiposPageRoutingModule } from './registro-anticipos-routing.module';
+import { ComponentModule } from 'src/app/components/component.module';
  
 
 @NgModule({
@@ -16,7 +17,8 @@ import { RegistroAnticiposPageRoutingModule } from './registro-anticipos-routing
     FormsModule,
     IonicModule,
     RegistroAnticiposPageRoutingModule,
-    PipesModule
+    PipesModule,
+    ComponentModule
   ],
   declarations: [RegistroAnticiposPage]
 })

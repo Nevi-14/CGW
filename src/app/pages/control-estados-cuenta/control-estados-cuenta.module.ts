@@ -8,6 +8,7 @@ import { ControlEstadosCuentaPageRoutingModule } from './control-estados-cuenta-
 
 import { ControlEstadosCuentaPage } from './control-estados-cuenta.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ComponentModule } from 'src/app/components/component.module';
  
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     FormsModule,
     IonicModule,
     ControlEstadosCuentaPageRoutingModule,
-    PipesModule
+    PipesModule,
+    ComponentModule
   ],
   declarations: [ControlEstadosCuentaPage]
 })

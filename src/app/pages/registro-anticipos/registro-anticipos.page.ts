@@ -6,12 +6,13 @@ import { GastosService } from '../../services/gastos.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { CalendarioPopoverPage } from '../calendario-popover/calendario-popover.page';
 import { format } from 'date-fns';
-import { adelantoViaticos } from '../../models/adelantoViaticos';
+import { LineaAnticipo, adelantoViaticos, anticipo } from '../../models/adelantoViaticos';
 import { AdelantoViaticosService } from 'src/app/services/adelanto-viaticos.service';
 import { Router } from '@angular/router';
 import { CrearAdelantoViaticosPage } from '../crear-adelanto-viaticos/crear-adelanto-viaticos.page';
 import { VistassService } from 'src/app/services/vistas.service';
 import { Clientes } from '../../models/clientes';
+import { ColonesPipe } from 'src/app/pipes/colones.pipe';
 
 @Component({
   selector: 'app-registro-anticipos',
@@ -24,17 +25,14 @@ export class RegistroAnticiposPage implements OnInit {
   adelantoViatico: adelantoViaticos = {
     id : null,
     iD_MATRIZ_ACCESO: 1,
-    correO_ENVIADO : 0,
-   emisor: this.usuariosService.usuario.usuario,
    estatus: 'P',
-   usuario:null,
    coD_COMPANIA :null,
    fechA_INICIAL: new Date(),
    fechA_FINAL:  new Date(),
    detalle : null,
    fechA_TRANSACCION:  new Date(),
    numerO_TRANSACCION :null,
-   moneda:null,
+   moneda:'₡',
    monto: 0,
    utilizado: 0,
    restante: 0,
@@ -42,7 +40,8 @@ export class RegistroAnticiposPage implements OnInit {
    observaciones:'obervaciones'
 
   }
-  adelantoVaticos: adelantoViaticos[] = [];
+
+
   formatoFecha = new Date(format(new Date(), 'yyy/MM/dd')).toISOString();
   montoMaximo = 0;
   montoTotal = 0;
@@ -104,14 +103,14 @@ export class RegistroAnticiposPage implements OnInit {
 
 
   consultarUsuario(usuario: Usuario) {
-    let data = this.adelantoVaticos.filter(adelanto => adelanto.usuario == usuario.usuario);
+    let data = this.adelantoViaticosService.lineasAnticipo.filter(adelanto => adelanto.usuario == usuario.usuario);
     return data.length;
 
   }
 
   async crearAdelantoViaticos() {
 
-    if (this.adelantoVaticos.length == 0) {
+    if (this.adelantoViaticosService.adelantoVaticos.length == 0) {
       return
     }
     this.isOpen = true;
@@ -119,7 +118,7 @@ export class RegistroAnticiposPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: CrearAdelantoViaticosPage,
       componentProps: {
-        adelantoVaticos: this.adelantoVaticos
+        adelantoVaticos: this.adelantoViaticosService.adelantoVaticos
       },
       cssClass: 'alert-modal'
     });
@@ -153,38 +152,47 @@ export class RegistroAnticiposPage implements OnInit {
       return this.alertasService.message('APP', 'Verifica que cumpla con los campos requeridos!..')
     }
     if (this.adelantoViatico.monto * this.usuariosAnticipo.length > this.montoMaximo) {
-      return this.alertasService.message('APP', 'Lo sentimos supera el monto limite, el monto permitido por usuario es de ' + this.montoMaximo / this.usuariosAnticipo.length)
+      return this.alertasService.message('APP', 'Lo sentimos supera el monto limite, el monto permitido por usuario es de ' + ColonesPipe.prototype.transform( this.montoMaximo / this.usuariosAnticipo.length, 2 , '.' , ',' ,  this.adelantoViatico.moneda))
     }
     this.montoTotal += this.adelantoViatico.monto;
     this.montoRestante = this.montoMaximo - this.montoTotal;
-    this.adelantoViatico.restante = this.adelantoViatico.monto;
+    this.adelantoViatico.id = this.adelantoViaticosService.adelantoVaticos.length +1;
 
+
+    let adelanto:anticipo = {
+      adelantoViatico : this.adelantoViatico,
+      lineasAnticipo: []
+    }
+
+   // this.adelantoViaticosService.adelantoVaticos.push(this.adelantoViatico);
     for (let i = 0; i < this.usuariosAnticipo.length; i++) {
       console.log(this.usuariosAnticipo[i])
-      let anticipo: adelantoViaticos = {
-        id : this.adelantoViatico.id,
-        iD_MATRIZ_ACCESO: this.adelantoViatico.iD_MATRIZ_ACCESO,
-        correO_ENVIADO :  this.adelantoViatico.correO_ENVIADO,
-        emisor:  this.adelantoViatico.emisor,
+      let lineaAnticipo: LineaAnticipo  = {
+        id : null,
+        iD_ANTICIPO: this.adelantoViatico.id,
+        correO_ENVIADO  : 0,
         estatus:  this.adelantoViatico.estatus,
         usuario: this.usuariosAnticipo[i].usuario,
-        coD_COMPANIA : this.adelantoViatico.coD_COMPANIA,
-        fechA_INICIAL:  this.adelantoViatico.fechA_INICIAL,
-        fechA_FINAL:  this.adelantoViatico.fechA_FINAL,
-        detalle :  this.adelantoViatico.detalle,
-        fechA_TRANSACCION:   this.adelantoViatico.fechA_TRANSACCION,
-        numerO_TRANSACCION : this.adelantoViatico.numerO_TRANSACCION,
-        moneda: this.adelantoViatico.moneda,
         monto:  this.adelantoViatico.monto,
         utilizado:  this.adelantoViatico.utilizado,
-        restante:  this.adelantoViatico.restante,
+        restante: this.adelantoViatico.monto,
         exedente:  this.adelantoViatico.exedente,
+        exedentes:  0,
         observaciones: this.adelantoViatico.observaciones
       }
 
-      console.log(anticipo)
-      this.adelantoVaticos.push(anticipo);
+      console.log(lineaAnticipo)
+      adelanto.lineasAnticipo.push(lineaAnticipo)
+
+
       if (i == this.usuariosAnticipo.length - 1) {
+
+        adelanto.adelantoViatico.monto = this.adelantoViatico.monto  * this.usuariosAnticipo.length;
+        adelanto.adelantoViatico.restante = this.adelantoViatico.monto  * this.usuariosAnticipo.length;
+    
+        console.log('anticipos',this.adelantoViaticosService.adelantoVaticos)
+        console.log('lineaAnticipo',this.adelantoViaticosService.lineasAnticipo)
+        this.adelantoViaticosService.adelantoVaticos.push(adelanto)
         this.borrarDatos();
         this.usuariosAnticipo = [];
         this.alertasService.message('Dione', 'Anticipos agregados a la lista!.')
@@ -215,21 +223,18 @@ export class RegistroAnticiposPage implements OnInit {
   }
   borrarDatos() {
     this.formatoFecha = new Date(format(new Date(), 'yyy/MM/dd')).toISOString();
-
+this.montoMaximo = 0;
     this.adelantoViatico = {
       id : null,
       iD_MATRIZ_ACCESO: 1,
-      correO_ENVIADO : 0,
-     emisor: this.usuariosService.usuario.usuario,
      estatus: 'P',
-     usuario:null,
      coD_COMPANIA :null,
      fechA_INICIAL: new Date(),
      fechA_FINAL:  new Date(),
      detalle : null,
      fechA_TRANSACCION:  new Date(),
      numerO_TRANSACCION :null,
-     moneda:null,
+     moneda:'₡',
      monto: 0,
      utilizado: 0,
      restante: 0,
@@ -281,7 +286,7 @@ export class RegistroAnticiposPage implements OnInit {
           }
           this.adelantoViatico.fechA_INICIAL = new Date(this.formatoFecha);
  
-          this.adelantoViatico.fechA_INICIAL = this.obtenerFechaCorte();
+          this.adelantoViatico.fechA_FINAL = this.obtenerFechaCorte();
           break;
         case 'fechaTransaccion':
           this.adelantoViatico.fechA_TRANSACCION = new Date(this.formatoFecha);

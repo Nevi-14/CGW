@@ -93,6 +93,7 @@ acceso:MatrizAcceso = {
 this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
 this.matrizAccesoService.matrizAcceso = accesos;
 this.alertasService.loadingDissmiss();
+this.modalCtrl.dismiss();
 this.alertasService.message('Dione', 'Acceso creado!.')
 }, error =>{
   this.alertasService.loadingDissmiss();

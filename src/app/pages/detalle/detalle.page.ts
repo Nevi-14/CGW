@@ -12,7 +12,6 @@ export class DetallePage implements OnInit {
     { title: 'Acceso', url: '/inicio/control-matriz-acceso', icon: 'shield' },
     { title: 'Gestión Anticipos', url: '/inicio/control-anticipos', icon: 'document-text' },
  //   { title: 'Viáticos', url: '/inicio/control-viaticos', icon: 'cash' },
- { title: 'Gestión Gastos', url: '/inicio/dashboard', icon: 'pie-chart' },
     { title: 'Estados Cuenta', url: '/inicio/control-estados-cuenta', icon: 'card' }
    
   ];

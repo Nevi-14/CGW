@@ -1,46 +1,46 @@
 export class  adelantoViaticos{
     constructor(
-    public id : number,
-    public iD_MATRIZ_ACCESO: number,
-    public correO_ENVIADO : number,
-    public emisor: string,
-    public estatus: string,
-    public usuario:string,
-    public coD_COMPANIA :string,
-    public fechA_INICIAL: Date,
-    public fechA_FINAL: Date,
-    public detalle :string,
-    public fechA_TRANSACCION: Date,
-    public numerO_TRANSACCION :string,
-    public moneda:string,
-    public monto: number,
-    public utilizado: number,
-    public restante: number,
-    public exedente: number,
-    public observaciones:string,
+
+      public id : number,
+      public iD_MATRIZ_ACCESO: number,
+      public estatus: string,
+      public coD_COMPANIA :string,
+      public fechA_INICIAL: Date,
+      public fechA_FINAL: Date,
+      public detalle :string,
+      public fechA_TRANSACCION: Date,
+      public numerO_TRANSACCION :string,
+      public moneda:string,
+      public monto: number,
+      public utilizado: number,
+      public restante: number,
+      public exedente: number,
+      public observaciones:string
      
     ){}
 }
 
+export class  anticipo {
+constructor(
+public  adelantoViatico:adelantoViaticos,
+public lineasAnticipo:LineaAnticipo[]
+){}
+}
 
-export class LineaGasto {
+
+export class LineaAnticipo {
     constructor(
-      public fecha: Date,
-      public tarjeta:boolean,
-      public anticipo:boolean,
-      public idAnticipo:number,
-      public usuario: string,
-      public referencia: string,
-      public ceCo: string,
-      public cuenta: string,
-      public tipo_Gasto: string,
-      public proveedor: string,
-      public justificacion: string,
-      public descripcion: string,
-      public observaciones: string,
+      
+      public id : number,
+      public iD_ANTICIPO: number,
+      public correO_ENVIADO : number,
+      public estatus: string,
+      public usuario:string,
       public monto: number,
-      public rol: string,
-      public procesado: string,
-      public excedente:boolean
+      public utilizado: number,
+      public restante: number,
+      public exedente: number,
+      public exedentes: number,
+      public observaciones:string
     ){}
   }

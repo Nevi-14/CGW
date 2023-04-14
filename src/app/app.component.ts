@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import * as  mapboxgl from 'mapbox-gl';
-import { environment } from 'src/environments/environment';;
 import { ConfiguracionesService } from './services/configuraciones';
 @Component({
   selector: 'app-root',
@@ -16,7 +14,6 @@ public configuracionesService: ConfiguracionesService
   ngOnInit(){
  
 this.configuracionesService.getURL();
-    (mapboxgl as any ).accessToken = environment.mapboxKey;
  
   
    }

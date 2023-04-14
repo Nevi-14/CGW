@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Usuario } from 'src/app/models/usuario';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
@@ -10,15 +11,17 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 })
 export class CrearUsuarioPage implements OnInit {
 
-  usuario  = {
+  usuario:Usuario  = {
     id : null,
       usuario:null,
        empleado:'new',
        nombre:null,
       clave: null,
       correo:null,
-      estatus:true,
-      fecha:new Date()
+      estatus:'A',
+      fecha:new Date(),
+      seleccionado:null
+    
   }
   constructor(
 public usuariosService:UsuariosService,

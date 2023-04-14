@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ControlDepartamentosPageRoutingModule } from './control-departamentos-routing.module';
 
 import { ControlDepartamentosPage } from './control-departamentos.page';
+import { ComponentModule } from 'src/app/components/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ControlDepartamentosPageRoutingModule
+    ControlDepartamentosPageRoutingModule,
+    ComponentModule
   ],
   declarations: [ControlDepartamentosPage]
 })

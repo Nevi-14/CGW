@@ -4,7 +4,6 @@ import { adelantoViaticos } from 'src/app/models/adelantoViaticos';
 import { AdelantoViaticosService } from 'src/app/services/adelanto-viaticos.service';
 import { AlertasService } from '../../services/alertas.service';
 import { Router } from '@angular/router';
-import { DetalleAdelantoViaticoPage } from '../detalle-adelanto-viatico/detalle-adelanto-viatico.page';
 
 @Component({
   selector: 'app-control-anticipos',
@@ -26,6 +25,7 @@ public router:Router
   
 
   ngOnInit() {
+    this.adelantoViaticosService.adelantoViatico  = null;
     this.cargarDatos();
   }
   onSearchChange(event){
@@ -58,33 +58,7 @@ this.adelantoViaticosService.syncGetAdelantoViaticosToPromise().then(resp =>{
   }
 
   async detalleAdeltanto(adelanto:adelantoViaticos){
-
-   
-    this.isOpen = true;
-        
-    const modal = await this.modalCtrl.create({
-component:DetalleAdelantoViaticoPage,
-componentProps:{
-  adelantoViatico:adelanto
-},
-cssClass:'alert-modal'
-    });
-
-if(this.isOpen){
-
-modal.present();
-const {data} = await modal.onWillDismiss();
-this.isOpen = false;
-if(data != undefined){
-  this.adelantoViaticosService.syncGetAdelantoViaticosToPromise().then(resp =>{
-   
-    this.alertasService.message('APP', 'Adelanto de viático guardado!')
-  }, error =>{
- 
-  });
-
-}
-
-}
+    this.adelantoViaticosService.adelantoViatico = adelanto;
+    this.router.navigateByUrl('inicio/detalle-anticipo')
   }
 }
