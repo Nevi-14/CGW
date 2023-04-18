@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { MatrizAcceso } from 'src/app/models/matrizAcceso';
-import { Usuarios } from 'src/app/models/usuarios';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { CompaniasService } from 'src/app/services/companias.service';
 import { DepartamentosService } from 'src/app/services/departamentos.service';
@@ -22,14 +21,15 @@ acceso:MatrizAcceso = {
    iD_DEPARTAMENTO: null,
    iD_MODULO: null,
    iD_ROLE: null,
+   iD_USUARIO: null,
    estatus: true,
+   administrador: false,
    aprobador: false,
    c: false,
    r: true,
    u: false,
    d: false
 }
-usuarios:Usuarios[]=[]
   constructor(
     public modalCtrl: ModalController,
     public modulosService: ModulosService,
@@ -86,48 +86,19 @@ usuarios:Usuarios[]=[]
     this.modalCtrl.dismiss();
 
   }
-
-  agregarUsuario($event){
-
-    console.log($event)
-    let usuario:Usuarios = $event.detail.value;
-    let isChecked = $event.detail.checked;
-    let i = this.usuarios.findIndex( e => e.id == usuario.id);
-  if(isChecked){
-    if(i <0)this.usuarios.push(usuario)
-  }else{
-    if(i >=0)this.usuarios.splice(i,1);
-  }
-console.log(this.usuarios, 'usuarios')
-  }
   generarPost(){
-    if(this.usuarios.length == 0) return this.alertasService.message('Dione', 'Selecciona al menos 1 usuario para continuar!.')
     console.log('acceso', this.acceso)
     this.alertasService.presentaLoading('Guardando cambios..');
-    this.matrizAccesoService.syncPostMatrizAccesoToPromise(this.acceso).then( (resp:MatrizAcceso) =>{
-
-      this.usuarios.forEach(async (usuario, index) =>{
-        let usuarioAcceso = {
-           id:null,
-           id_usuario: usuario.id,
-           id_one_matriz_acceso:resp.id
-        }
-        console.log('resp', resp)
-        console.log('usuarioAcceso', usuarioAcceso)
-await this.matrizAccesoService.syncPostUsuarioMatrizAccesoToPromise(usuarioAcceso);
-        if(index == this.usuarios.length -1){
-          this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
-            this.matrizAccesoService.matrizAcceso = accesos;
-            this.alertasService.loadingDissmiss();
-            this.modalCtrl.dismiss();
-            this.alertasService.message('Dione', 'Acceso creado!.')
-            }, error =>{
-              this.alertasService.loadingDissmiss();
-              this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')
-            })
-        }
-      })
-
+    this.matrizAccesoService.syncPostMatrizAccesoToPromise(this.acceso).then(resp =>{
+this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
+this.matrizAccesoService.matrizAcceso = accesos;
+this.alertasService.loadingDissmiss();
+this.modalCtrl.dismiss();
+this.alertasService.message('Dione', 'Acceso creado!.')
+}, error =>{
+  this.alertasService.loadingDissmiss();
+  this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')
+})
     }, error =>{
       this.alertasService.loadingDissmiss();
       this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')

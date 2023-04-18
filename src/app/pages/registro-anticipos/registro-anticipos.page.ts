@@ -24,7 +24,7 @@ export class RegistroAnticiposPage implements OnInit {
 
   adelantoViatico: adelantoViaticos = {
     id : null,
-    iD_MATRIZ_ACCESO: this.usuariosService.moduloAcceso.id,
+    id_usuario_role_module: this.usuariosService.moduloAcceso.rolE_ID,
    estatus: 'P',
    coD_COMPANIA :null,
    fechA_INICIAL: new Date(),
@@ -36,8 +36,11 @@ export class RegistroAnticiposPage implements OnInit {
    monto: 0,
    utilizado: 0,
    restante: 0,
-   exedente: 0,
-   observaciones:'obervaciones'
+   excedente: 0,
+   excedentes:0,
+   sobrantes:0,
+   observaciones:'obervaciones',
+   lineas:0
 
   }
 
@@ -157,7 +160,7 @@ export class RegistroAnticiposPage implements OnInit {
     this.montoTotal += this.adelantoViatico.monto;
     this.montoRestante = this.montoMaximo - this.montoTotal;
     this.adelantoViatico.id = this.adelantoViaticosService.adelantoVaticos.length +1;
-
+  this.adelantoViatico.lineas = this.usuariosAnticipo.length;
 
     let adelanto:anticipo = {
       adelantoViatico : this.adelantoViatico,
@@ -176,8 +179,9 @@ export class RegistroAnticiposPage implements OnInit {
         monto:  this.adelantoViatico.monto,
         utilizado:  this.adelantoViatico.utilizado,
         restante: this.adelantoViatico.monto,
-        exedente:  this.adelantoViatico.exedente,
-        exedentes:  0,
+        excedente:  this.adelantoViatico.excedente,
+        excedentes:  0,
+        sobrante:false,
         observaciones: this.adelantoViatico.observaciones
       }
 
@@ -226,7 +230,7 @@ export class RegistroAnticiposPage implements OnInit {
 this.montoMaximo = 0;
     this.adelantoViatico = {
       id : null,
-      iD_MATRIZ_ACCESO: 1,
+      id_usuario_role_module: this.usuariosService.moduloAcceso.rolE_ID,
      estatus: 'P',
      coD_COMPANIA :null,
      fechA_INICIAL: new Date(),
@@ -238,8 +242,11 @@ this.montoMaximo = 0;
      monto: 0,
      utilizado: 0,
      restante: 0,
-     exedente: 0,
-     observaciones:'obervaciones'
+     excedente: 0,
+     excedentes:0,
+     sobrantes:0,
+     observaciones:'obervaciones',
+     lineas:0
     }
     this.usuarios.forEach(usuario => {
       usuario.seleccionado = false;

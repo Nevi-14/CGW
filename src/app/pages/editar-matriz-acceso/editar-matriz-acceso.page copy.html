@@ -3,7 +3,7 @@
     <ion-button (click)="cerrarModal()"  fill="clear" slot="start">
       <ion-icon color="dark" size="large" name="arrow-back-outline"></ion-icon>
     </ion-button>
-    <ion-title>Crear Acceso</ion-title>
+    <ion-title>Editar Acceso</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -20,15 +20,7 @@
         <ion-col size="12">
          
             <ion-select name="modulo" [(ngModel)]="acceso.iD_MODULO"   placeholder="Seleccionar">
-
-
-              <ng-template ngFor let-modulo [ngForOf]="modulosService.modulos"
-              let-i="index"  >
-            
-              <ion-select-option  *ngIf="i > 0"  [value]="modulo.id">{{modulo.descripcion}}</ion-select-option>
-            </ng-template>
-           
-    
+              <ion-select-option *ngFor="let modulo of modulosService.modulos"  [value]="modulo.id">{{modulo.descripcion}}</ion-select-option>
             </ion-select>
         
         </ion-col>
@@ -70,7 +62,7 @@
                
               </ion-col>
               <ion-col size="12">
-     
+           
                 <ion-select  name="role" [(ngModel)]="acceso.iD_ROLE"    placeholder="Seleccionar">
                   <ion-select-option  *ngFor="let role of rolesService.roles"  [value]="role.id">{{role.nombre}}</ion-select-option>
                 </ion-select>
@@ -81,15 +73,30 @@
 
                 <ion-col size="12">
                   <ion-row>
-                    <ion-col size="12" class="ion-text-right">
-                      Aprobador
+                    <ion-col size="6">
+                      <ion-row>
+                        <ion-col size="12">
+                          Administrador
+                        </ion-col>
+                        <ion-col size="12">
+                          <ion-toggle name="administrador" [(ngModel)]="acceso.administrador" ></ion-toggle>
+                        </ion-col>
+                      </ion-row>
                     </ion-col>
-                    <ion-col size="12" class="ion-text-right">
-                      <ion-toggle name="aprobador" [(ngModel)]="acceso.aprobador"></ion-toggle>
+                    <ion-col size="6">
+                      <ion-row>
+                        <ion-col size="12">
+                          Aprobador
+                        </ion-col>
+                        <ion-col size="12">
+                          <ion-toggle name="aprobador" [(ngModel)]="acceso.aprobador"></ion-toggle>
+                        </ion-col>
+                        
+                      </ion-row>
                     </ion-col>
-                    
+                  
                   </ion-row>
-                </ion-col>
+                 </ion-col>
        <ion-col size="12">
         <ion-row>
           <ion-col size="3">
@@ -135,36 +142,14 @@
           </ion-col>
         </ion-row>
        </ion-col>
-
-       <ion-col size="6" style="display: flex;justify-content: start;align-items: center;">
-        <ion-label>Usuario</ion-label>
-      </ion-col>
-      <ion-col size="6">
-        <ion-searchbar placeholder="buscar usuario"   type="text"   [debounce]="250"  mode="ios"></ion-searchbar>
-      </ion-col>
-      <ion-col size="12">
-        <ion-list  >
- 
-            <ion-item lines="none" *ngFor="let usuario of usuariosService.usuarios">
-              <ion-avatar  slot="start">
-                <img src="assets/imgs/user.svg" />
-              </ion-avatar>
-    <ion-label >{{usuario.nombre}}</ion-label>
-             <ion-checkbox (ionChange)="agregarUsuario($event)" [value]="usuario" slot="end"></ion-checkbox>
-            </ion-item>
-       
-    
           
-        </ion-list>
-      </ion-col>
-               
   </ion-row>
  </ion-grid>
 </ion-content>
  <ion-footer (click)="generarPost()" class="ion-no-border ion-padding">
   <ion-toolbar>
     <ion-button  expand="block" fill="solid" color="dark">
-      Crear Acceso
+      Editar Acceso
       </ion-button>
   </ion-toolbar>
  </ion-footer>

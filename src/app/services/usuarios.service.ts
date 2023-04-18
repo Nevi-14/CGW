@@ -28,8 +28,8 @@ moduloAcceso:MatrizAccesoView  = {
    r: null,
    u: null,
    d: null,
-   administrador: null,
-   aprobador: null
+   aprobador: null,
+   rolE_ID:null
 }
   constructor(
 public http: HttpClient

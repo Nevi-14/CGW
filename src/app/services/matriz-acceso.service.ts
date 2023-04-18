@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MatrizAcceso } from '../models/matrizAcceso';
 import { MatrizAccesoView } from '../models/matrizAccesoView';
+import { OneUsuariosMatrizAcceso } from '../models/oneUsuariosMatrizAcceso';
 
 
 @Injectable({
@@ -33,6 +34,13 @@ export class MatrizAccesoService {
     console.log('URL', URL)
     return this.http.get<MatrizAccesoView[]>(URL);
   }
+
+  private getUsuariosMatrizAccesosID(id:number){
+    let URL = this.getAPI(environment.getUsuariosMstrizAcceso);
+        URL = URL + id;
+    console.log('URL', URL)
+    return this.http.get<MatrizAccesoView[]>(URL);
+  }
   private getMatrizAccesosBYID(id:number){
     let URL = this.getAPI(environment.getMatrizAccesoBYID);
         URL = URL + id;
@@ -52,6 +60,18 @@ export class MatrizAccesoService {
   
   }
   
+  private postUsuarioMatrizAcceso(usuarioMatrizAcceso:OneUsuariosMatrizAcceso){
+    const URL = this.getAPI(environment.postUsuarioMatrizAcceo);
+    const options = {
+      headers: {
+        'Content-Type':'application/json',
+        'Accept':'application/json',
+        'Access-Control':'*'
+      }
+    }
+    return this.http.post(URL, usuarioMatrizAcceso, options);
+  
+  }
   
   private putMatrizAcceso(matrizAcceso:MatrizAcceso){
     let URL = this.getAPI(environment.putMatrizAcceso);
@@ -91,9 +111,16 @@ export class MatrizAccesoService {
    syncGetMatrizAccesoIDtoToPromise(id:number){
     return  this.getMatrizAccesosBYID(id).toPromise();
    }
+   syncGetUsuariosMatrizAccesoIDtoToPromise(id:number){
+    return  this.getUsuariosMatrizAccesosID(id).toPromise();
+   }
+   
    
   syncPostMatrizAccesoToPromise(matrizAcceso:MatrizAcceso){
     return this.postMatrizAcceso(matrizAcceso).toPromise();
+  }
+  syncPostUsuarioMatrizAccesoToPromise(usuarioMatrizAcceso:OneUsuariosMatrizAcceso){
+    return this.postUsuarioMatrizAcceso(usuarioMatrizAcceso).toPromise();
   }
   syncPutMatrizAccesoToPromise(matrizAcceso:MatrizAcceso){
     return this.putMatrizAcceso(matrizAcceso).toPromise();

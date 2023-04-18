@@ -15,7 +15,7 @@ export class MatrizAccesoView {
         public r: boolean,
         public u: boolean,
         public d: boolean,
-        public administrador: boolean,
-        public aprobador: boolean
+        public aprobador: boolean,
+        public rolE_ID:number
     ){}
 }

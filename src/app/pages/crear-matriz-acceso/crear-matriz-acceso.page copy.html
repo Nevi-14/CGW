@@ -81,15 +81,30 @@
 
                 <ion-col size="12">
                   <ion-row>
-                    <ion-col size="12" class="ion-text-right">
-                      Aprobador
+                    <ion-col size="6">
+                      <ion-row>
+                        <ion-col size="12">
+                          Administrador
+                        </ion-col>
+                        <ion-col size="12">
+                          <ion-toggle name="administrador" [(ngModel)]="acceso.administrador" ></ion-toggle>
+                        </ion-col>
+                      </ion-row>
                     </ion-col>
-                    <ion-col size="12" class="ion-text-right">
-                      <ion-toggle name="aprobador" [(ngModel)]="acceso.aprobador"></ion-toggle>
+                    <ion-col size="6">
+                      <ion-row>
+                        <ion-col size="12">
+                          Aprobador
+                        </ion-col>
+                        <ion-col size="12">
+                          <ion-toggle name="aprobador" [(ngModel)]="acceso.aprobador"></ion-toggle>
+                        </ion-col>
+                        
+                      </ion-row>
                     </ion-col>
-                    
+                  
                   </ion-row>
-                </ion-col>
+                 </ion-col>
        <ion-col size="12">
         <ion-row>
           <ion-col size="3">
@@ -135,29 +150,29 @@
           </ion-col>
         </ion-row>
        </ion-col>
+                      <ion-col size="6" style="display: flex;justify-content: start;align-items: center;">
+                        <ion-label>Usuario</ion-label>
+                      </ion-col>
+                      <ion-col size="6">
+                        <ion-searchbar placeholder="buscar usuario"   type="text"   [debounce]="250"  mode="ios"></ion-searchbar>
+                      </ion-col>
+                      <ion-col size="12">
+                        <ion-list  >
 
-       <ion-col size="6" style="display: flex;justify-content: start;align-items: center;">
-        <ion-label>Usuario</ion-label>
-      </ion-col>
-      <ion-col size="6">
-        <ion-searchbar placeholder="buscar usuario"   type="text"   [debounce]="250"  mode="ios"></ion-searchbar>
-      </ion-col>
-      <ion-col size="12">
-        <ion-list  >
- 
-            <ion-item lines="none" *ngFor="let usuario of usuariosService.usuarios">
-              <ion-avatar  slot="start">
-                <img src="assets/imgs/user.svg" />
-              </ion-avatar>
-    <ion-label >{{usuario.nombre}}</ion-label>
-             <ion-checkbox (ionChange)="agregarUsuario($event)" [value]="usuario" slot="end"></ion-checkbox>
-            </ion-item>
-       
-    
-          
-        </ion-list>
-      </ion-col>
-               
+                          <ion-radio-group [(ngModel)]="acceso.iD_USUARIO">
+                            <ion-item lines="none" *ngFor="let usuario of usuariosService.usuarios">
+                              <ion-avatar  slot="start">
+                                <img src="assets/imgs/user.svg" />
+                              </ion-avatar>
+                    <ion-label >{{usuario.nombre}}</ion-label>
+                              <ion-radio [value]="usuario.id"></ion-radio>
+                            </ion-item>
+                       
+                   
+                          </ion-radio-group>
+                          
+                        </ion-list>
+                      </ion-col>
   </ion-row>
  </ion-grid>
 </ion-content>

@@ -77,9 +77,12 @@ getMatrizAcceso:'get/matriz-accesos',
 getMatrizAccesoUsuario:'get/matriz-acceso/usuario?id=',
 getMatrizAccesoBYID:'get/matriz-acceso?id=',
 getMatrizAccesoCheckModuloUsuario:'get/matriz-acceso/usuario?id=',
+getUsuariosMstrizAcceso:'get/usuarios/matriz-acceso?id=',
 postMatrizAcceo:'post/matriz-acceso',
+postUsuarioMatrizAcceo:'post/usuario/matriz-acceso',
 putMatrizAcceso:'put/matriz-acceso?id=',
-deleteMatrizAcceso:'delete/matriz-acceso?id='
+deleteMatrizAcceso:'delete/matriz-acceso?id=',
+deleteUsuarioMatrizAcceso:'delete/usuario/matriz-acceso?id='
 
 
 };

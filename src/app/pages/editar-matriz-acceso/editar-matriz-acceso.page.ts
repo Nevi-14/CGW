@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { MatrizAcceso } from 'src/app/models/matrizAcceso';
+import { MatrizAccesoView } from 'src/app/models/matrizAccesoView';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { CompaniasService } from 'src/app/services/companias.service';
 import { DepartamentosService } from 'src/app/services/departamentos.service';
@@ -16,6 +17,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 })
 export class EditarMatrizAccesoPage implements OnInit {
   @Input() acceso: MatrizAcceso
+  usuarios:MatrizAccesoView[]=[]
   constructor(
     public modalCtrl: ModalController,
     public modulosService: ModulosService,
@@ -30,7 +32,13 @@ export class EditarMatrizAccesoPage implements OnInit {
 
   ngOnInit() {
     console.log(this.acceso)
+    this.matrizAccesoService.syncGetUsuariosMatrizAccesoIDtoToPromise(this.acceso.id).then(usuarios =>{
  
+this.usuarios = usuarios;
+    }, error =>{
+       
+      this.alertasService.message('Dione','Lo sentimos algo salio mal..');
+    })
   }
 
   cerrarModal() {
