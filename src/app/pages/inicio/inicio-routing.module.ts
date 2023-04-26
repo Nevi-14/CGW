@@ -25,10 +25,6 @@ const routes: Routes = [
         path: 'control-usuarios',
         loadChildren: () => import('../control-usuarios/control-usuarios.module').then( m => m.ControlUsuariosPageModule)
       },
-      {
-        path: 'control-roles',
-        loadChildren: () => import('../control-roles/control-roles.module').then( m => m.ControlRolesPageModule)
-      },
     
       {
         path: 'control-matriz-acceso',

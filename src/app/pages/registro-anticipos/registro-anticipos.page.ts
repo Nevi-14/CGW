@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
-import { Usuario, UsuariosCitrix } from 'src/app/models/usuario';
 import { AlertasService } from '../../services/alertas.service';
 import { GastosService } from '../../services/gastos.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { CalendarioPopoverPage } from '../calendario-popover/calendario-popover.page';
 import { format } from 'date-fns';
-import { LineaAnticipo, adelantoViaticos, anticipo } from '../../models/adelantoViaticos';
+import { LineaAnticipo, adelantoViaticos } from '../../models/adelantoViaticos';
 import { AdelantoViaticosService } from 'src/app/services/adelanto-viaticos.service';
 import { Router } from '@angular/router';
-import { CrearAdelantoViaticosPage } from '../crear-adelanto-viaticos/crear-adelanto-viaticos.page';
 import { VistassService } from 'src/app/services/vistas.service';
 import { Clientes } from '../../models/clientes';
-import { ColonesPipe } from 'src/app/pipes/colones.pipe';
+import { UsuarioExactus } from 'src/app/models/usuarios';
+import { ListaUsuariosPage } from '../lista-usuarios/lista-usuarios.page';
+import { LineasAnticiposService } from 'src/app/services/lineas-anticipos.service';
+import { ONE_Asiento_Diario, ONE_Diario, ONE_MOVDIR } from 'src/app/models/procesoContable';
+import { ProcesoContableService } from 'src/app/services/proceso-contable.service';
 
 @Component({
   selector: 'app-registro-anticipos',
@@ -20,27 +22,27 @@ import { ColonesPipe } from 'src/app/pipes/colones.pipe';
   styleUrls: ['./registro-anticipos.page.scss'],
 })
 export class RegistroAnticiposPage implements OnInit {
-  usuarios: UsuariosCitrix[] = []
+  usuarios: UsuarioExactus[] = []
 
   adelantoViatico: adelantoViaticos = {
-    id : null,
-    id_usuario_role_module: this.usuariosService.moduloAcceso.rolE_ID,
-   estatus: 'P',
-   coD_COMPANIA :null,
-   fechA_INICIAL: new Date(),
-   fechA_FINAL:  new Date(),
-   detalle : null,
-   fechA_TRANSACCION:  new Date(),
-   numerO_TRANSACCION :null,
-   moneda:'₡',
-   monto: 0,
-   utilizado: 0,
-   restante: 0,
-   excedente: 0,
-   excedentes:0,
-   sobrantes:0,
-   observaciones:'obervaciones',
-   lineas:0
+    id: null,
+    cREADO_POR: null,
+    mODIFICADO_POR: null,
+    eSTATUS: 'P',
+    coD_COMPANIA: null,
+    fecha: new Date(),
+    fechA_INICIAL: new Date(),
+    fechA_FINAL: new Date(),
+    detalle: null,
+    fechA_TRANSACCION: new Date(),
+    numerO_TRANSACCION: null,
+    moneda: '₡',
+    monto: 0,
+    utilizado: 0,
+    restante: 0,
+    observaciones: null,
+    lineas: 0,
+    ultimA_FECHA_MODIFICACION: new Date()
 
   }
 
@@ -52,7 +54,7 @@ export class RegistroAnticiposPage implements OnInit {
   isOpen: boolean = false;
   textoBuscar = '';
   clientes: Clientes[] = []
-  usuariosAnticipo: UsuariosCitrix[] = []
+  usuariosAnticipo: UsuarioExactus[] = []
   constructor(
     public modalCtrl: ModalController,
     public alertasService: AlertasService,
@@ -61,7 +63,9 @@ export class RegistroAnticiposPage implements OnInit {
     public popOverCtrl: PopoverController,
     public adelantoViaticosService: AdelantoViaticosService,
     public router: Router,
-    public vistasService: VistassService
+    public vistasService: VistassService,
+    public lineasAnticipoService: LineasAnticiposService,
+    public procesoContableService: ProcesoContableService
 
   ) { }
 
@@ -90,135 +94,37 @@ export class RegistroAnticiposPage implements OnInit {
     console.log($event)
     this.adelantoViatico.coD_COMPANIA = $event.detail.value;
   }
-
   obtenerFechaCorte() {
     let currentDate = this.adelantoViatico.fechA_INICIAL;
     let date = currentDate.getDay();
     let daysToSunday = 7 - date;
     return new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + daysToSunday);
   }
-  onSearchChange(event) {
-
-    this.textoBuscar = event.detail.value;
-  }
-
-
-
-
-  consultarUsuario(usuario: Usuario) {
-    let data = this.adelantoViaticosService.lineasAnticipo.filter(adelanto => adelanto.usuario == usuario.usuario);
-    return data.length;
-
-  }
-
-  async crearAdelantoViaticos() {
-
-    if (this.adelantoViaticosService.adelantoVaticos.length == 0) {
-      return
-    }
-    this.isOpen = true;
-
+  async listaColaboradores() {
     const modal = await this.modalCtrl.create({
-      component: CrearAdelantoViaticosPage,
-      componentProps: {
-        adelantoVaticos: this.adelantoViaticosService.adelantoVaticos
-      },
+      component: ListaUsuariosPage,
       cssClass: 'alert-modal'
-    });
+    })
 
-    if (this.isOpen) {
+    modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data != undefined) {
+      console.log(data)
+      data.forEach((usuario: UsuarioExactus) => {
+        let i = this.usuarios.findIndex(e => e.usuario == usuario.usuario);
+        if (i < 0) {
+          usuario.monto = 0;
+          this.usuarios.push(usuario)
+        }
 
-      modal.present();
-      const { data } = await modal.onWillDismiss();
-      this.isOpen = false;
-      if (data != undefined) {
-        this.adelantoViaticosService.syncGetAdelantoViaticosToPromise().then(resp => {
-
-          this.alertasService.message('APP', 'Adelanto de viático guardado!')
-        }, error => {
-
-        });
-
-      }
-
+      })
     }
   }
-
-  agregarAdelanto() {
-    if (this.montoMaximo <= 0 || !this.montoMaximo) {
-      return this.alertasService.message('APP', 'Ingresa un monto limite mayor a 0 para continuar!.')
-    }
-    if (this.usuariosAnticipo.length == 0) {
-      return this.alertasService.message('APP', 'Selecciona al menos un usuario para continuar!.')
-    }
-    if (!this.adelantoViatico.detalle || !this.adelantoViatico.numerO_TRANSACCION || this.adelantoViatico.monto <= 0 || !this.adelantoViatico.coD_COMPANIA) {
-      return this.alertasService.message('APP', 'Verifica que cumpla con los campos requeridos!..')
-    }
-    if (this.adelantoViatico.monto * this.usuariosAnticipo.length > this.montoMaximo) {
-      return this.alertasService.message('APP', 'Lo sentimos supera el monto limite, el monto permitido por usuario es de ' + ColonesPipe.prototype.transform( this.montoMaximo / this.usuariosAnticipo.length, 2 , '.' , ',' ,  this.adelantoViatico.moneda))
-    }
-    this.montoTotal += this.adelantoViatico.monto;
-    this.montoRestante = this.montoMaximo - this.montoTotal;
-    this.adelantoViatico.id = this.adelantoViaticosService.adelantoVaticos.length +1;
-  this.adelantoViatico.lineas = this.usuariosAnticipo.length;
-
-    let adelanto:anticipo = {
-      adelantoViatico : this.adelantoViatico,
-      lineasAnticipo: []
-    }
-
-   // this.adelantoViaticosService.adelantoVaticos.push(this.adelantoViatico);
-    for (let i = 0; i < this.usuariosAnticipo.length; i++) {
-      console.log(this.usuariosAnticipo[i])
-      let lineaAnticipo: LineaAnticipo  = {
-        id : null,
-        iD_ANTICIPO: this.adelantoViatico.id,
-        correO_ENVIADO  : 0,
-        estatus:  this.adelantoViatico.estatus,
-        usuario: this.usuariosAnticipo[i].usuario,
-        monto:  this.adelantoViatico.monto,
-        utilizado:  this.adelantoViatico.utilizado,
-        restante: this.adelantoViatico.monto,
-        excedente:  this.adelantoViatico.excedente,
-        excedentes:  0,
-        sobrante:false,
-        observaciones: this.adelantoViatico.observaciones
-      }
-
-      console.log(lineaAnticipo)
-      adelanto.lineasAnticipo.push(lineaAnticipo)
-
-
-      if (i == this.usuariosAnticipo.length - 1) {
-
-        adelanto.adelantoViatico.monto = this.adelantoViatico.monto  * this.usuariosAnticipo.length;
-        adelanto.adelantoViatico.restante = this.adelantoViatico.monto  * this.usuariosAnticipo.length;
-    
-        console.log('anticipos',this.adelantoViaticosService.adelantoVaticos)
-        console.log('lineaAnticipo',this.adelantoViaticosService.lineasAnticipo)
-        this.adelantoViaticosService.adelantoVaticos.push(adelanto)
-        this.borrarDatos();
-        this.usuariosAnticipo = [];
-        this.alertasService.message('Dione', 'Anticipos agregados a la lista!.')
-      }
-    }
-
-
-  }
-
-
   cargarDatos() {
     this.adelantoViatico.fechA_INICIAL = new Date(this.formatoFecha);
     this.adelantoViatico.fechA_FINAL = this.obtenerFechaCorte();
     this.adelantoViatico.fechA_TRANSACCION = new Date(this.formatoFecha);
-    this.alertasService.presentaLoading('Cargando datos..')
-    this.usuariosService.syncGetUsuariosExactusToPromise().then(resp => {
-      this.alertasService.loadingDissmiss();
-      this.usuarios = resp;
-    }, error => {
-      this.alertasService.loadingDissmiss();
-      this.alertasService.message('APP', 'Lo sentimos algo salio mal..')
-    })
+
 
   }
   cerrarModal() {
@@ -227,30 +133,29 @@ export class RegistroAnticiposPage implements OnInit {
   }
   borrarDatos() {
     this.formatoFecha = new Date(format(new Date(), 'yyy/MM/dd')).toISOString();
-this.montoMaximo = 0;
+    this.montoMaximo = 0;
     this.adelantoViatico = {
-      id : null,
-      id_usuario_role_module: this.usuariosService.moduloAcceso.rolE_ID,
-     estatus: 'P',
-     coD_COMPANIA :null,
-     fechA_INICIAL: new Date(),
-     fechA_FINAL:  new Date(),
-     detalle : null,
-     fechA_TRANSACCION:  new Date(),
-     numerO_TRANSACCION :null,
-     moneda:'₡',
-     monto: 0,
-     utilizado: 0,
-     restante: 0,
-     excedente: 0,
-     excedentes:0,
-     sobrantes:0,
-     observaciones:'obervaciones',
-     lineas:0
+      id: null,
+      cREADO_POR: null,
+      mODIFICADO_POR: null,
+      eSTATUS: 'P',
+      coD_COMPANIA: null,
+      fecha: new Date(),
+      fechA_INICIAL: new Date(),
+      fechA_FINAL: new Date(),
+      detalle: null,
+      fechA_TRANSACCION: new Date(),
+      numerO_TRANSACCION: null,
+      moneda: '₡',
+      monto: 0,
+      utilizado: 0,
+      restante: 0,
+      observaciones: null,
+      lineas: 0,
+      ultimA_FECHA_MODIFICACION: new Date()
     }
-    this.usuarios.forEach(usuario => {
-      usuario.seleccionado = false;
-    })
+    this.usuarios = [];
+    this.cargarDatos();
   }
 
   async fecha(identificador: string) {
@@ -292,7 +197,7 @@ this.montoMaximo = 0;
             return
           }
           this.adelantoViatico.fechA_INICIAL = new Date(this.formatoFecha);
- 
+
           this.adelantoViatico.fechA_FINAL = this.obtenerFechaCorte();
           break;
         case 'fechaTransaccion':
@@ -303,42 +208,227 @@ this.montoMaximo = 0;
 
 
   }
-  changeListener($event) {
-
-
+  borrarUsuario(i) {
+    this.usuarios.splice(i, 1);
+    this.actualziarTotales();
   }
 
-  agregarUsuario($event, u: number) {
-    const isChecked = $event.detail.checked;
-    console.log('isChecked', isChecked)
-    if (isChecked) {
-      this.usuariosAnticipo.push(this.usuarios[u]);
-    } else {
-      let i = this.usuariosAnticipo.findIndex(k => k.usuario == this.usuarios[u].usuario);
-      if (i >= 0) {
-        this.usuariosAnticipo.splice(i, 1);
-      }
-    }
-
-    console.log('This.usuariosAnticipo', this.usuariosAnticipo)
-
+  incrementarMonto(usuario: UsuarioExactus, $event) {
+    usuario.monto = $event.detail.value;
+    this.actualziarTotales();
 
   }
+  actualziarTotales() {
+    this.adelantoViatico.monto = 0;
+    this.usuarios.forEach(usuario => {
+      this.adelantoViatico.monto += Number(usuario.monto);
+    })
+  }
+  randomID(){
+    //define a variable consisting alphabets in small and capital letter  
+var characters = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";  
+var lenString = 10;  
+var randomstring = '';  
+
+//loop to select a new character in each iteration  
+for (var i=0; i<lenString; i++) {  
+var rnum = Math.floor(Math.random() * characters.length);  
+randomstring += characters.substring(rnum, rnum+1);  
+if(i == lenString -1){
+return randomstring
+}
+}  
+}
+
   generarPost() {
 
-
-
+    this.adelantoViatico.cREADO_POR = this.usuariosService.usuario.id
+    this.adelantoViatico.mODIFICADO_POR = this.usuariosService.usuario.id
+    this.adelantoViatico.lineas = this.usuarios.length;
+    this.adelantoViatico.restante = this.adelantoViatico.monto;
     this.alertasService.presentaLoading('Guardando Datos...')
-    this.adelantoViaticosService.syncPostAdelantoViaticosToPromise(this.adelantoViatico).then(resp => {
-      this.alertasService.loadingDissmiss();
-      this.modalCtrl.dismiss(true)
+    this.adelantoViaticosService.syncPostAdelantoViaticosToPromise(this.adelantoViatico).then(async (resp: adelantoViaticos) => {
 
+      let numAsiento = this.randomID();  
+
+      let movDir:ONE_MOVDIR = {
+        id : this.adelantoViatico.numerO_TRANSACCION,
+        tipO_GASTO: 'N/D',
+        tipo:'N/D',
+        suB_TIPO:'N/D',
+        fecha: this.adelantoViatico.fechA_TRANSACCION,
+        monto:this.adelantoViatico.monto,
+        tipO_ASIENTO:'CB',
+        paquete:'CB',
+        concepto:`Pago de
+        viáticos +
+        ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')} +
+        ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')}`,
+        nuM_ASIENTO: numAsiento
+     }
+
+await this.procesoContableService.syncPostMovDirToPromise(movDir);
+
+let asientoDiario:ONE_Asiento_Diario = {
+  id:null,
+ coD_COMPANIA:this.adelantoViatico.coD_COMPANIA, 
+ asiento:numAsiento,
+ paquete:'CB',
+ tipO_ASIENTO:'CB',
+ fecha:new Date(),
+ contabilidad:'C',
+ origen:'CB',
+ clasE_ASIENTO:'C',
+ totaL_DEBITO_LOC:this.adelantoViatico.monto,
+ totaL_DEBITO_DOL:0,
+ totaL_CREDITO_LOC:0,
+ totaL_CREDITO_DOL:0,
+ ultimO_USUARIO:this.usuariosService.usuario.usuario,
+ fechA_ULT_MODIF:new Date(),
+ marcado:'N',
+ notas:`Pago de viáticos ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')}`,
+ totaL_CONTROL_LOC:0,
+ totaL_CONTROL_DOL:0,
+ usuariO_CREACION:this.usuariosService.usuario.usuario,
+ fechA_CREACION:new Date(),
+ rowPointer:null,
+ dependencia:null,
+ noteExistingFlag:0,
+ recordDate:new Date(),
+ createdBy:this.usuariosService.usuario.usuario,
+ updatedBy:this.usuariosService.usuario.usuario,
+ createdDate:new Date(),
+ documentO_GLOBAL:null
+}
+
+await this.procesoContableService.syncPostAsientoDiarioToPromise(asientoDiario);
+
+
+let diario:ONE_Diario[] = [
+  {
+     id:null,
+     coD_COMPANIA:this.adelantoViatico.coD_COMPANIA, 
+     asiento:numAsiento,
+     consecutivo:0,
+     nit:null,
+     centrO_COSTO:'00-00-00',
+     cuentA_CONTABLE:'1-01-02-002-007',
+     fuente:'fuente',
+     referencia:`Pago de viáticos ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')}`,
+     debitO_LOCAL:0,
+     debitO_DOLAR:0,
+     creditO_LOCAL:this.adelantoViatico.monto,
+     creditO_DOLAR:0,
+     debitO_UNIDADES:0,
+     creditO_UNIDADES:0,
+     tipO_CAMBIO:0,
+     rowPointer:null,
+     basE_LOCAL:0,
+     basE_DOLAR:0,
+     proyecto:null,
+     fase:null,
+     noteExistingFlag:0,
+     recordDate:new Date(),
+     createdBy:this.usuariosService.usuario.usuario,
+     updatedBy:this.usuariosService.usuario.usuario,
+    createdDate:new Date(),
+     documentO_GLOBAL:null
+  },
+
+
+  {
+    id:null,
+    coD_COMPANIA:this.adelantoViatico.coD_COMPANIA, 
+    asiento:numAsiento,
+    consecutivo:0,
+    nit:null,
+    centrO_COSTO:'00-00-00',
+    cuentA_CONTABLE:'1-01-05-004-011',
+    fuente:'fuente',
+    referencia:`Pago de viáticos + ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')}  + ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')}`,
+    debitO_LOCAL:0,
+    debitO_DOLAR:0,
+    creditO_LOCAL:this.adelantoViatico.monto,
+    creditO_DOLAR:0,
+    debitO_UNIDADES:0,
+    creditO_UNIDADES:0,
+    tipO_CAMBIO:0,
+    rowPointer:null,
+    basE_LOCAL:0,
+    basE_DOLAR:0,
+    proyecto:null,
+    fase:null,
+    noteExistingFlag:0,
+    recordDate:new Date(),
+    createdBy:this.usuariosService.usuario.usuario,
+    updatedBy:this.usuariosService.usuario.usuario,
+    createdDate:new Date(),
+    documentO_GLOBAL:null
+ },
+
+
+ {
+  id:null,
+  coD_COMPANIA:this.adelantoViatico.coD_COMPANIA, 
+  asiento:numAsiento,
+  consecutivo:0,
+  nit:null,
+  centrO_COSTO:'00-00-00',
+  cuentA_CONTABLE:'7-99-01-009-000',
+  fuente:'fuente',
+  referencia:`Pago de viáticos ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')} +  ${this.adelantoViatico.numerO_TRANSACCION}`,
+  debitO_LOCAL:0,
+  debitO_DOLAR:0,
+  creditO_LOCAL:this.adelantoViatico.monto,
+  creditO_DOLAR:0,
+  debitO_UNIDADES:0,
+  creditO_UNIDADES:0,
+  tipO_CAMBIO:0,
+  rowPointer:null,
+  basE_LOCAL:0,
+  basE_DOLAR:0,
+  proyecto:null,
+  fase:null,
+  noteExistingFlag:0,
+  recordDate:new Date(),
+  createdBy:this.usuariosService.usuario.usuario,
+  updatedBy:this.usuariosService.usuario.usuario,
+  createdDate:new Date(),
+  documentO_GLOBAL:null
+}
+]
+
+await this.procesoContableService.syncPostDiarioToPromise(diario);
+
+      console.log(resp)
+      this.usuarios.forEach(async (usuario, index) => {
+
+        const linea: LineaAnticipo = {
+          id: null,
+          iD_ANTICIPO: resp.id,
+          metodO_DEVOLUCION: null,
+          correO_ENVIADO: 0,
+          estatus: 'P',
+          usuario: usuario.usuario,
+          monto: usuario.monto,
+          utilizado: 0,
+          restante: usuario.monto
+        }
+        await this.lineasAnticipoService.syncPostLineaAnticipoToPromise(linea)
+        if (index == this.usuarios.length - 1) {
+          this.alertasService.loadingDissmiss();
+          this.alertasService.message('APP', 'El Anticipo se creo con exito!.')
+          this.borrarDatos();
+        }
+      })
 
     }, error => {
       this.alertasService.loadingDissmiss();
       this.alertasService.message('APP', 'Lo sentimos algo salio mal...')
     })
-
-
   }
+
+
+
+
 }

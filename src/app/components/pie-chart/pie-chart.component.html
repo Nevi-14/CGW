@@ -1,12 +1,39 @@
   
    <ion-content>
-    <canvas       baseChart 
-    [data]="pieChartData"
-    [type]="pieChartType"
-    [options]="pieChartOptions"
-    [plugins]="pieChartPlugins">
-    
-    </canvas>
+
+      <ion-grid  style="height: 100%;">
+         <ion-row style="height: 100%;"> 
+            <ion-col size="6">
+               <ion-row>
+                <ion-col size="12">
+                  <ion-toolbar>
+                    <ion-title>Reporte Gastos</ion-title>
+                  </ion-toolbar>
+                  <ion-list>
+                    <ion-item *ngFor="let gasto of  gastos" detail>
+                      <ion-fab-button color="success" size="small" slot="start">
+                       
+                     {{gasto.lineas}} </ion-fab-button>
+                      <ion-label> {{gasto.id}}</ion-label>
+              
+                    </ion-item>
+                  </ion-list>
+                </ion-col>
+               </ion-row>
+                     </ion-col>
+            <ion-col size="6">
+
+               <canvas       baseChart 
+               [data]="pieChartData"
+               [type]="pieChartType"
+               [options]="pieChartOptions"
+               [plugins]="pieChartPlugins">
+               
+               </canvas>
+           
+            </ion-col>
+         </ion-row>
+      </ion-grid>
 
 
    </ion-content>

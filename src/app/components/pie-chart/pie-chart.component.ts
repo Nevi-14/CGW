@@ -6,7 +6,15 @@ import { Platform } from '@ionic/angular';
 
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service';
-
+import { GastosService } from 'src/app/services/gastos.service';
+import { AdelantoViaticosService } from 'src/app/services/adelanto-viaticos.service';
+import { vistaGastos } from 'src/app/models/gastosView';
+interface gastosV {
+  id : string,
+  total:number,
+  lineas:number,
+  gastos:vistaGastos[]
+}
 @Component({
   selector: 'app-pie-chart',
   templateUrl: './pie-chart.component.html',
@@ -16,7 +24,7 @@ export class PieChartComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
   width: number;
   chartHeight = '0px';
-
+gastos:gastosV[]=[];
 
   // Pie
   public pieChartOptions: ChartConfiguration['options'] = {
@@ -44,16 +52,50 @@ export class PieChartComponent implements OnInit {
     public plt: Platform,
     public alertService: AlertasService,
     public cd: ChangeDetectorRef,
-    public router: Router
+    public router: Router,
+    public adelantosService:AdelantoViaticosService,
+    public gastosService:GastosService
 
 
   ) { }
 
   ngOnInit() {
+    let labels =  [];
+    let data = [];
 
-console.log('module dashboard')
-let labels =  ['Web Sales', 'Store Sales', 'Mail Sales'];
-let data = [300, 500, 100];
+
+
+    this.gastosService.syncGetGastosAnticipoToPtomise(this.adelantosService.adelantoViatico.id).then(resp =>{
+
+  
+
+      resp.forEach( (g, index) =>{
+
+        let gasto = {
+          id : g.tipO_GASTO,
+          total:g.monto,
+          lineas:1,
+          gastos:[g]
+        }
+        let i = this.gastos.findIndex(e => e.id == g.tipO_GASTO);
+        if(i < 0){
+          labels.push(g.tipO_GASTO)
+
+          this.gastos.push(gasto);
+        }else if (i >=0){
+          this.gastos[i].lineas += 1;
+          this.gastos[i].total += g.monto;
+          this.gastos[i].gastos.push(g);
+        }
+        
+
+        if(index == resp.length -1){
+          this.gastos.forEach( (t, index2) =>{
+            data.push(t.lineas);
+
+            if(index2 == this.gastos.length -1){
+              console.log('module dashboard')
+
 this.pieChartData = {
   labels: labels,
   datasets: [{
@@ -62,6 +104,17 @@ this.pieChartData = {
 }
 console.log('module dashboard 2', this.pieChartData, this.chart, 'chart')
 this.toggleMenu();
+            }
+          })
+          
+          console.log('gastos', this.gastos)
+          console.log('data', data)
+        }
+      })
+     
+    })
+
+
   }
   ionViewWillEnter() {
     this.pieChartData = null;

@@ -4,6 +4,8 @@ import { environment } from '../../environments/environment';
 import { gastos } from '../models/gastos';
 import { AlertasService } from './alertas.service';
 import { UsuariosService } from './usuarios.service';
+import { vistaGastos } from '../models/gastosView';
+ 
 interface ids {
   id:string
 }
@@ -65,6 +67,14 @@ console.log('URL', URL)
     return this.http.get<gastos[]>(URL);
 
   }
+
+  private getGastosAnticipo(id:number){
+    let URL = this.getAPI(environment.getGastosAnticipo);
+    URL = URL+id;
+        console.log('URL', URL)
+    return this.http.get<vistaGastos[]>(URL);
+
+  }
   private getFacturaGastos(Factura){
 
     let URL = this.getAPI(environment.getFacturaGastos);
@@ -94,6 +104,9 @@ console.log('URL', URL)
   }
 
 
+  syncGetGastosAnticipoToPtomise(id:number){
+    return this.getGastosAnticipo(id).toPromise();
+  }
   syngPutGastoToPromise(gasto:gastos){
 
     return this.putGasto(gasto).toPromise();

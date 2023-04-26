@@ -10,21 +10,26 @@ export const environment = {
   preURL2:'https://api_isa',
   postURL: 'api-coris-control-viaticos/api/',
   prdMode: true,
- 
   // APIS
 
+
 // GASTOS
+
 getGastos:'get/gastos/estado/rango/fecha?estado=',
+getGastosAnticipo:'get/gastos/anticipo?id=',
+getGastosAnticipoLineas:'get/gastos/linea?id=',
 putGastos:'put/gasto?id=',
 getFacturaGastos:'get/gasto?id=',
 getUsuarioGastos:'get/gastos/usuario?id=',
 getUsuarioGastosRangoFecha:'get/usuario/gastos/estado/rango/fecha?id=',
+
 // ADELANTO VIATICOS
 getAdelantoViaticos:'get/anticipos',
 postAdelantoViaticos:'post/anticipo',
 // LINEA ANTICIPOS
 postLineaAnticipos:'post/linea/anticipo',
-getLineasAnticipos:'get/linea/anticipo?id=',
+putLineaAnticipos:'put/linea/anticipo?id=',
+getLineasAnticipos:'get/linea/web/anticipo?id=',
 // ESTADOS CUENTA
 getEstadosCuenta:'get/estados/cuenta',
 postEstadosCuenta:'post/estados/cuenta',
@@ -72,16 +77,25 @@ postRole:'post/role',
 putRole:'put/role?id=',
 deleteRole:'delete/role?id=',
 // MATRIZ ACCESO
+getMatrizAccesobyIDURL:'get/matriz-acceso?id=',
 getMatrizAcceso:'get/matriz-accesos',
 getMatrizAccesoUsuario:'get/matriz-acceso/usuario?id=',
-getMatrizAccesoCheckModuloUsuario:'get/matriz-acceso/usuario?id=',
 getMatrizAccesoBYID:'get/matriz-acceso?id=',
+getMatrizAccesoCheckModuloUsuario:'get/matriz-acceso/usuario?id=',
+getUsuariosMstrizAcceso:'get/usuarios/matriz-acceso?id=',
 postMatrizAcceo:'post/matriz-acceso',
 postUsuarioMatrizAcceo:'post/usuario/matriz-acceso',
-getUsuariosMstrizAcceso:'get/usuarios/matriz-acceso?id=',
 putMatrizAcceso:'put/matriz-acceso?id=',
 deleteMatrizAcceso:'delete/matriz-acceso?id=',
-deleteUsuarioMatrizAcceso:'delete/usuario/matriz-acceso?id='
+deleteUsuarioMatrizAcceso:'delete/usuario/matriz-accesos?id=',
+// MODULOS 
+getMatrizAccesoModulosURL:'get/matriz-acceso/modulos?id=',
+postModuloMatrizAcceo:'post/matriz-acceso/modulo',
+putModuloMatrizAcceo:'post/matriz-acceso/modulo?id=',
+deleteModuloMatrizAcceso:'delete/matriz-acceso/modulos?id=',
+
+// USUARIO MATRIZ ACCESO
+getUsuarioMatrizAccesoURL:'get/usuario/matriz-acceso?id=',
 };
 
 /*

@@ -20,3 +20,23 @@ export class gastos {
         public excedente:boolean
     ){}
 }
+
+export class LineaGasto {
+    constructor(
+      public id:number,
+      public iD_LINEA_ANTICIPO:number,
+      public fecha: Date,
+      public tarjeta:boolean,
+      public usuario: string,
+      public referencia: string,
+      public tipO_GASTO: string,
+      public proveedor: string,
+      public justificacion: string,
+      public descripcion: string,
+      public observaciones: string,
+      public adjunto: string,
+      public monto: number,
+      public estatus:string,
+      public exedente:boolean
+    ){}
+  }

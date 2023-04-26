@@ -34,18 +34,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/estado-cuenta/estado-cuenta.module').then( m => m.EstadoCuentaPageModule)
   },
   {
-    path: 'filtrar-gastos',
-    loadChildren: () => import('./pages/filtrar-gastos/filtrar-gastos.module').then( m => m.FiltrarGastosPageModule)
-  },
-  {
-    path: 'crear-adelanto-viaticos',
-    loadChildren: () => import('./pages/crear-adelanto-viaticos/crear-adelanto-viaticos.module').then( m => m.CrearAdelantoViaticosPageModule)
-  },
-  {
-    path: 'liquidacion-viaticos',
-    loadChildren: () => import('./pages/liquidacion-viaticos/liquidacion-viaticos.module').then( m => m.LiquidacionViaticosPageModule)
-  },
-  {
     path: 'crear-matriz-acceso',
     loadChildren: () => import('./pages/crear-matriz-acceso/crear-matriz-acceso.module').then( m => m.CrearMatrizAccesoPageModule)
   },
@@ -62,14 +50,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/editar-usuario/editar-usuario.module').then( m => m.EditarUsuarioPageModule)
   },
   {
-    path: 'crear-role',
-    loadChildren: () => import('./pages/crear-role/crear-role.module').then( m => m.CrearRolePageModule)
-  },
-  {
-    path: 'editar-role',
-    loadChildren: () => import('./pages/editar-role/editar-role.module').then( m => m.EditarRolePageModule)
-  },
-  {
     path: 'crear-departamento',
     loadChildren: () => import('./pages/crear-departamento/crear-departamento.module').then( m => m.CrearDepartamentoPageModule)
   },
@@ -77,6 +57,16 @@ const routes: Routes = [
     path: 'editar-departamento',
     loadChildren: () => import('./pages/editar-departamento/editar-departamento.module').then( m => m.EditarDepartamentoPageModule)
   },
+  {
+    path: 'linea-gastos',
+    loadChildren: () => import('./pages/linea-gastos/linea-gastos.module').then( m => m.LineaGastosPageModule)
+  },
+  {
+    path: 'lista-usuarios',
+    loadChildren: () => import('./pages/lista-usuarios/lista-usuarios.module').then( m => m.ListaUsuariosPageModule)
+  },
+
+
   
 
 

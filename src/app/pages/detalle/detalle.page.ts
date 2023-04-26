@@ -10,9 +10,8 @@ export class DetallePage implements OnInit {
   public appPages = [
     { title: 'Inicio', url: '/inicio/detalle', icon: 'home' },
     { title: 'Departamentos', url: '/inicio/control-departamentos', icon: 'business' },
-    { title: 'Roles', url: '/inicio/control-roles', icon: 'eye-off' },
-    { title: 'Usuarios', url: '/inicio/control-usuarios', icon: 'people' },
     { title: 'Acceso', url: '/inicio/control-matriz-acceso', icon: 'shield' },
+    { title: 'Usuarios', url: '/inicio/control-usuarios', icon: 'people' },
     { title: 'Gestión Anticipos', url: '/inicio/control-anticipos', icon: 'document-text' },
     //{ title: 'Viáticos', url: '/inicio/control-viaticos', icon: 'cash' },
     { title: 'Estados Cuenta', url: '/inicio/control-estados-cuenta', icon: 'card' },

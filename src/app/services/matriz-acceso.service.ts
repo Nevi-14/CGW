@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MatrizAcceso } from '../models/matrizAcceso';
-import { MatrizAccesoView } from '../models/matrizAccesoView';
+ 
 import { OneUsuariosMatrizAcceso } from '../models/oneUsuariosMatrizAcceso';
+import { OneUsuariosModulosMatrizAccesoView } from '../models/OneUsuariosModulosMatrizAccesoView';
+import { MatrizAccesoView } from '../models/matrizAccesoView';
 
 
 @Injectable({
@@ -32,20 +34,20 @@ export class MatrizAccesoService {
     let URL = this.getAPI(environment.getMatrizAccesoUsuario);
         URL = URL + id;
     console.log('URL', URL)
-    return this.http.get<MatrizAccesoView[]>(URL);
+    return this.http.get<OneUsuariosModulosMatrizAccesoView[]>(URL);
   }
 
   private getUsuariosMatrizAccesosID(id:number){
     let URL = this.getAPI(environment.getUsuariosMstrizAcceso);
         URL = URL + id;
     console.log('URL', URL)
-    return this.http.get<MatrizAccesoView[]>(URL);
+    return this.http.get<OneUsuariosModulosMatrizAccesoView[]>(URL);
   }
-  private getMatrizAccesosBYID(id:number){
+  private getMatrizAccesosBYID(id:string){
     let URL = this.getAPI(environment.getMatrizAccesoBYID);
         URL = URL + id;
     console.log('URL', URL)
-    return this.http.get<MatrizAccesoView[]>(URL);
+    return this.http.get<OneUsuariosModulosMatrizAccesoView[]>(URL);
   }
   private postMatrizAcceso(matrizAcceso:MatrizAcceso){
     const URL = this.getAPI(environment.postMatrizAcceo);
@@ -88,7 +90,7 @@ export class MatrizAccesoService {
     return this.http.put(URL,matrizAcceso,options);
   }
   
-  private deleteMatrizAcceso(id:number){
+  private deleteMatrizAcceso(id:string){
     let URL = this.getAPI(environment.deleteMatrizAcceso);
         URL = URL + id;
         const options = {
@@ -108,7 +110,7 @@ export class MatrizAccesoService {
   syncGetMatrizAccesoByIDtoToPromise(id:number){
     return  this.getMatrizAccesosID(id).toPromise();
    }
-   syncGetMatrizAccesoIDtoToPromise(id:number){
+   syncGetMatrizAccesoIDtoToPromise(id:string){
     return  this.getMatrizAccesosBYID(id).toPromise();
    }
    syncGetUsuariosMatrizAccesoIDtoToPromise(id:number){
@@ -126,7 +128,7 @@ export class MatrizAccesoService {
     return this.putMatrizAcceso(matrizAcceso).toPromise();
   }
   
-  syncDeleteMatrizAccesoToPromise(id:number){
+  syncDeleteMatrizAccesoToPromise(id:string){
     return this.deleteMatrizAcceso(id).toPromise();
   }
 }

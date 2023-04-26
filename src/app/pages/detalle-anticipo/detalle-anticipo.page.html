@@ -2,27 +2,10 @@
 
  
 <ion-content class="ion-padding">
-  <ion-grid style="height: 100%;width: 80%;" >
+  <ion-grid *ngIf="gastos.length > 0" style="height: 100%;width: 80%;" >
     <ion-row style="height: 100%;">
-         <ion-col size="6">
-   <ion-row>
-    <ion-col size="12">
-      <ion-toolbar>
-        <ion-title>Reporte Gastos</ion-title>
-      </ion-toolbar>
-      <ion-list>
-        <ion-item *ngFor="let gasto of [1,1,1,1,1,1]" detail>
-          <ion-fab-button color="success" size="small" slot="start">
-           0
-          </ion-fab-button>
-          <ion-label>Gasto</ion-label>
-  
-        </ion-item>
-      </ion-list>
-    </ion-col>
-   </ion-row>
-         </ion-col>
-      <ion-col size="6"  class="ion-padding">
+
+      <ion-col size="12"  class="ion-padding">
         <app-pie-chart ></app-pie-chart>
                 </ion-col>
     </ion-row>
@@ -105,14 +88,14 @@
             </p>
       
           </ion-label>
-          <ion-badge  slot="end" color="warning" mode="ios">{{usuario.estatus ?  'Pendiente' : 'Requiere Aprobación'}}</ion-badge>
+          <ion-badge  slot="end" color="warning" mode="ios">{{usuario.estatus == 'P' ?  'Pendiente' :  usuario.estatus == 'A' ? 'Aprobada' : usuario.estatus == 'I' ? 'Requiere Aprobacion' : 'Rechazada'}}</ion-badge>
           <span slot="end"  style="position: relative;">
             <ion-fab-button size="small">
               <ion-icon name="mail"></ion-icon>
             </ion-fab-button>
             <ion-badge style="position: absolute; top: 0rem;right: -1rem;" color="warning" mode="ios">{{usuario.correO_ENVIADO}}</ion-badge>
           </span>
-          <ion-fab-button slot="end" size="small">
+          <ion-fab-button (click)="lineaGastos(usuario)" slot="end" size="small">
             <ion-icon name="eye"></ion-icon>
           </ion-fab-button>
         </ion-item>
@@ -139,7 +122,7 @@
               </ion-col>
               <ion-col size="6"  class="ion-text-right">
                 <ion-label>
-                  <ion-badge color="warning" mode="ios">{{0 | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
+                  <ion-badge color="warning" mode="ios">{{adelantosService.adelantoViatico.restante | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
                 </ion-label>
               </ion-col>
             </ion-row>
@@ -180,7 +163,7 @@
                                 </ion-item>
       </ion-col>
       <ion-col size="12" class="ion-padding">
-        <ion-button   expand="block" fill="solid" color="dark" mode="ios">
+        <ion-button (click)="liquidarAnticipo()"   expand="block" fill="solid" color="dark" mode="ios">
           Liquidar Anticipo
         </ion-button>
       </ion-col>

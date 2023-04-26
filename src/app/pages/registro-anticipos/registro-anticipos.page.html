@@ -1,133 +1,35 @@
 <ion-header class="ion-no-border ion-padding">
 <ion-row>
-  <ion-col size="8">
+  <ion-col size="12">
     <ion-toolbar>
       <ion-title class="ion-text-capitalize" class="page-title"><strong>Registrar Anticipos</strong></ion-title>
- 
+      <ion-button  *ngIf="usuarios.length > 0" slot="end"   (click)="generarPost()" 
+      fill="solid" color="dark">
+    Generar Anticipo
+    <ion-icon slot="end"  name="arrow-forward"></ion-icon>
+  </ion-button>
+  
     </ion-toolbar>
 
   </ion-col>
-  <ion-col size="4" *ngIf="adelantoViaticosService.adelantoVaticos.length > 0">
-
-       
-    <ion-item button style="max-width: 60%;"  detail lines="none" (click)="crearAdelantoViaticos()">
-      <ion-card slot="start" color="dark">
-  
-        <ion-card-content>
-          ANTICIPOS -   {{adelantoViaticosService.adelantoVaticos.length}}
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-
-
-
-  </ion-col>
+ 
 </ion-row>
 </ion-header>
-<ion-content class="ion-padding">
+<ion-content>
   <ion-grid style="height: 100%;">
-    <ion-row style="height: 100%;">
-
-      <ion-col size="12" size-md="4" style="height: 100%;">
-
-  
+    <ion-row style="height: 100%;" class="ion-padding">
 
 
-   <ion-row style="height: 100%;">
-    <ion-col size="12" style="height: 100%;">
-
-      <ion-toolbar  style="height: 20%;">
-
- <ion-grid >
-  <ion-row>
-    <ion-col size="12">
-      <ion-title><strong>Colaboradores</strong></ion-title>
-    </ion-col>
-    <ion-col size="12">
-      <ion-searchbar (ionChange)="onSearchChange($event)" mode="ios" placeholder="Buscar Colaborador" type="text"
-      [debounce]="250"></ion-searchbar>
-  
-
-    </ion-col>
-  </ion-row>
- </ion-grid>
-
-      </ion-toolbar>
-       <ion-list  style="height: 80%;overflow: auto;">
-        <ion-item lines="none" *ngFor="let usuario of usuarios| filtro: textoBuscar:'usuario'; let i = index;"  >
-
-          <ion-avatar  slot="start">
-            <img   src="../assets/imgs/user.svg" />
-          </ion-avatar>
-
-          <ion-label slot="start">{{usuario.usuario}}</ion-label>
-          <ion-checkbox class="ion-margin-right" slot="end" name="usuario" [(ngModel)]="usuario.seleccionado"  (ionChange)="agregarUsuario($event,i)"  ></ion-checkbox>
-        </ion-item>
-       </ion-list>
-        
-      
-
-
-    </ion-col>
-   </ion-row>
-
-      </ion-col>
-
-      <ion-col size="12" size-md="8" style="height: 100%;">
+      <ion-col size="12">
  
         <ion-grid>
           <ion-row>
 
-            <ion-col size="4">
 
-              <ion-row>
-                <ion-col size="12">
-                  <ion-label><strong>Monto Limite</strong></ion-label>
-                </ion-col>
-                <ion-col size="12">
-                  <ion-input class="ion-text-right" name="montoMaximo" [(ngModel)]="montoMaximo"     type="number" placeholder="monto"></ion-input>
-                </ion-col>
-              </ion-row>
-
-
-
-
-            </ion-col>
-            <ion-col size="4">
-              <ion-row>
-                <ion-col size="12">
-                  <ion-label><strong>Moneda </strong> <ion-badge color="primary"
-                      mode="ios">{{adelantoViatico.moneda}}</ion-badge></ion-label>
-                </ion-col>
-                <ion-col size="12">
-
-                  <ion-select [(ngModel)]="adelantoViatico.moneda" placeholder="Seleccionar">
-                    <ion-select-option value="₡">Colones</ion-select-option>
-                    <ion-select-option value="$">Dolares</ion-select-option>
-                  </ion-select>
-                </ion-col>
-              </ion-row>
-            </ion-col>
-            <ion-col size="4">
-
-              <ion-row>
-                <ion-col size="12">
-                  <ion-label><strong>Justificación</strong></ion-label>
-                </ion-col>
-                <ion-col size="12">
-                  <ion-input   name="detalle" [(ngModel)]="adelantoViatico.detalle"
-                    type="text" placeholder="justificación"></ion-input>
-                </ion-col>
-              </ion-row>
-
-
-
-
-            </ion-col>
 
             <ion-col size="12">
               <ion-row>
-                <ion-col size="4">
+                <ion-col size="3">
 
                   <ion-row>
                     <ion-col size="12">
@@ -140,7 +42,7 @@
                   </ion-row>
 
                 </ion-col>
-                <ion-col size="4">
+                <ion-col size="3">
 
                   <ion-row>
                     <ion-col size="12">
@@ -154,7 +56,7 @@
 
 
                 </ion-col>
-                <ion-col size="4">
+                <ion-col size="3">
                   <ion-row>
                     <ion-col size="12">
 
@@ -169,8 +71,69 @@
 
 
                 </ion-col>
+                <ion-col size="3">
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-label style="display: flex;justify-content: flex-start;align-items: center;"><strong>Moneda </strong> <ion-badge style="margin-left: 0.5rem;" color="primary"
+                          mode="ios">{{adelantoViatico.moneda}}</ion-badge></ion-label>
+                    </ion-col>
+                    <ion-col size="12">
+    
+                      <ion-select [(ngModel)]="adelantoViatico.moneda" placeholder="Seleccionar">
+                        <ion-select-option value="₡">Colones</ion-select-option>
+                        <ion-select-option value="$">Dolares</ion-select-option>
+                      </ion-select>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+                <ion-col size="3">
+    
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-label><strong>Justificación</strong></ion-label>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-input   name="detalle" [(ngModel)]="adelantoViatico.detalle"
+                        type="text" placeholder="justificación"></ion-input>
+                    </ion-col>
+                  </ion-row>
+    
+    
+    
+    
+                </ion-col>
+                <ion-col size="3">
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-label><strong>Compañia</strong></ion-label>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-select (ionChange)="compania($event)" [(ngModel)]="adelantoViatico.coD_COMPANIA"
+                        placeholder="Seleccionar">
+                        <ion-select-option [value]="compania.cia"
+                          *ngFor="let compania of clientes">{{compania.cia}}</ion-select-option>
 
+                      </ion-select>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+                <ion-col size="3">
+                  <ion-row>
+                    <ion-col size="12">
+                      <ion-label><strong># Transacción</strong></ion-label>
+                    </ion-col>
+                    <ion-col size="12">
+                      <ion-input name="numero_transaccion" [(ngModel)]="adelantoViatico.numerO_TRANSACCION"
+                        type="text" placeholder="número transacción"></ion-input>
+                    </ion-col>
+                  </ion-row>
+
+
+
+                </ion-col>
               </ion-row>
+
+   
             </ion-col>
 
 
@@ -178,68 +141,80 @@
           </ion-row>
           <ion-row>
             <ion-col size="12">
-              <ion-list class="transparent">
-
+           
                 <ion-grid>
                   <ion-row>
 
-                    <ion-col size="4">
-                      <ion-row>
-                        <ion-col size="12">
-                          <ion-label><strong>Compañia</strong></ion-label>
-                        </ion-col>
-                        <ion-col size="12">
-                          <ion-select (ionChange)="compania($event)" [(ngModel)]="adelantoViatico.coD_COMPANIA"
-                            placeholder="Seleccionar">
-                            <ion-select-option [value]="compania.cia"
-                              *ngFor="let compania of clientes">{{compania.cia}}</ion-select-option>
+  
+                    <ion-col size="12">
 
-                          </ion-select>
-                        </ion-col>
-                      </ion-row>
-                    </ion-col>
-                    <ion-col size="4">
-                      <ion-row>
-                        <ion-col size="12">
-                          <ion-label><strong># Transacción</strong></ion-label>
-                        </ion-col>
-                        <ion-col size="12">
-                          <ion-input name="numero_transaccion" [(ngModel)]="adelantoViatico.numerO_TRANSACCION"
-                            type="text" placeholder="número transacción"></ion-input>
-                        </ion-col>
-                      </ion-row>
+                      <ion-toolbar>
+                        <ion-title><strong>Colaboradores</strong></ion-title>
+                        <ion-fab-button (click)="listaColaboradores()" color="dark" size="small" slot="end">
+                          <ion-icon name="add"></ion-icon>
+                        </ion-fab-button>
+                      </ion-toolbar>
+                       <ion-list >
 
+                        <ion-item lines="none" *ngIf="usuarios.length == 0">
 
-
-                    </ion-col>
-          
-                    <ion-col size="4">
-                      <ion-row>
-                        <ion-col size="12">
-                          <ion-label><strong>Monto</strong></ion-label>
-                        </ion-col>
-                        <ion-col size="12">
-                          <ion-input name="monto" [(ngModel)]="adelantoViatico.monto" type="number"
-                            placeholder="monto"></ion-input>
-                        </ion-col>
-                      </ion-row>
-
-                    </ion-col>
-
+                          <ion-grid>
+                            <ion-row>
+                          
+                              <ion-col size="12" style="display: flex;justify-content: center;align-items: center;">
+                                <img height="80" src="assets/imgs/empty-box.svg" alt="" style="margin-right: 0.5rem;">
+                                <strong  style="margin-top: 0.5rem;">Selecciona un usuario para continuar!..</strong>
+                              </ion-col>
+                  
+                            </ion-row>
+                          </ion-grid>
+                  
+                        </ion-item>
+      <ion-grid >
+        <ion-row>
+          <ion-col size="6"  *ngFor="let usuario of  usuarios; let i = index;">
+            <ion-item lines="none"   >
+                
+              <ion-avatar  slot="start">
+                <img   src="../assets/imgs/user.svg" />
+              </ion-avatar>
+    
+              <ion-label   >{{usuario.usuario}}</ion-label>
+              <ion-input (ionChange)="incrementarMonto(usuario, $event)" class="input" slot="end" name="monto{{i}}" [value]="usuario.monto"  type="number" placeholder="monto"></ion-input>
+              <ion-fab-button (click)="borrarUsuario(i)"   slot="end"    size="small" color="danger">
+                <ion-icon name="trash"></ion-icon>
+               </ion-fab-button>
          
-                    <ion-col size="12" class="ion-text-center">
-                      <ion-button expand="block" (click)="agregarAdelanto()" style="height: 3.5rem;margin: 0 auto;margin-top: 2rem; width: 60%;"
-                          fill="solid" color="dark">
-                        Agregar Anticipo
-                      </ion-button>
+
+     
+           
+            </ion-item>
+          </ion-col>
+        
+        </ion-row>
+      </ion-grid>
+                       </ion-list>
+                        
+                      
+                
+                
                     </ion-col>
+         
+                    <ion-col size="12" class="ion-padding " *ngIf="adelantoViatico.monto > 0">
+                      
+                      <ion-toolbar  class="ion-text-right">
+                        <ion-title  style="margin-right: 4rem;"><strong>Monto Total  {{ adelantoViatico.monto  | colones : 2 : '.' : ',' :  adelantoViatico.moneda }}</strong></ion-title>
+              
+                       </ion-toolbar>
+                    </ion-col>
+        
+        
 
                   </ion-row>
                 </ion-grid>
 
 
-
-              </ion-list>
+ 
             </ion-col>
 
 

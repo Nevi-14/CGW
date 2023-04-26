@@ -1,21 +1,17 @@
 export class MatrizAccesoView {
     constructor(
-        public id:number,
-        public ruta: string,
-        public modulo: string,
-        public compania: string,
-        public departamento: string,
-        public role: string,
-        public usuario: string,
-        public iD_USUARIO: number,
-        public estatuS_USUARIO: boolean,
-        public correo: string,
-        public estatus: string,
+        public iD_MATRIZ_ACCESO:string,
+        public iD_COMPANIA: number,
+        public nombrE_COMPANIA: string,
+        public iD_DEPARTAMENTO: number,
+        public nombrE_DEPARTAMENTO: string,
+        public iD_ONE_MATRIZ_ACCESO: string,
+        public nombre: string,
+        public estatus: boolean,
+        public aprobador: boolean,
         public c: boolean,
         public r: boolean,
         public u: boolean,
         public d: boolean,
-        public aprobador: boolean,
-        public rolE_ID:number
     ){}
 }

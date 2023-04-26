@@ -7,6 +7,7 @@ ion-input, ion-select {
 padding: 0.2rem;
 text-indent: 0.2cm;
 }
+ 
 ion-label{
     font-size: 1rem;
     font-weight: 500;
@@ -20,8 +21,7 @@ ion-label{
  
    ion-item{
     border-radius: 10px;
-    --ion-item-background:  rgba(0, 0, 0, 0.09);
-    margin: 0.5rem;
+ 
    }
 
    ion-content{
@@ -36,3 +36,4 @@ ion-fab-button{
     height: 1.5rem;
     width: 1.5rem;
 }
+

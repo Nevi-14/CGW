@@ -1,35 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Usuario, UsuariosCitrix } from '../models/usuario';
-import { Usuarios } from '../models/usuarios';
-import { MatrizAccesoView } from '../models/matrizAccesoView';
+import { OneUsuariosModulosMatrizAccesoView } from '../models/OneUsuariosModulosMatrizAccesoView';
+import { UsuarioExactus, Usuarios } from '../models/usuarios';
+ 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
-usuario:Usuario = null;
-usuarios:Usuario[] = [];
-accesoModulos:MatrizAccesoView[]=[];
-moduloAcceso:MatrizAccesoView  = {
+usuario:Usuarios = null;
+usuarios:Usuarios[] = [];
+accesoModulos:OneUsuariosModulosMatrizAccesoView[]=[];
+moduloAcceso:OneUsuariosModulosMatrizAccesoView  = {
    id:null,
-   ruta: null,
-   modulo: null,
-   compania: null,
-   departamento: null,
-   role: null,
-   usuario: null,
-   iD_USUARIO: null,
-   estatuS_USUARIO: null,
-   correo: null,
-   estatus: null,
-   c: null,
-   r: null,
-   u: null,
-   d: null,
-   aprobador: null,
-   rolE_ID:null
+    iD_USUARIO:null,
+    estatus: null,
+    aprobador: null,
+    c: null,
+    r: null,
+    u: null,
+    d: null,
+    iD_MODULO:null,
+    nombre: null,
+    ruta:null
 }
   constructor(
 public http: HttpClient
@@ -54,28 +48,28 @@ private getUsuarioID(id){
   let URL = this.getAPI(environment.getUsuarioID);
       URL = URL + id;
       console.log(URL)
-      return this.http.get<Usuario[]>(URL);
+      return this.http.get<Usuarios[]>(URL);
 }
 private getUsuarios(){
 
   let URL = this.getAPI(environment.getUsuarios);
-      return this.http.get<Usuario[]>(URL);
+      return this.http.get<Usuarios[]>(URL);
 }
 private getUsuariosExactus(){
 
   let URL = this.getAPI(environment.getusuariosExactus);
-      return this.http.get<UsuariosCitrix[]>(URL);
+      return this.http.get<UsuarioExactus[]>(URL);
 }
 private getUsuarioMatrizAccesos(id:number){
 
   let URL = this.getAPI(environment.getMatrizAccesoUsuario);
       URL = URL + id;
       console.log(URL)
-      return this.http.get<MatrizAccesoView[]>(URL);
+      return this.http.get<OneUsuariosModulosMatrizAccesoView[]>(URL);
 }
 
 
-private postUsuario(usuario:Usuario){
+private postUsuario(usuario:Usuarios){
   const URL = this.getAPI(environment.postUsuario);
   const options = {
     headers: {
@@ -89,7 +83,7 @@ private postUsuario(usuario:Usuario){
 }
 
 
-private putUsuario(usuario:Usuario){
+private putUsuario(usuario:Usuarios){
   let URL = this.getAPI(environment.putUsuario);
       URL = URL + usuario.id
   const options = {
@@ -134,10 +128,10 @@ syncGetUsuariosExactusToPromise(){
 }
 
  
-syncPostUsuarioToPromise(usuario:Usuario){
+syncPostUsuarioToPromise(usuario:Usuarios){
   return this.postUsuario(usuario).toPromise();
 }
-syncPutUsuarioToPromise(usuario:Usuario){
+syncPutUsuarioToPromise(usuario:Usuarios){
   return this.putUsuario(usuario).toPromise();
 }
 

@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CrearAdelantoViaticosPageRoutingModule } from './crear-adelanto-viaticos-routing.module';
+import { LineaGastosPageRoutingModule } from './linea-gastos-routing.module';
 
-import { CrearAdelantoViaticosPage } from './crear-adelanto-viaticos.page';
+import { LineaGastosPage } from './linea-gastos.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    CrearAdelantoViaticosPageRoutingModule,
+    LineaGastosPageRoutingModule,
     PipesModule
   ],
-  declarations: [CrearAdelantoViaticosPage]
+  declarations: [LineaGastosPage]
 })
-export class CrearAdelantoViaticosPageModule {}
+export class LineaGastosPageModule {}

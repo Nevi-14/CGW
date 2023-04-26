@@ -4,9 +4,9 @@ import { estadosCuenta } from 'src/app/models/estadosCuenta';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { format } from 'date-fns';
 import { AlertasService } from 'src/app/services/alertas.service';
-import { Usuario } from 'src/app/models/usuario';
 import { CalendarioPopoverPage } from '../calendario-popover/calendario-popover.page';
 import { EstadosCuentaService } from 'src/app/services/estados-cuenta.service';
+import { Usuarios } from 'src/app/models/usuarios';
 
 @Component({
   selector: 'app-estado-cuenta',
@@ -14,7 +14,7 @@ import { EstadosCuentaService } from 'src/app/services/estados-cuenta.service';
   styleUrls: ['./estado-cuenta.page.scss'],
 })
 export class EstadoCuentaPage implements OnInit {
-  usuarios:Usuario[]=[]
+  usuarios:Usuarios[]=[]
 estadoCuenta:estadosCuenta ={
   id:null,
   remitente: this.usuariosService.usuario.usuario,
@@ -57,7 +57,7 @@ formatoFecha = new Date(format(new Date(), 'yyy/MM/dd')).toISOString();
     
       }
 
-      seleccionarUsuario(usuario:Usuario, index){
+      seleccionarUsuario(usuario:Usuarios, index){
         this.estadoCuenta.destinatario = usuario.usuario;
         this.usuario = index;
       }

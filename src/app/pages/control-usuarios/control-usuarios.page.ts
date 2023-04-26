@@ -5,8 +5,8 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import { CrearUsuarioPage } from '../crear-usuario/crear-usuario.page';
 import { EditarUsuarioPage } from '../editar-usuario/editar-usuario.page';
 import { Usuarios } from 'src/app/models/usuarios';
-import { Usuario } from 'src/app/models/usuario';
-
+import { UsuariosMatrizAccesoService } from 'src/app/services/usuarios-matriz-acceso.service';
+import { MatrizAccesoService } from 'src/app/services/matriz-acceso.service';
 @Component({
   selector: 'app-control-usuarios',
   templateUrl: './control-usuarios.page.html',
@@ -19,7 +19,9 @@ export class ControlUsuariosPage implements OnInit {
 public usuariosService:UsuariosService,
 public alertasService:AlertasService,
 public modalCtrl:ModalController,
-public alertCrl: AlertController
+public alertCrl: AlertController,
+public usuarioMatrizAccesoService:UsuariosMatrizAccesoService,
+public matrizAccesoService:MatrizAccesoService
 
   ) { }
 
@@ -57,33 +59,56 @@ public alertCrl: AlertController
 
   }
 
-  async editarUsuario(usuario:Usuario){
-    this.isOpen = true;
-        
-          const modal = await this.modalCtrl.create({
-     component:EditarUsuarioPage,
-     cssClass:'alert-modal',
-     componentProps:{
-      usuario
-     }
+  async editarUsuario(usuario:Usuarios){
+
+    let rolesArray = await this.usuarioMatrizAccesoService.syncGetUsuariosMatrizAccesoByIDtoToPromise(usuario.id); 
+    console.log('rolesArray', rolesArray)
+let roles = [];
+if(rolesArray.length == 0){
+  this.editaUsuario(usuario, roles)
+}
+rolesArray.forEach(async (role, index) =>{
+  roles.push(role.iD_ONE_MATRIZ_ACCESO);
+  if(index == rolesArray.length -1){
+    console.log(roles)
  
-          });
-    
-    if(this.isOpen){
-    
-      modal.present();
-      const {data} = await modal.onWillDismiss();
-      this.isOpen = false;
-      if(data != undefined){
- 
-         
-      }
-    }
+this.editaUsuario(usuario,roles)
+  }
+})
+
+
+
     
 
   }
 
-  async borrarUsuario(usuario:Usuario){
+  async editaUsuario(usuario, roles){
+  let matriz =  await this.matrizAccesoService.syncGetMatrizAccesotoToPromise(); 
+    this.isOpen = true;
+        
+    const modal = await this.modalCtrl.create({
+component:EditarUsuarioPage,
+cssClass:'alert-modal',
+componentProps:{
+usuario,
+roles,
+matriz
+}
+
+    });
+
+if(this.isOpen){
+
+modal.present();
+const {data} = await modal.onWillDismiss();
+this.isOpen = false;
+if(data != undefined){
+
+   
+}
+}
+  }
+  async borrarUsuario(usuario:Usuarios){
     const alert = await this.alertCrl.create({
       subHeader:'Dione',
       message:`¿Desea borrar el usuario ${usuario.nombre}?`,
