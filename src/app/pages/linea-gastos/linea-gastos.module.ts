@@ -8,6 +8,7 @@ import { LineaGastosPageRoutingModule } from './linea-gastos-routing.module';
 
 import { LineaGastosPage } from './linea-gastos.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ComponentModule } from 'src/app/components/component.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     FormsModule,
     IonicModule,
     LineaGastosPageRoutingModule,
-    PipesModule
+    PipesModule,
+    ComponentModule
   ],
   declarations: [LineaGastosPage]
 })

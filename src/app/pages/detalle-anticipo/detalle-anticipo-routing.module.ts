@@ -6,7 +6,7 @@ import { DetalleAnticipoPage } from './detalle-anticipo.page';
 const routes: Routes = [
   {
     path: '',
-    component: DetalleAnticipoPage
+    component: DetalleAnticipoPage,
   }
 ];
 

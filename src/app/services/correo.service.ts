@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { estadosCuenta } from '../models/estadosCuenta';
 import { AlertasService } from './alertas.service';
 import { UsuariosService } from './usuarios.service';
 interface email {
@@ -51,7 +50,8 @@ export class CorreoService {
     
   }
 
-  enviarCorreo(estado:estadosCuenta){
+/**
+ *   enviarCorreo(estado:a){
     this.usuariosService.syncGetUsuariosToPromise().then(resp =>{
 
       let i = resp.findIndex(u => u.usuario == estado.destinatario);
@@ -77,5 +77,6 @@ export class CorreoService {
     })
 
   }
+ */
 
 }

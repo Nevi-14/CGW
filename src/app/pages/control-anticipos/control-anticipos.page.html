@@ -1,7 +1,17 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar class="ion-padding">
+  <ion-toolbar>
     <ion-title class="ion-text-capitalize" class="page-title">Control Anticipos</ion-title>
-    <ion-searchbar *ngIf="adelantoViaticosArray.length > 0;" (ionChange)="onSearchChange($event)"  slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar compañia"  type="text"   [debounce]="250"  ></ion-searchbar>
+    <ion-searchbar   (ionChange)="updateFilter($event)"   slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar anticipo"  type="text"   [debounce]="250"  ></ion-searchbar>
+
+    <span style="position: relative;" slot="end">
+      <ion-fab-button   size="small"  class="margin-right"    color="dark"  >
+        <ion-icon name="notifications"></ion-icon>
+      </ion-fab-button>
+      <ion-badge style="position: absolute;top: 0;right:-0.5rem" color="primary" mode="ios">0</ion-badge>
+    </span>
+    <ion-fab-button   slot="end" size="small"  class="margin-right"     color="dark"  >
+      <ion-icon name="funnel"></ion-icon>
+    </ion-fab-button>
     <ion-fab-button *ngIf="usuariosService.moduloAcceso.c"  size="small"  class="margin-right" (click)="adelantoViaticos()" slot="end" color="dark"  >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
@@ -10,116 +20,50 @@
       <ion-icon name="refresh"></ion-icon>
     </ion-fab-button>
   </ion-toolbar>
-
-  <ion-list *ngIf="adelantoViaticosArray.length > 0;">
-    <ion-item lines="full"  >
-      <ion-grid >
-        <ion-row>
-          <ion-col size="1">
-            <ion-label><strong>
-              Estado
-            </strong></ion-label>
-                  </ion-col>
-          <ion-col size="2">
-    <ion-label><strong>
-      Compañia
-    </strong></ion-label>
-          </ion-col>
-          <ion-col size="2">
-            <ion-label><strong>
-              Fecha Inicial
-            </strong></ion-label>
-                  </ion-col>
-          <ion-col size="2">
-    <ion-label><strong>
-      Fecha Final
-    </strong></ion-label>
-          </ion-col>
-    
-          <ion-col size="2">
-          <ion-label><strong>
-            Monto
-          </strong></ion-label>
-          </ion-col>
-          <ion-col size="2">
-            <ion-label><strong>
-              Detalle
-            </strong></ion-label>
-          </ion-col>
-          <ion-col size="1">
-            
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-list>
+ 
 </ion-header>
 
  
+
 <ion-content class="ion-padding">
-   
-  <ion-grid *ngIf="adelantoViaticosArray.length == 0;"  style="height: 100%;">
-    <ion-row  style="height: 100%;display: flex;justify-content: center;align-items: center;">
-      <ion-col  size="12" >
-        <ion-list>
-          <ion-item  lines="none">
-     
-            <ion-grid  >
-              <ion-row>
-                <ion-col size="12" class="ion-text-center ion-margin-top">
-                  <img height="150" src="assets/imgs/empty-box.svg" alt="">
-                </ion-col>
-                <ion-col size="12" class="ion-text-center">
-                  <strong class="ion-text-capitalize">No hay datos que mostrar</strong>
-                </ion-col>
-              
-              </ion-row>
-            </ion-grid>
-    
-        </ion-item>
-        </ion-list>
+  <ion-grid  style="height: 100%;">
+    <ion-row style="height: 100%;">
+      <ion-col size="12" style="height: 100%;">
+        <ngx-datatable 
+        class="material  light striped"
+        [limit]="8" 
+        [rows]="rows" 
+        [rowHeight]="50" 
+        [columnMode]="'force'" 
+        [sortType]="multi" 
+        [headerHeight]="50" 
+        [footerHeight]="50"
+        style="height: 100%;"
+        [columns]="columns" 
+        [scrollbarV]="true"
+        
+        >
+      
+      
+        <ng-template  ngFor let-column [ngForOf]="columns" let-i="index"  >
+          <ngx-datatable-column *ngIf="column.id != 'opciones'" name="{{column.label}}" prop="{{column.id}}">
+      
+          </ngx-datatable-column>
+        </ng-template>
+        <ngx-datatable-column name="opciones"  prop="opciones">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      <ion-button (click)="editarElemento(row)"  fill="clear"  >
+      <ion-icon color="warning"   name="create"></ion-icon>
+      </ion-button>
+      <ion-button  (click)="borrarElemento(row)"   fill="clear"  >
+      <ion-icon color="danger" name="trash"></ion-icon>
+      </ion-button>
+          </ng-template>
+      </ngx-datatable-column>
+      </ngx-datatable>
       </ion-col>
+   
     </ion-row>
   </ion-grid>
- 
-
-
-  <ion-list  *ngIf="adelantoViaticosArray.length > 0;">
- 
-
-    <ion-item  *ngFor="let adelanto of adelantoViaticosArray| filtro: textoBuscar:'destinatario'; let i = index;">
-      <ion-grid >
-        <ion-row>
-          <ion-col size="1" style="display: flex; justify-content: flex-start;align-items: center;">
-   <ion-badge color="warning" mode="ios">{{ adelanto.estatus == 'P' ? 'Pendiente' : 'Requiere Aprobacion'}}</ion-badge>
-                  </ion-col>
-          <ion-col size="2" style="display: flex; justify-content: flex-start;align-items: center;">
-    <ion-label>{{adelanto.coD_COMPANIA}}</ion-label>
-          </ion-col>
-          <ion-col size="2" style="display: flex; justify-content: flex-start;align-items: center;">
-            <ion-label>{{adelanto.fechA_INICIAL | date : 'shortDate' }}</ion-label>
-                  </ion-col>
-          <ion-col size="2" style="display: flex; justify-content: flex-start;align-items: center;">
-    <ion-label>{{adelanto.fechA_FINAL | date : 'shortDate' }}</ion-label>
-          </ion-col>
-    
-          <ion-col size="2" style="display: flex; justify-content: flex-start;align-items: center;"> 
-          <ion-label>  {{adelanto.monto | colones : 2 : '.' : ',' :  adelanto.moneda }}</ion-label>
-          </ion-col>
-          <ion-col size="2" style="display: flex; justify-content: flex-start;align-items: center;">
-            <ion-label>  {{adelanto.detalle}}</ion-label>
-
-  
-          </ion-col>
-          <ion-col size="1" style="display: flex; justify-content: flex-start;align-items: center;">
- 
-       <ion-fab-button *ngIf="usuariosService.moduloAcceso.u" (click)="detalleAdeltanto(adelanto)" color="dark" size="small">
-        <ion-icon name="create"></ion-icon>
-       </ion-fab-button>
-                  </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-list>
   </ion-content>
   <app-pie-pagina></app-pie-pagina>

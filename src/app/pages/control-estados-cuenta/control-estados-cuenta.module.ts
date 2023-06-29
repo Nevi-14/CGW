@@ -9,6 +9,7 @@ import { ControlEstadosCuentaPageRoutingModule } from './control-estados-cuenta-
 import { ControlEstadosCuentaPage } from './control-estados-cuenta.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { ComponentModule } from 'src/app/components/component.module';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
  
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { ComponentModule } from 'src/app/components/component.module';
     IonicModule,
     ControlEstadosCuentaPageRoutingModule,
     PipesModule,
-    ComponentModule
+    ComponentModule,
+    NgxDatatableModule
   ],
   declarations: [ControlEstadosCuentaPage]
 })

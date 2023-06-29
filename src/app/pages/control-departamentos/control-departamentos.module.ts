@@ -8,6 +8,7 @@ import { ControlDepartamentosPageRoutingModule } from './control-departamentos-r
 
 import { ControlDepartamentosPage } from './control-departamentos.page';
 import { ComponentModule } from 'src/app/components/component.module';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ComponentModule } from 'src/app/components/component.module';
     FormsModule,
     IonicModule,
     ControlDepartamentosPageRoutingModule,
-    ComponentModule
+    ComponentModule,
+    NgxDatatableModule
   ],
   declarations: [ControlDepartamentosPage]
 })

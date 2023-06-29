@@ -9,6 +9,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { RegistroAnticiposPage } from './registro-anticipos.page';
 import { RegistroAnticiposPageRoutingModule } from './registro-anticipos-routing.module';
 import { ComponentModule } from 'src/app/components/component.module';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
  
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ComponentModule } from 'src/app/components/component.module';
     IonicModule,
     RegistroAnticiposPageRoutingModule,
     PipesModule,
-    ComponentModule
+    ComponentModule,
+    NgxDatatableModule
   ],
   declarations: [RegistroAnticiposPage]
 })

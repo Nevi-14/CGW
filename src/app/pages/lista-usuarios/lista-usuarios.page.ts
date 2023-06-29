@@ -30,13 +30,15 @@ public modalCtrl:ModalController
       this.alertasService.message('APP', 'Lo sentimos algo salio mal..')
     })
   }
-  agregarUsuario($event, u: number) {
+  agregarUsuario($event, usuario: UsuarioExactus) {
+    let u = this.usuarios.findIndex(e => e.usuario == usuario.usuario)
+    let i = this.usuariosAnticipo.findIndex(k => k.usuario == this.usuarios[u].usuario);
     const isChecked = $event.detail.checked;
     console.log('isChecked', isChecked)
     if (isChecked) {
       this.usuariosAnticipo.push(this.usuarios[u]);
     } else {
-      let i = this.usuariosAnticipo.findIndex(k => k.usuario == this.usuarios[u].usuario);
+ 
       if (i >= 0) {
         this.usuariosAnticipo.splice(i, 1);
       }
@@ -51,7 +53,9 @@ public modalCtrl:ModalController
   cerrarModal(){
     this.modalCtrl.dismiss();
   }
-  
+  onSearchChange(event){
+    this.textoBuscar = event.detail.value;
+  }
   retornarUsuarios(){
     this.modalCtrl.dismiss(this.usuariosAnticipo);
   }

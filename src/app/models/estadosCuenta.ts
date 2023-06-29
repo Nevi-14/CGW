@@ -1,11 +1,16 @@
-export class estadosCuenta{
+export class  EstadosCuenta {
     constructor(
-    public id:number,
-    public remitente: string,
-    public destinatario:string,
-    public fecha: Date,
-    public monto: number,  
-    public archivo:string,
-    public ruta:string
+    public id : number,
+    public anticipo: boolean,
+    public referencia : string,
+    public usuario: string,
+    public fecha:string,
+    public fechA_INICIAL: string,
+    public fechA_FINAL: string,
+    public monto: number,
+    public restante:number,
+    public utilizado:number,
+    public observaciones:string
+     
     ){}
 }

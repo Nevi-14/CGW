@@ -3,7 +3,7 @@
 
       <ion-grid  style="height: 100%;">
          <ion-row style="height: 100%;"> 
-            <ion-col size="6">
+            <ion-col size="5">
                <ion-row>
                 <ion-col size="12">
                   <ion-toolbar>
@@ -14,14 +14,14 @@
                       <ion-fab-button color="success" size="small" slot="start">
                        
                      {{gasto.lineas}} </ion-fab-button>
-                      <ion-label> {{gasto.id}}</ion-label>
+                      <ion-label> {{gasto.descripcion}}</ion-label>
               
                     </ion-item>
                   </ion-list>
                 </ion-col>
                </ion-row>
                      </ion-col>
-            <ion-col size="6">
+            <ion-col size="7">
 
                <canvas       baseChart 
                [data]="pieChartData"

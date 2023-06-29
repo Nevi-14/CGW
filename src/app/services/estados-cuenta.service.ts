@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { estadosCuenta } from '../models/estadosCuenta';
+import { EstadosCuenta } from '../models/estadosCuenta';
  
-
 @Injectable({
   providedIn: 'root'
 })
 export class EstadosCuentaService {
-
+  estadosCuentaArray:EstadosCuenta[]=[]
   constructor(
     public http:HttpClient
 
@@ -25,7 +24,7 @@ getAPI(api:string){
 private getEstadosCuenta(){
 const URL = this.getAPI(environment.getEstadosCuenta);
 console.log('URL',URL)
-return this.http.get<estadosCuenta[]>(URL);
+return this.http.get<EstadosCuenta[]>(URL);
 }
 private getArchivoEstadosCuenta(ID){
   let URL = this.getAPI(environment.getArchivoEstadosCuenta);
@@ -33,7 +32,7 @@ private getArchivoEstadosCuenta(ID){
       console.log('URL', URL)
   return this.http.get<any[]>(URL);
   }
-private postEstadoCuenta(estadoCuenta:estadosCuenta){
+private postEstadoCuenta(estadoCuenta:EstadosCuenta){
 
   const URL = this.getAPI(environment.postEstadosCuenta);
   let   options ={
@@ -43,7 +42,8 @@ private postEstadoCuenta(estadoCuenta:estadosCuenta){
       'Access-Control-Origin':'*'
     }
   }
-
+console.log(URL)
+console.log(estadoCuenta,'estado')
   return this.http.post(URL,estadoCuenta, options );
 }
 
@@ -68,7 +68,7 @@ syncGetEstadosCuentaToPromise(){
   return this.getEstadosCuenta().toPromise();
 }
 
-syncPostEstadosCuentaToPromise(estadoCuenta:estadosCuenta){
+syncPostEstadosCuentaToPromise(estadoCuenta:EstadosCuenta){
 
   return this.postEstadoCuenta(estadoCuenta).toPromise();
 }

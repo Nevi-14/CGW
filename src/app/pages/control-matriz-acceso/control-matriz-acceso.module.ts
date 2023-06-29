@@ -8,6 +8,7 @@ import { ControlMatrizAccesoPageRoutingModule } from './control-matriz-acceso-ro
 
 import { ControlMatrizAccesoPage } from './control-matriz-acceso.page';
 import { ComponentModule } from 'src/app/components/component.module';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ComponentModule } from 'src/app/components/component.module';
     FormsModule,
     IonicModule,
     ControlMatrizAccesoPageRoutingModule,
-    ComponentModule
+    ComponentModule,
+    NgxDatatableModule
   ],
   declarations: [ControlMatrizAccesoPage]
 })

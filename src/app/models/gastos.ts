@@ -29,14 +29,36 @@ export class LineaGasto {
       public tarjeta:boolean,
       public usuario: string,
       public referencia: string,
-      public tipO_GASTO: string,
+      public iD_TIPO_GASTO: number,
       public proveedor: string,
       public justificacion: string,
       public descripcion: string,
       public observaciones: string,
       public adjunto: string,
       public monto: number,
-      public estatus:string,
-      public exedente:boolean
+      public estatus:string
     ){}
+
+    
   }
+
+  
+export class LineaGastoView {
+  constructor(
+    public id:number,
+    public iD_ANTICIPO:number,
+    public iD_LINEA_ANTICIPO: number,
+    public tipO_GASTO:string,
+    public fecha: Date,
+    public tarjeta: boolean,
+    public referencia: string,
+    public proveedor: string,
+    public monto: number,
+    public estatus:string,
+    public usuario: string,
+    public utilizado:number,
+    public restante:number
+  ){}
+
+  
+}

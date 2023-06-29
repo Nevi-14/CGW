@@ -12,8 +12,9 @@ export class DetallePage implements OnInit {
     { title: 'Departamentos', url: '/inicio/control-departamentos', icon: 'business' },
     { title: 'Acceso', url: '/inicio/control-matriz-acceso', icon: 'shield' },
     { title: 'Usuarios', url: '/inicio/control-usuarios', icon: 'people' },
-    { title: 'Gestión Anticipos', url: '/inicio/control-anticipos', icon: 'document-text' },
+    { title: 'Gestión Anticipos', url: '/inicio/control-anticipo', icon: 'document-text' },
     //{ title: 'Viáticos', url: '/inicio/control-viaticos', icon: 'cash' },
+    { title: 'Gastos Sin Anticipos', url: '/inicio/gastos-sin-anticipos', icon: 'wallet' },
     { title: 'Estados Cuenta', url: '/inicio/control-estados-cuenta', icon: 'card' },
    
   ];

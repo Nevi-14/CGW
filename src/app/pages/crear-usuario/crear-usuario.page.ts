@@ -64,14 +64,12 @@ public usuariosMatrizAccesoService:UsuariosMatrizAccesoService
         console.log(rod)
        await  this.usuariosMatrizAccesoService.syncPostUsuarioMatrizAccesoToPromise(rod);
         if(index == this.roles.length -1){
-          this.usuariosService.syncGetUsuariosToPromise().then(usuarios =>{
-            this.usuariosService.usuarios = usuarios;
+       
+ 
             this.alertasService.loadingDissmiss();
-            this.modalCtrl.dismiss();
+            this.modalCtrl.dismiss(true);
             this.alertasService.message('Dione', 'usuario Creado')
-            }, error =>{
-              this.alertasService.loadingDissmiss();
-            })
+      
 
 
   

@@ -1,6 +1,6 @@
 <ion-app>
   <ion-split-pane contentId="main-split">
-    <ion-menu (mouseover)="openMenu()" [ngClass]="configuracionesService.menu   ? 'expand-menu' :'menu-hide'"
+    <ion-menu  [ngClass]="configuracionesService.menu   ? 'expand-menu' :'menu-hide'"
       contentId="main-content" type="overlay" menuId="myMenu">
       <ion-header class="ion-no-border">
         <ion-toolbar color="dark" >
@@ -15,7 +15,7 @@
 
             <ng-template [ngIf]="revisarAcceso(p.url) || p.url == '/inicio/detalle' || p.url == 'perfil' || p.url == 'salir'">
               <ion-item  (click)="menuAction(p.url)" button lines="{{configuracionesService.menu ? '' : 'none'}}">
-                <ion-fab-button slot="{{configuracionesService.menu ? 'start' : ''}}" size="small" color="dark">
+                <ion-fab-button   color="dark">
                   <ion-icon [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
                 </ion-fab-button>
     

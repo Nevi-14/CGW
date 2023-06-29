@@ -18,8 +18,8 @@ export const environment = {
 
 getGastos:'get/gastos/estado/rango/fecha?estado=',
 getGastosAnticipo:'get/gastos/anticipo?id=',
-getGastosAnticipoLineas:'get/gastos/linea?id=',
-putGastos:'put/gasto?id=',
+getGastosAnticipoLineas:'get/gastos/linea/anticipo?id=',
+putGastos:'put/gasto/linea/anticipo?id=',
 getFacturaGastos:'get/gasto?id=',
 getUsuarioGastos:'get/gastos/usuario?id=',
 getUsuarioGastosRangoFecha:'get/usuario/gastos/estado/rango/fecha?id=',
@@ -27,13 +27,14 @@ getUsuarioGastosRangoFecha:'get/usuario/gastos/estado/rango/fecha?id=',
 // ADELANTO VIATICOS
 getAdelantoViaticos:'get/anticipos',
 postAdelantoViaticos:'post/anticipo',
+putAdelantoViaticos:'put/anticipo?id=',
 // LINEA ANTICIPOS
 postLineaAnticipos:'post/linea/anticipo',
 putLineaAnticipos:'put/linea/anticipo?id=',
 getLineasAnticipos:'get/linea/web/anticipo?id=',
 // ESTADOS CUENTA
 getEstadosCuenta:'get/estados/cuenta',
-postEstadosCuenta:'post/estados/cuenta',
+postEstadosCuenta:'post/estado/cuenta',
 
 // ARCHIVOS
 getArchivoEstadosCuenta:'get/estados/cuenta/archivo/?ID=',
@@ -94,9 +95,26 @@ getMatrizAccesoModulosURL:'get/matriz-acceso/modulos?id=',
 postModuloMatrizAcceo:'post/matriz-acceso/modulo',
 putModuloMatrizAcceo:'post/matriz-acceso/modulo?id=',
 deleteModuloMatrizAcceso:'delete/matriz-acceso/modulos?id=',
-
+ONE_LinGastoURL: 'put/gasto/linea/anticipo?id=',
 // USUARIO MATRIZ ACCESO
 getUsuarioMatrizAccesoURL:'get/usuario/matriz-acceso?id=',
+TipGastosURL: 'get/tipos/gastos',
+getUltimoConsecitvo:'get/ultimo-consecutivo/exactus',
+
+getGastosSinAnticipoURL:'get/lista/gastos/sin-anticipo',
+  // SOBRANTES
+  getUsuarioSobrante:'get/sobrante/usuario?id=',
+  postSobrante:'post/sobrante',
+  putSobrante:'put/sobrante?id=',
+  deleteSobrante:'delete/sobrante?id=',
+
+
+  // notificaciones
+
+getNotificacionesUsuario:'get/notificaciones/usuario?id=',
+postNotificacion:'post/notificacion',
+putNotificacion:'put/notificacion?id=',
+
 
 };
 

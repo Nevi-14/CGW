@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertasService } from '../../services/alertas.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { ConfiguracionesService } from '../../services/configuraciones';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -39,7 +40,9 @@ this.configuracionesService.title = this.logingURL.split('/')[2];
 
   }
 
-  loginMethod(){
+  login(fLogin: NgForm){
+    this.correo =  fLogin.value.correo;
+    this.clave =  fLogin.value.clave;
     console.log(this.correo);
     console.log(this.clave);
     this.alertas.presentaLoading('Cargando datos..');

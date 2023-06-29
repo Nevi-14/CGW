@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Departamentos } from 'src/app/models/departamentos';
 import { AlertasService } from 'src/app/services/alertas.service';
@@ -23,17 +24,13 @@ constructor(
   cerrarModal(){
     this.modalCtrl.dismiss();
   }
-  post(){
+  editarDepartamento(fDepartamento: NgForm){
+    this.departamento.nombre =  fDepartamento.value.nombre;
+    this.departamento.descripcion =  fDepartamento.value.descripcion;
     this.alertasService.presentaLoading('Actualizando datos..');
     this.departamentosService.syncPutDepartamentoToPromise(this.departamento).then( resp =>{
       this.alertasService.loadingDissmiss();
-      this.departamentosService.syncGetDepartamentoToPromise().then(departamentos =>{
-        this.departamentosService.departamentos = departamentos;
-        this.modalCtrl.dismiss()
-      }, error =>{
-     
-        this.alertasService.message('Dione','Lo sentimos algo salio mal!..')
-      })
+      this.modalCtrl.dismiss(true)
     }, error =>{
       this.alertasService.loadingDissmiss();
       this.alertasService.message('Dione','Lo sentimos algo salio mal!..')

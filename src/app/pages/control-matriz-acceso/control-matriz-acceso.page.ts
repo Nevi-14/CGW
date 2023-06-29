@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CrearMatrizAccesoPage } from '../crear-matriz-acceso/crear-matriz-acceso.page';
 import { AlertController, ModalController } from '@ionic/angular';
 import { AlertasService } from 'src/app/services/alertas.service';
@@ -12,6 +12,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import { OneUsuariosModulosMatrizAccesoView } from 'src/app/models/OneUsuariosModulosMatrizAccesoView';
 import { MatrizAccesoView } from 'src/app/models/matrizAccesoView';
 import { ModulosMatrizAccesoService } from 'src/app/services/modulos-matriz-acceso.service';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-control-matriz-acceso',
@@ -20,6 +21,11 @@ import { ModulosMatrizAccesoService } from 'src/app/services/modulos-matriz-acce
 })
 export class ControlMatrizAccesoPage implements OnInit {
   isOpen:boolean = false;
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  public columns: any;
+  public rows: any[];
+  temp = [];
+  multi:any ='multi';
   constructor(
   public modalCtrl: ModalController,
   public alertasService:AlertasService,
@@ -30,32 +36,79 @@ export class ControlMatrizAccesoPage implements OnInit {
   public alertCrl: AlertController,
   public usuariosService:UsuariosService,
   public modulosMatrizAccesoService:ModulosMatrizAccesoService
-  ) { }
+  ) {
 
+this.cargarDatos();
+
+   }
+   editarElemento(row) {
+    console.log(row,'editarElemento');
+    let i = this.rows.findIndex( e => e.id == row.id);
+    if(i >= 0){
+      this.EditarMatrizAcceso(this.rows[i])
+    }
+  }
+  borrarElemento(row) {
+    let i = this.rows.findIndex( e => e.id == row.id);
+    if(i >= 0){
+      this.borrarMatrizAcceso(this.rows[i])
+    }
+
+    console.log(row,'borrarElemento');
+  }
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+
+    // filter our data
+    const temp = this.temp.filter(function (d) {
+    //d.nombre, d.descripcion, etc..
+    console.log('d',d)
+      return d.nombre.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+
+    // update the rows
+    this.rows = temp;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
+  
+  }
+  cargarDatos(){
+
+    this.columns = [
+      { id: "iD_ONE_MATRIZ_ACCESO", label: "ID", size: 2},
+      { id: "nombrE_COMPANIA", label: "Compañia", size: 2 },
+      { id: "nombrE_DEPARTAMENTO", label: "Departamento", size: 4 },
+      { id: "nombre", label: "Nombre", size: 2 },
+      { id: "opciones", label: "Opciones", size: 2 }
+  ];
+  this.matrizAccesoService.syncGetMatrizAccesotoToPromise()
+      .then((res) => {
+        console.log(res)
+        this.temp = [...res];
+
+      // push our inital complete list
+      this.rows = res;
+      });
+  }
+
+  
+
+  
   ngOnInit() {
    console.log(this.usuariosService.moduloAcceso, 'accesos')
     this.alertasService.presentaLoading('Cargando datos...')
-    this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
-//
-      this.matrizAccesoService.matrizAcceso = accesos;
+    this.modulosService.syncGetModulosToPromise().then(modulos => {
+      this.modulosService.modulos = modulos;
+      this.companiaService.syncGetCompaniasToPromise().then(companias => {
+        this.companiaService.companias = companias;
+        this.departamentosService.syncGetDepartamentoToPromise().then(departamentos => {
+          this.departamentosService.departamentos = departamentos;
+          this.alertasService.loadingDissmiss();
+          console.log('modulos', this.modulosService.modulos);
+          console.log('companias', this.companiaService.companias)
+          console.log('departamentos', this.departamentosService.departamentos);
+    
 
-   //   this.alertasService.presentaLoading('Cargando datos..');
-      this.modulosService.syncGetModulosToPromise().then(modulos => {
-        this.modulosService.modulos = modulos;
-        this.companiaService.syncGetCompaniasToPromise().then(companias => {
-          this.companiaService.companias = companias;
-          this.departamentosService.syncGetDepartamentoToPromise().then(departamentos => {
-            this.departamentosService.departamentos = departamentos;
-            this.alertasService.loadingDissmiss();
-            console.log('modulos', this.modulosService.modulos);
-            console.log('companias', this.companiaService.companias)
-            console.log('departamentos', this.departamentosService.departamentos);
-      
-  
-          }, error => {
-            this.alertasService.loadingDissmiss();
-            this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')
-          })
         }, error => {
           this.alertasService.loadingDissmiss();
           this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')
@@ -64,11 +117,13 @@ export class ControlMatrizAccesoPage implements OnInit {
         this.alertasService.loadingDissmiss();
         this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')
       })
-    }, error =>{
+    }, error => {
       this.alertasService.loadingDissmiss();
-      this.alertasService.message('Dione','Lo sentimos algo salio mal!..')
+      this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')
     })
   }
+
+  
   async crearMatrizAcceso() {
 
  
@@ -85,13 +140,7 @@ export class ControlMatrizAccesoPage implements OnInit {
       const { data } = await modal.onWillDismiss();
       this.isOpen = false;
       if (data != undefined) {
-        this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
-          //
-                this.matrizAccesoService.matrizAcceso = accesos;
-
-        }, error =>{
-          console.log(error)
-        })
+     this.cargarDatos();
 
       }
 
@@ -136,7 +185,8 @@ this.editarMatriz(modulos,acceso[0])
       const { data } = await modal.onWillDismiss();
       this.isOpen = false;
       if (data != undefined) {
-   
+        this.cargarDatos();
+
 
       }
 
@@ -161,13 +211,10 @@ this.editarMatriz(modulos,acceso[0])
   this.alertasService.presentaLoading('Borrando datos..');
   this.matrizAccesoService.syncDeleteMatrizAccesoToPromise(acceso1.iD_MATRIZ_ACCESO).then( resp =>{
     this.alertasService.loadingDissmiss();
-    this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
-      this.matrizAccesoService.matrizAcceso = accesos;
-    }, error =>{
-      this.alertasService.loadingDissmiss();
-      this.alertasService.message('Dione','Lo sentimos algo salio mal...')
-    })
+    this.cargarDatos();
+
   }, error =>{
+    console.log(error, acceso1)
     this.alertasService.loadingDissmiss();
     this.alertasService.message('Dione','Lo sentimos algo salio mal...')
   })

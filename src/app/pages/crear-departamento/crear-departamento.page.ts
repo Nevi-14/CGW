@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Departamentos } from 'src/app/models/departamentos';
 import { AlertasService } from 'src/app/services/alertas.service';
@@ -27,17 +28,13 @@ departamento :Departamentos ={
   cerrarModal(){
     this.modalCtrl.dismiss();
   }
-  post(){
+  crearDepartamento(fDepartamento: NgForm){
+    this.departamento.nombre =  fDepartamento.value.nombre;
+    this.departamento.descripcion =  fDepartamento.value.descripcion;
     this.alertasService.presentaLoading('Guardando datos..');
     this.departamentosService.syncPostDepartamentoToPromise(this.departamento).then( resp =>{
       this.alertasService.loadingDissmiss();
-      this.departamentosService.syncGetDepartamentoToPromise().then(departamentos =>{
-        this.departamentosService.departamentos = departamentos;
-        this.modalCtrl.dismiss()
-      }, error =>{
-     
-        this.alertasService.message('Dione','Lo sentimos algo salio mal!..')
-      })
+      this.modalCtrl.dismiss(true)
     }, error =>{
       this.alertasService.loadingDissmiss();
       this.alertasService.message('Dione','Lo sentimos algo salio mal!..')

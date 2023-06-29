@@ -1,176 +1,155 @@
 
-
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Detalle Anticipo</ion-title>
+  </ion-toolbar>
+</ion-header>
  
-<ion-content class="ion-padding">
-  <ion-grid *ngIf="gastos.length > 0" style="height: 100%;width: 80%;" >
-    <ion-row style="height: 100%;">
-
-      <ion-col size="12"  class="ion-padding">
-        <app-pie-chart ></app-pie-chart>
-                </ion-col>
-    </ion-row>
-  </ion-grid>
-  
-  <ion-grid  style="max-width: 80%;">
-    <ion-row>
-
-      <ion-col size="6">
-<ion-row>
-  <ion-col size="12" class="ion-text-left">
-<h6 class="ion-text-wrap"> <strong>Anticipo # {{adelantosService.adelantoViatico.id}} -  {{adelantosService.adelantoViatico.coD_COMPANIA}}</strong></h6>
+<ion-content>
+ <ion-grid style="height: 100%;">
+  <ion-row style="height: 100%;">
+ 
+    
+    <ion-col size="6" style="height:100%;">
+<ion-row style="height:100%;">
+  <ion-col size="12" style="height:40%;" >
+    <ion-card style="height: 90%;" color="light" class="custom-card">
+ 
+     
+      <ion-card-content  >
+     <ion-grid >
+      <ion-row>
+        <ion-col size="6">
+          <ion-label class="custom-title">Anticipo </ion-label>
+          <br>
+          <ion-label class="subcustom-title"># {{adelantosService.adelantoViatico.numerO_TRANSACCION}}</ion-label>
+        </ion-col>
+        <ion-col size="6">
+          <ion-label class="custom-title">Compañia</ion-label>
+          <br>
+          <ion-label  class="subcustom-title">{{adelantosService.adelantoViatico.coD_COMPANIA}}</ion-label>
+        </ion-col>
+        <ion-col size="6">
+          <ion-label class="custom-title" >Cantidad Usuarios</ion-label>
+          <br>
+          <ion-label  class="subcustom-title">12</ion-label>
+        </ion-col>
+        <ion-col size="6">
+          <ion-label class="custom-title" >Pendientes</ion-label>
+          <br>
+          <ion-label  class="subcustom-title">6</ion-label>
+        </ion-col>
+        <ion-col size="6">
+       <ion-label class="custom-title">
+        Dispensado 
+ 
+       </ion-label>
+       <br>
+       <ion-label  class="subcustom-title"> {{adelantosService.adelantoViatico.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-label>
+        </ion-col>
+        <ion-col size="6">
+          <ion-label class="custom-title">
+           Consumido 
+       
+          </ion-label>
+          <br>
+          <ion-label  class="subcustom-title"> {{adelantosService.adelantoViatico.utilizado | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-label>
+           </ion-col>
+      </ion-row>
+     </ion-grid>
+      </ion-card-content>
+    </ion-card>
   </ion-col>
 
+  <ion-col size="12" style="height:60%;overflow: auto;">
+   
+    <ion-card  >
+      <ion-card-header>
+       <ion-toolbar>
+        <ion-title>Estadísticas</ion-title>
+         
+        <ion-button (click)="mostrarEstadisiticas()"  fill="clear"  slot="end">
+         <ion-icon slot="icon-only" size="large" color="primary" name="arrow-forward"></ion-icon>
+        </ion-button>
+       </ion-toolbar>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas  id="barCanvas" class="barCanvas"  #barCanvas style="position: relative; height:100%;min-height: 30vh; width:100%"></canvas>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
 </ion-row>
 
-      </ion-col>
-      <ion-col size="6">
-        <ion-row>
+      
+    </ion-col>
  
-          <ion-col size="12" class="ion-text-left">
-            <ion-label>Fecha Transacción {{adelantosService.adelantoViatico.fechA_TRANSACCION  | date:'shortDate'}}</ion-label>
-          </ion-col>
-          <ion-col size="12" class="ion-text-left">
-            <ion-label>Fecha Inicial {{adelantosService.adelantoViatico.fechA_INICIAL  | date:'shortDate'}}</ion-label>
-          </ion-col>
-          <ion-col size="12" class="ion-text-left">
-            <ion-label>Fecha Final {{adelantosService.adelantoViatico.fechA_FINAL | date:'shortDate'}}</ion-label>
-          </ion-col>
+    <ion-col size="6" style="height:100%;">
 
-        </ion-row>
-      </ion-col>
-
-
-    </ion-row>
-    <ion-row class="ion-padding">
-      <ion-col size="3">
-        <ion-label><strong># Transacción</strong></ion-label>
+     <ion-grid >
+      <ion-row>
+        
+        <ion-col size="12">
+          <ion-segment value="pendientes" (ionChange)="segmentChanged($event)" class="ion-padding">
+            <ion-segment-button value="pendientes">
+         
+            <span style="position: relative;"> 
+              <ion-icon size="large" color="primary" name="time"></ion-icon>
+              <ion-badge  style="position: absolute;top:0;right: -2rem;"  color="primary" mode="ios">0</ion-badge>
+            </span>
+            <ion-label  style="margin-top: 0.5rem;"><strong>Pendientes</strong></ion-label>
+       
+            </ion-segment-button>
+            <ion-segment-button value="requiere-aprobacion">
+              <span style="position: relative;"> 
+              <ion-icon  size="large" color="warning" name="alert-circle-outline"></ion-icon>
+              <ion-badge style="position: absolute;top:0;right: -2rem;" color="primary" mode="ios">0</ion-badge>
+            </span>
+              <ion-label   style="margin-top: 0.5rem;"><strong>Requieren Aprobación</strong></ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="aprobadas">
+              <span style="position: relative;"> 
+              <ion-icon size="large" color="success"  name="checkmark-circle-outline"></ion-icon>
+              <ion-badge  style="position: absolute;top:0;right: -2rem;" color="primary" mode="ios">0</ion-badge>
+            </span>
+              <ion-label   style="margin-top: 0.5rem;"><strong>Aprobadas</strong></ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="rechazadas">
+              <span style="position: relative;"> 
+              <ion-icon  size="large" color="danger" name="close-circle-outline"></ion-icon>
+              <ion-badge  style="position: absolute;top:0;right: -2rem;"  color="primary" mode="ios">0</ion-badge>
+            </span>
+              <ion-label  style="margin-top: 0.5rem;" ><strong>Rechazadas</strong></ion-label>
+            </ion-segment-button>
+          </ion-segment>
         </ion-col>
-      <ion-col size="3">
-      <ion-label><strong>Descripción</strong></ion-label>
-      </ion-col>
-      <ion-col size="3">
-        <ion-label><strong>Monto</strong></ion-label>
-      </ion-col>
-      <ion-col size="3">
-        <ion-label><strong>Usuarios</strong></ion-label>
-      </ion-col>
-      <ion-col size="3">
-        <ion-label>{{adelantosService.adelantoViatico.numerO_TRANSACCION}}</ion-label>
-      </ion-col>
-      <ion-col size="3">
-      <ion-label>{{adelantosService.adelantoViatico.detalle}}</ion-label>
-      </ion-col>
-      <ion-col size="3">
-        <ion-label>{{adelantosService.adelantoViatico.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-label>
-      </ion-col>
-      <ion-col size="3">
-        <ion-label>{{lineas.length}}</ion-label>
-      </ion-col>
-    </ion-row>
-
-  </ion-grid>
-
-  <ion-grid  style="max-width: 80%;">
-    <ion-row>
+        <ion-col size="12">
+<ion-list>
+  <ion-item *ngFor="let linea of lineas" (click)="lineaGastos(linea)" detail>
+    <ion-avatar slot="start">
+      <img src="assets/imgs/user.svg" />
+    </ion-avatar>
+    <ion-label>{{linea.usuario}}</ion-label>
+    <ion-label>{{linea.monto}}</ion-label>
+  </ion-item>
+</ion-list>
  
-      <ion-col size="12">
-
-        <ion-item class="ion-item" lines="none" *ngFor="let usuario of  lineas; let i = index;"  >
-      
-          <ion-avatar  slot="start">
-            <img   src="../assets/imgs/user.svg" />
-          </ion-avatar>
-      
-          <ion-label slot="start">{{usuario.usuario}}
-      
-            <p style="margin-top: 0.5rem;">
-              <ion-badge color="primary" mode="ios">{{usuario.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
-            </p>
-      
-          </ion-label>
-          <ion-badge  slot="end" color="warning" mode="ios">{{usuario.estatus == 'P' ?  'Pendiente' :  usuario.estatus == 'A' ? 'Aprobada' : usuario.estatus == 'I' ? 'Requiere Aprobacion' : 'Rechazada'}}</ion-badge>
-          <span slot="end"  style="position: relative;">
-            <ion-fab-button size="small">
-              <ion-icon name="mail"></ion-icon>
-            </ion-fab-button>
-            <ion-badge style="position: absolute; top: 0rem;right: -1rem;" color="warning" mode="ios">{{usuario.correO_ENVIADO}}</ion-badge>
-          </span>
-          <ion-fab-button (click)="lineaGastos(usuario)" slot="end" size="small">
-            <ion-icon name="eye"></ion-icon>
-          </ion-fab-button>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-grid >
-            <ion-row>
-              <ion-col size="6">
-              <ion-label><strong>Pendientes</strong></ion-label>
-              </ion-col>
-              <ion-col size="6"  class="ion-text-right">
-                <ion-label>
-                  <ion-badge color="warning" mode="ios">0</ion-badge>
-                </ion-label>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-       
-                </ion-item>
-        <ion-item lines="none">
-          <ion-grid >
-            <ion-row>
-              <ion-col size="6">
-              <ion-label><strong>Sobrantes</strong></ion-label>
-              </ion-col>
-              <ion-col size="6"  class="ion-text-right">
-                <ion-label>
-                  <ion-badge color="warning" mode="ios">{{adelantosService.adelantoViatico.restante | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
-                </ion-label>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-       
-                </ion-item>
-
-                <ion-item lines="none">
-                  <ion-grid >
-                    <ion-row>
-                      <ion-col size="6">
-                      <ion-label><strong>Excedentes</strong></ion-label>
-                      </ion-col>
-                      <ion-col size="6"  class="ion-text-right">
-                        <ion-label>
-                          <ion-badge color="warning" mode="ios">{{0 | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
-                        </ion-label>
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
-               
-                        </ion-item>
-
-                        <ion-item lines="none">
-                          <ion-grid >
-                            <ion-row>
-                              <ion-col size="6">
-                              <ion-label><strong>Total</strong></ion-label>
-                              </ion-col>
-                              <ion-col size="6"  class="ion-text-right">
-                                <ion-label>
-                                  <ion-badge color="warning" mode="ios">{{adelantosService.adelantoViatico.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-badge>
-                                </ion-label>
-                              </ion-col>
-                            </ion-row>
-                          </ion-grid>
-                       
-                                </ion-item>
-      </ion-col>
-      <ion-col size="12" class="ion-padding">
-        <ion-button (click)="liquidarAnticipo()"   expand="block" fill="solid" color="dark" mode="ios">
-          Liquidar Anticipo
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-
+        </ion-col>
+        <ion-col size="12">
+          
+ <ion-card>
+  <ion-card-content>
+    <app-button   label="Liquidar Anticipo"></app-button>
+  </ion-card-content>
+ </ion-card>
+        </ion-col>
+      </ion-row>
+     </ion-grid>
+ 
+ 
+    </ion-col>
+  
+  </ion-row>
+ </ion-grid>
   
   </ion-content>
   <app-pie-pagina></app-pie-pagina>

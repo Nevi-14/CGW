@@ -1,50 +1,31 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
-     <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      <ion-icon size="large" name="close-outline"></ion-icon>
     </ion-button>
-    <ion-title>Editar Departamento</ion-title>
+<ion-title>    <h1>Editar Departamento</h1></ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-<ion-grid >
-  <ion-row>
 
-    <ion-col size="12">
-<ion-row>
-  <ion-col size="12">
-    <ion-label class="ion-margin-bottom">Nombre</ion-label>
-  </ion-col>
-  <ion-col size="12">
-    <ion-input name="nombre" [(ngModel)]="departamento.nombre"  type="text" placeholder="nombre"></ion-input>
-  </ion-col>
-</ion-row>
-    </ion-col>
-    <ion-col size="12">
-      <ion-row>
-        <ion-col size="12">
-          <ion-label class="ion-margin-bottom">Descrcipción</ion-label>
-        </ion-col>
-        <ion-col size="12">
-          <ion-input  class="description" name="descripcion"  type="text" placeholder="descripcion" [(ngModel)]="departamento.descripcion"></ion-input>
-        </ion-col>
-      </ion-row>
-          </ion-col>
-         
-        
+   
+ 
+  <form id="form" (ngSubmit)="editarDepartamento(fLogin)" #fLogin="ngForm" class="ion-padding">
+    <app-input    name="nombre" type="text" label="Nombre" ngModel="{{departamento.nombre}}"></app-input>
+    <app-input    name="descripcion" type="text" label="Descripción" ngModel="{{departamento.descripcion}}"></app-input>
+    
 
-              
-  </ion-row>
-</ion-grid>
+
+    <app-button  label="Actualizar Departamento"></app-button>
+ 
+
+  </form>
+
+
+
+ 
 
 </ion-content>
 
  
-<ion-footer class="ion-no-border">
-  <ion-toolbar class="ion-padding">
-    <ion-button (click)="post()"      color="dark" shape="round">
-      Editar Departamento
-    </ion-button>
-  </ion-toolbar>
-</ion-footer>

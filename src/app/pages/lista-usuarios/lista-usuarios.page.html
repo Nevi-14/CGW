@@ -12,7 +12,7 @@
     </ion-col>
     <ion-col size="12" >
      
-      <ion-searchbar style="max-width: 80%;margin: 0 auto;display: block;"  mode="ios" placeholder="Buscar Colaborador" type="text"
+      <ion-searchbar   (ionChange)="onSearchChange($event)"   style="max-width: 80%;margin: 0 auto;display: block;"  mode="ios" placeholder="Buscar Colaborador" type="text"
       [debounce]="250"></ion-searchbar>
     </ion-col>
   </ion-row>
@@ -47,7 +47,7 @@
 
         <ion-label  >{{usuario.usuario}}</ion-label>
 
-        <ion-checkbox   slot="end" name="usuario" [(ngModel)]="usuario.seleccionado"  (ionChange)="agregarUsuario($event,i)"  ></ion-checkbox>
+        <ion-checkbox   slot="end" name="usuario" [(ngModel)]="usuario.seleccionado"  (ionChange)="agregarUsuario($event,usuario)"  ></ion-checkbox>
      
 
      

@@ -9,11 +9,14 @@ import { AlertasService } from 'src/app/services/alertas.service';
 import { GastosService } from 'src/app/services/gastos.service';
 import { AdelantoViaticosService } from 'src/app/services/adelanto-viaticos.service';
 import { vistaGastos } from 'src/app/models/gastosView';
+import { TiposGastosService } from 'src/app/services/tipos-gastos.service';
+import { LineaGasto, LineaGastoView } from 'src/app/models/gastos';
 interface gastosV {
-  id : string,
+  id : number,
   total:number,
   lineas:number,
-  gastos:vistaGastos[]
+  descripcion:string,
+  gastos:LineaGastoView[]
 }
 @Component({
   selector: 'app-pie-chart',
@@ -54,7 +57,8 @@ gastos:gastosV[]=[];
     public cd: ChangeDetectorRef,
     public router: Router,
     public adelantosService:AdelantoViaticosService,
-    public gastosService:GastosService
+    public gastosService:GastosService,
+    public tiposGastosService:TiposGastosService
 
 
   ) { }
@@ -65,21 +69,29 @@ gastos:gastosV[]=[];
 
 
 
-    this.gastosService.syncGetGastosAnticipoToPtomise(this.adelantosService.adelantoViatico.id).then(resp =>{
+    this.gastosService.syncGetGastosAnticipoToPtomise(this.adelantosService.adelantoViatico.id).then(async (resp) =>{
 
-  
+ console.log('vista', resp)
+      resp.forEach( async (g, index) =>{
+        let gastos = await this.tiposGastosService.getgastosToPromise();
 
-      resp.forEach( (g, index) =>{
-
+        console.log('gastos', gastos)
+        console.log('g', gastos)
+        
+       let indexT =  gastos.findIndex( e => e.descripcion == g.tipO_GASTO)
         let gasto = {
-          id : g.tipO_GASTO,
+          id :  indexT >=0 ? gastos[indexT].id : null,
           total:g.monto,
           lineas:1,
+          descripcion: indexT >=0 ? gastos[indexT].descripcion : null,
           gastos:[g]
         }
-        let i = this.gastos.findIndex(e => e.id == g.tipO_GASTO);
+        let i = this.gastos.findIndex(e => e.descripcion == g.tipO_GASTO);
+        console.log('i', i)
+        console.log('this.gastos', this.gastos)
         if(i < 0){
-          labels.push(g.tipO_GASTO)
+
+          labels.push( indexT >=0 ? gastos[indexT].descripcion : null)
 
           this.gastos.push(gasto);
         }else if (i >=0){

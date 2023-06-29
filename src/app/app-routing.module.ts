@@ -65,6 +65,24 @@ const routes: Routes = [
     path: 'lista-usuarios',
     loadChildren: () => import('./pages/lista-usuarios/lista-usuarios.module').then( m => m.ListaUsuariosPageModule)
   },
+  {
+    path: 'liquidacion-anticipo',
+    loadChildren: () => import('./pages/liquidacion-anticipo/liquidacion-anticipo.module').then( m => m.LiquidacionAnticipoPageModule)
+  },
+  {
+    path: 'sobrantes',
+    loadChildren: () => import('./pages/sobrantes/sobrantes.module').then( m => m.SobrantesPageModule)
+  },
+  {
+    path: 'liquidacion-sin-anticipo',
+    loadChildren: () => import('./pages/liquidacion-sin-anticipo/liquidacion-sin-anticipo.module').then( m => m.LiquidacionSinAnticipoPageModule)
+  },  {
+    path: 'estadisticas',
+    loadChildren: () => import('./pages/estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule)
+  }
+
+
+
 
 
   

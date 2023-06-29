@@ -32,11 +32,9 @@ public lineasAnticipo:LineaAnticipo[]
 
 
 export class LineaAnticipo {
-    constructor(
-      
+    constructor(   
       public id : number,
       public iD_ANTICIPO: number,
-      public metodO_DEVOLUCION : string,
       public correO_ENVIADO : number,
       public estatus: string,
       public usuario:string,

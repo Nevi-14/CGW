@@ -4,7 +4,10 @@ ion-input, ion-select {
     border: solid 1px rgba(218,218,218,1);
     height: 2.5rem;
 }
- 
+ ion-toolbar{
+    --background:white;
+    background:white;
+ }
 ion-label{
     font-weight: 500;
 }

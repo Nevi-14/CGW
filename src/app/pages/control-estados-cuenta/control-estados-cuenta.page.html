@@ -1,8 +1,8 @@
 
 <ion-header class="ion-no-border">
-  <ion-toolbar class="ion-padding">
+  <ion-toolbar  >
     <ion-title class="ion-text-capitalize" class="page-title">Estados De Cuenta</ion-title>
-    <ion-searchbar *ngIf="estadosCuentaArray.length > 0;" (ionChange)="onSearchChange($event)" slot="end" style="width:50%;margin-top: 1rem;" mode="ios" placeholder="Buscar Colaborador"  type="text"   [debounce]="250"  ></ion-searchbar>
+    <ion-searchbar   (ionChange)="updateFilter($event)"   slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar usuario"  type="text"   [debounce]="250"  ></ion-searchbar>
     <ion-fab-button  *ngIf="usuariosService.moduloAcceso.c" size="small"  class="margin-right" (click)="estadoCuenta()" slot="end" color="dark"  >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
@@ -13,135 +13,46 @@
   </ion-toolbar>
 </ion-header>
 
- 
+
 <ion-content class="ion-padding">
- 
-  <ion-grid *ngIf="estadosCuentaArray.length == 0;"  style="height: 100%;">
-    <ion-row  style="height: 100%;display: flex;justify-content: center;align-items: center;">
-      <ion-col  size="12" >
-        <ion-list>
-          <ion-item  lines="none">
-     
-            <ion-grid  >
-              <ion-row>
-                <ion-col size="12" class="ion-text-center ion-margin-top">
-                  <img height="150" src="assets/imgs/empty-box.svg" alt="">
-                </ion-col>
-                <ion-col size="12" class="ion-text-center">
-                  <strong class="ion-text-capitalize">No hay datos que mostrar</strong>
-                </ion-col>
-              
-              </ion-row>
-            </ion-grid>
-    
-        </ion-item>
-        </ion-list>
+  <ion-grid  style="height: 100%;">
+    <ion-row style="height: 100%;">
+      <ion-col size="12" style="height: 100%;">
+        <ngx-datatable 
+        class="material  light striped"
+        [limit]="8" 
+        [rows]="rows" 
+        [rowHeight]="50" 
+        [columnMode]="'force'" 
+        [sortType]="multi" 
+        [headerHeight]="50" 
+        [footerHeight]="50"
+        style="height: 100%;"
+        [columns]="columns" 
+        [scrollbarV]="true"
+        
+        >
+      
+      
+        <ng-template  ngFor let-column [ngForOf]="columns" let-i="index"  >
+          <ngx-datatable-column *ngIf="column.id != 'opciones'" name="{{column.label}}" prop="{{column.id}}">
+      
+          </ngx-datatable-column>
+        </ng-template>
+        <ngx-datatable-column name="opciones"  prop="opciones">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      <ion-button (click)="editarElemento(row)"  fill="clear"  >
+      <ion-icon color="warning"   name="create"></ion-icon>
+      </ion-button>
+      <ion-button  (click)="borrarElemento(row)"   fill="clear"  >
+      <ion-icon color="danger" name="trash"></ion-icon>
+      </ion-button>
+          </ng-template>
+      </ngx-datatable-column>
+      </ngx-datatable>
       </ion-col>
+   
     </ion-row>
   </ion-grid>
-
-
-
-<ion-grid  *ngIf="estadosCuentaArray.length > 0;">
-  <ion-row>
-    <ion-col size="12">
-    
-      <ion-list>
- 
-        <ion-item lines="full"  >
-          <ion-grid >
-            <ion-row>
-              <ion-col size="2">
-                <ion-label><strong>
-                  Remitente
-                </strong></ion-label>
-                      </ion-col>
-              <ion-col size="2">
-        <ion-label><strong>
-          Destintario
-        </strong></ion-label>
-              </ion-col>
-              <ion-col size="2">
-        <ion-label><strong>
-          Fecha
-        </strong></ion-label>
-              </ion-col>
-        
-              <ion-col size="2">
-              <ion-label><strong>
-                Monto
-              </strong></ion-label>
-              </ion-col>
-              <ion-col size="2">
-                <ion-label><strong>
-                  Archivo
-                </strong></ion-label>
-                </ion-col>
-              <ion-col size="2">
-                
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </ion-list>
-   
-      <ion-list class="fixed-scroll">
-    
-        <ion-item     *ngFor="let estado of estadosCuentaArray | filtro: textoBuscar:'destinatario' ; let i = index;">
-          <ion-grid >
-            <ion-row>
-              <ion-col size="2">
-                <ion-label>{{estado.remitente}}</ion-label>
-                      </ion-col>
-              <ion-col size="2">
-        <ion-label>{{estado.destinatario}}</ion-label>
-              </ion-col>
-              
-              <ion-col size="2">
-        <ion-label>{{estado.fecha | date : 'shortDate' }}</ion-label>
-              </ion-col>
-        
-              <ion-col size="2">
-              <ion-label>  {{estado.monto}}</ion-label>
-              </ion-col>
-
-              <ion-col size="2">
-                <ion-badge *ngIf="!estado.archivo" color="primary" mode="ios">Sin Archivos</ion-badge>
-                <ion-label *ngIf="estado.archivo">
-                  <a slot="end"   href="{{ url+estado.id}}" target="_blank" download> 
-                    <ion-fab-button   size="small" >
-                  
-                      <ion-icon name="cloud-download-outline">
-                   
-          
-                      </ion-icon>
-                      
-                    </ion-fab-button>
-                  
-                  </a>
-                
-                  
-                </ion-label>
-                      </ion-col>
-              <ion-col size="2">
-   
-      <ion-button *ngIf="usuariosService.moduloAcceso.aprobador" (click)="enviarCorreo(estado)"  fill="clear"   >
-        <ion-icon color="primary" slot="icon-only" name="mail"></ion-icon>
-      </ion-button>
-      
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </ion-list>
-      
-   
-       
-      
-      
-      </ion-col>
-  </ion-row>
-</ion-grid>
- 
   </ion-content>
   <app-pie-pagina></app-pie-pagina>

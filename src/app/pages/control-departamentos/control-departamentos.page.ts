@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { DepartamentosService } from 'src/app/services/departamentos.service';
@@ -6,7 +6,7 @@ import { CrearDepartamentoPage } from '../crear-departamento/crear-departamento.
 import { Departamentos } from 'src/app/models/departamentos';
 import { EditarDepartamentoPage } from '../editar-departamento/editar-departamento.page';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 @Component({
   selector: 'app-control-departamentos',
   templateUrl: './control-departamentos.page.html',
@@ -14,14 +14,81 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 })
 export class ControlDepartamentosPage implements OnInit {
   isOpen:boolean = false;
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  public columns: any;
+  public rows: any[];
+  temp = [];
+  width = '100%'
+  multi:any ='multi';
+  scrollBarHorizontal = (window.innerWidth < 1200);
   constructor(
   public alertasService:AlertasService,
   public modalCtrl:ModalController,
   public departamentosService:DepartamentosService,
   public alertCrl: AlertController,
   public usuariosService: UsuariosService  
-  ) { }
+  ) { 
 
+ this.cargarDatos();
+
+  }
+  @HostListener('window:resize', ['$event'])
+  private  onResize(event) {
+      this.scrollBarHorizontal = (window.innerWidth < 1200);
+      console.log(this.scrollBarHorizontal)
+      this.width = '100%';
+    }
+
+    cargarDatos(){
+
+      this.columns = [
+        { id: "id", label: "ID", size: 2},
+        { id: "nombre", label: "Nombre", size: 2 },
+        { id: "descripcion", label: "Descripcion", size: 6 },
+        { id: "opciones", label: "Opciones", size: 2 }
+    ];
+     this.departamentosService.syncGetDepartamentoToPromise()
+        .then((res) => {
+          console.log(res)
+          this.temp = [...res];
+  
+        // push our inital complete list
+        this.rows = res;
+        });
+    }
+  editarElemento(row) {
+    console.log(row,'editarElemento');
+    let i = this.rows.findIndex( e => e.id == row.id);
+    if(i >= 0){
+      this.editarDepartamento(this.rows[i])
+    }
+  }
+  borrarElemento(row) {
+    let i = this.rows.findIndex( e => e.id == row.id);
+    if(i >= 0){
+      this.borrarDepartamento(this.rows[i])
+    }
+
+    console.log(row,'borrarElemento');
+  }
+  
+ 
+   updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+
+    // filter our data
+    const temp = this.temp.filter(function (d) {
+    //d.nombre, d.descripcion, etc..
+    console.log('d',d)
+      return d.nombre.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+
+    // update the rows
+    this.rows = temp;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
+  
+  }
   ngOnInit() {
     this.alertasService.presentaLoading('Cargando datos..');
     this.departamentosService.syncGetDepartamentoToPromise().then(departamentos =>{
@@ -36,16 +103,18 @@ export class ControlDepartamentosPage implements OnInit {
     this.isOpen = true;
     const modal = await this.modalCtrl.create({
       component: CrearDepartamentoPage,
-      cssClass: 'alert-modal'
+      cssClass: 'alert-modal',
+      mode:'ios'
     });
 
     if (this.isOpen) {
 
       modal.present();
       const { data } = await modal.onWillDismiss();
+ 
       this.isOpen = false;
       if (data != undefined) {
-   
+        this.cargarDatos();
 
       }
 
@@ -56,6 +125,7 @@ export class ControlDepartamentosPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: EditarDepartamentoPage,
       cssClass: 'alert-modal',
+      mode:'ios',
       componentProps:{
         departamento
       }
@@ -67,7 +137,7 @@ export class ControlDepartamentosPage implements OnInit {
       const { data } = await modal.onWillDismiss();
       this.isOpen = false;
       if (data != undefined) {
-   
+        this.cargarDatos();
 
       }
 
@@ -95,7 +165,7 @@ export class ControlDepartamentosPage implements OnInit {
   this.departamentosService.syncDeleteDepartamentoToPromise(departamento.id).then( resp =>{
     this.alertasService.loadingDissmiss();
     this.departamentosService.syncGetDepartamentoToPromise().then(departamentos =>{
-      this.departamentosService.departamentos = departamentos;
+      this.cargarDatos();
     }, error =>{
       this.alertasService.loadingDissmiss();
       this.alertasService.message('Dione','Lo sentimos algo salio mal...')

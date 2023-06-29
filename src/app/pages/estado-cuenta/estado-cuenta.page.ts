@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
-import { estadosCuenta } from 'src/app/models/estadosCuenta';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { format } from 'date-fns';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { CalendarioPopoverPage } from '../calendario-popover/calendario-popover.page';
 import { EstadosCuentaService } from 'src/app/services/estados-cuenta.service';
 import { Usuarios } from 'src/app/models/usuarios';
+import { EstadosCuenta } from 'src/app/models/estadosCuenta';
 
 @Component({
   selector: 'app-estado-cuenta',
   templateUrl: './estado-cuenta.page.html',
   styleUrls: ['./estado-cuenta.page.scss'],
-})
+})  
 export class EstadoCuentaPage implements OnInit {
   usuarios:Usuarios[]=[]
-estadoCuenta:estadosCuenta ={
+estadoCuenta:any ={
   id:null,
   remitente: this.usuariosService.usuario.usuario,
   destinatario:null,
@@ -110,7 +110,7 @@ formatoFecha = new Date(format(new Date(), 'yyy/MM/dd')).toISOString();
           return
         }
         this.alertasService.presentaLoading('Guardando Datos...')
-         this.estadosCuentaService.syncPostEstadosCuentaToPromise(this.estadoCuenta).then((resp:estadosCuenta) =>{
+         this.estadosCuentaService.syncPostEstadosCuentaToPromise(this.estadoCuenta).then((resp:EstadosCuenta) =>{
 
           const estado = resp;
  

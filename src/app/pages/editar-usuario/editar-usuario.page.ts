@@ -44,7 +44,7 @@ await this.usuariosMatrizAccesoService.syncDeleteUsuarioMatrizAccesoToPromise(th
       this.usuariosService.syncGetUsuariosToPromise().then(usuarios =>{
         this.usuariosService.usuarios = usuarios;
         this.alertasService.loadingDissmiss();
-        this.modalCtrl.dismiss();
+        this.modalCtrl.dismiss(true);
         this.alertasService.message('Dione', 'usuario Editado')
         }, error =>{
           this.alertasService.loadingDissmiss();
@@ -63,7 +63,7 @@ await this.usuariosMatrizAccesoService.syncDeleteUsuarioMatrizAccesoToPromise(th
         this.usuariosService.syncGetUsuariosToPromise().then(usuarios =>{
           this.usuariosService.usuarios = usuarios;
           this.alertasService.loadingDissmiss();
-          this.modalCtrl.dismiss();
+          this.modalCtrl.dismiss(true);
           this.alertasService.message('Dione', 'usuario Editado')
           }, error =>{
             this.alertasService.loadingDissmiss();

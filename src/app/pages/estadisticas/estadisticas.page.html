@@ -1,0 +1,43 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Estadisticas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-col size="12">
+    <div style="margin-top: 2rem;">
+      <ion-card>
+        <ion-card-header>
+          Gráfico De Barras
+        </ion-card-header>
+        <ion-card-content>
+          <canvas  class="barCanvas"  style="position: relative; height:100%;min-height: 30vh; width:100%"></canvas>
+        </ion-card-content>
+      </ion-card>
+  
+      <ion-card>
+        <ion-card-header>
+          Gráfico De Anillos
+
+        </ion-card-header>
+        <ion-card-content>
+          <canvas  id="doughnutCanvas"  #doughnutCanvas style="position: relative; height:35vh; width:100%"></canvas>
+        </ion-card-content>
+      </ion-card>
+
+     
+   
+      <ion-card>
+        <ion-card-header>
+          Gráfico De Linea
+
+        </ion-card-header>
+        <ion-card-content>
+          <canvas  id="lineCanvas"  #lineCanvas style="position: relative; height:35vh; width:100%"></canvas>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-col>
+
+</ion-content>

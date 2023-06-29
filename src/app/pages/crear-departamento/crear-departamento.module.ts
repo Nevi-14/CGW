@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CrearDepartamentoPageRoutingModule } from './crear-departamento-routing.module';
 
 import { CrearDepartamentoPage } from './crear-departamento.page';
+import { ComponentModule } from 'src/app/components/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CrearDepartamentoPageRoutingModule
+    CrearDepartamentoPageRoutingModule,
+    ComponentModule
   ],
   declarations: [CrearDepartamentoPage]
 })

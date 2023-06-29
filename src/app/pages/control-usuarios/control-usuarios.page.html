@@ -1,124 +1,57 @@
 
-<ion-header class="ion-no-border ion-padding">
+<ion-header class="ion-no-border">
   <ion-toolbar  >
     <ion-title class="ion-text-capitalize" class="page-title"> 
       Usuarios</ion-title>
-    <ion-searchbar    slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar usuario"  type="text"   [debounce]="250"  ></ion-searchbar>
+      <ion-searchbar  (ionChange)="updateFilter($event)"    slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar usuario"  type="text"   [debounce]="250"  ></ion-searchbar>
     <ion-fab-button *ngIf="usuariosService.moduloAcceso.c" (click)="crearUsuario()"  size="small"    class="margin-right"  slot="end" color="dark"  >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
 
   </ion-toolbar>
-
-  <ion-list >
-    <ion-item lines="full"  >
-      <ion-grid >
-        <ion-row>
-          <ion-col>
-            <ion-label><strong>
-              Usuario
-            </strong></ion-label>
-                  </ion-col>
-                  <ion-col>
-                    <ion-label><strong>
-                      Apellido
-                    </strong></ion-label>
-                          </ion-col>
-                          <ion-col>
-                            <ion-label><strong>
-                              Apellido
-                            </strong></ion-label>
-                                  </ion-col>
-          <ion-col size="3">
-    <ion-label><strong>
-      Correo
-    </strong></ion-label>
-          </ion-col>
-          <ion-col>
-            <ion-label><strong>
-             Fecha
-            </strong></ion-label>
-                  </ion-col>
-          <ion-col >
-    <ion-label><strong>
-      Estatus
-    </strong></ion-label>
-          </ion-col>
-     
-          <ion-col>
-            <ion-label><strong>
-              Opciones
-            </strong></ion-label>
-          </ion-col>
-  
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-list>
+ 
 </ion-header>
 
 
-<ion-content>
-<ion-grid   style="height: 100%;">
-<ion-list>
-  <ion-item  *ngFor="let usuario of usuariosService.usuarios" >
-<ion-grid >
-  <ion-row>
-    <ion-col>
-<ion-label>{{usuario.usuario}} </ion-label>
-            </ion-col>
-            <ion-col>
-              <ion-label>{{usuario.nombre}} </ion-label>
-                          </ion-col>
-                          <ion-col>
-                            <ion-label>{{usuario.apellido}} </ion-label>
-                                        </ion-col>
-    <ion-col  size="3">
-      <ion-label>{{usuario.correo}} </ion-label>
-    </ion-col>
-    <ion-col>
-      <ion-label>{{usuario.fecha | date}} </ion-label>
-            </ion-col>
-    <ion-col >
-      <ion-label><ion-badge color="warning" mode="ios">{{usuario.estatus ? 'Activo' : 'Inactivo'}}</ion-badge> </ion-label>
-    </ion-col>
- 
-    <ion-col style="display: flex;justify-content: flex-start;align-items: center;">
- <ion-button  *ngIf="usuariosService.moduloAcceso.d" (click)="borrarUsuario(usuario)"  fill="clear"  >
-<ion-icon color="danger" slot="icon-only" name="trash"></ion-icon>
- </ion-button>
- <ion-button *ngIf="usuariosService.moduloAcceso.u"  (click)="editarUsuario(usuario)"   fill="clear"  >
-  <ion-icon color="primary" slot="icon-only" name="create"></ion-icon>
-   </ion-button>
-    </ion-col>
- 
-  </ion-row>
-</ion-grid>
-  </ion-item>
-</ion-list>
-  <ion-row  *ngIf="usuariosService.usuarios.length == 0" 
-  style="height: 100%;display: flex;justify-content: center;align-items: center;">
-  <ion-col size="12">
-    <ion-list>
-      <ion-item lines="none">
-
-        <ion-grid>
-          <ion-row>
-            <ion-col size="12" class="ion-text-center ion-margin-top">
-              <img height="150" src="assets/imgs/empty-box.svg" alt="">
-            </ion-col>
-            <ion-col size="12" class="ion-text-center">
-              <strong class="ion-text-capitalize">No hay datos que mostrar</strong>
-            </ion-col>
-
-          </ion-row>
-        </ion-grid>
-
-      </ion-item>
-    </ion-list>
-  </ion-col>
-</ion-row>
-
-</ion-grid>
-</ion-content>
-<app-pie-pagina></app-pie-pagina>
+<ion-content class="ion-padding">
+  <ion-grid  style="height: 100%;">
+    <ion-row style="height: 100%;">
+      <ion-col size="12" style="height: 100%;">
+        <ngx-datatable 
+        class="material  light striped"
+        [limit]="8" 
+        [rows]="rows" 
+        [rowHeight]="50" 
+        [columnMode]="'force'" 
+        [sortType]="multi" 
+        [headerHeight]="50" 
+        [footerHeight]="50"
+        style="height: 100%;"
+        [columns]="columns" 
+        [scrollbarV]="true"
+        
+        >
+      
+      
+        <ng-template  ngFor let-column [ngForOf]="columns" let-i="index"  >
+          <ngx-datatable-column *ngIf="column.id != 'opciones'" name="{{column.label}}" prop="{{column.id}}">
+      
+          </ngx-datatable-column>
+        </ng-template>
+        <ngx-datatable-column name="opciones"  prop="opciones">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      <ion-button (click)="editarElemento(row)"  fill="clear"  >
+      <ion-icon color="warning"   name="create"></ion-icon>
+      </ion-button>
+      <ion-button  (click)="borrarElemento(row)"   fill="clear"  >
+      <ion-icon color="danger" name="trash"></ion-icon>
+      </ion-button>
+          </ng-template>
+      </ngx-datatable-column>
+      </ngx-datatable>
+      </ion-col>
+   
+    </ion-row>
+  </ion-grid>
+  </ion-content>
+  <app-pie-pagina></app-pie-pagina>

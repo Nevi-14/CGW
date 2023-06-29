@@ -45,7 +45,12 @@ const routes: Routes = [
       {
         path: 'detalle-anticipo',
         loadChildren: () => import('../detalle-anticipo/detalle-anticipo.module').then( m => m.DetalleAnticipoPageModule)
-      }
+      },
+      {
+        path: 'gastos-sin-anticipo',
+        loadChildren: () => import('../gastos-sin-anticipo/gastos-sin-anticipo.module').then( m => m.GastosSinAnticipoPageModule)
+      },
+    
     ]
   },
   

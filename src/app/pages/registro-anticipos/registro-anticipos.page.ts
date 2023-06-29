@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { AlertasService } from '../../services/alertas.service';
 import { GastosService } from '../../services/gastos.service';
@@ -15,6 +15,9 @@ import { ListaUsuariosPage } from '../lista-usuarios/lista-usuarios.page';
 import { LineasAnticiposService } from 'src/app/services/lineas-anticipos.service';
 import { ONE_Asiento_Diario, ONE_Diario, ONE_MOVDIR } from 'src/app/models/procesoContable';
 import { ProcesoContableService } from 'src/app/services/proceso-contable.service';
+import { Notificaciones } from 'src/app/models/notificaciones';
+import { NotificacionesService } from 'src/app/services/notificaciones.service';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-registro-anticipos',
@@ -23,6 +26,12 @@ import { ProcesoContableService } from 'src/app/services/proceso-contable.servic
 })
 export class RegistroAnticiposPage implements OnInit {
   usuarios: UsuarioExactus[] = []
+  editing = {};
+  rows = [];
+  columns = [];
+  temp = [];
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  ColumnMode = 'force';
 
   adelantoViatico: adelantoViaticos = {
     id: null,
@@ -55,6 +64,7 @@ export class RegistroAnticiposPage implements OnInit {
   textoBuscar = '';
   clientes: Clientes[] = []
   usuariosAnticipo: UsuarioExactus[] = []
+  multi:any = 'multi';
   constructor(
     public modalCtrl: ModalController,
     public alertasService: AlertasService,
@@ -65,15 +75,51 @@ export class RegistroAnticiposPage implements OnInit {
     public router: Router,
     public vistasService: VistassService,
     public lineasAnticipoService: LineasAnticiposService,
-    public procesoContableService: ProcesoContableService
+    public procesoContableService: ProcesoContableService,
+    public notificacionesService:NotificacionesService
 
-  ) { }
+  ) {   this.cargarUsuarios(this.usuarios)}
+  updateValue(event, cell, rowIndex, row) {
+    console.log('inline editing rowIndex', rowIndex, 'row', row);
+    this.editing[rowIndex + '-' + cell] = false;
+    this.rows[rowIndex][cell] = event.target.value;
+ 
+    this.rows = [...this.rows];
+    console.log('UPDATED!', this.rows[rowIndex][cell]);
+    this.actualizarTotales();
+  
+  }
 
+  actualizarTotales(){
+    console.log('actualizando totales')
+    this.adelantoViatico.monto = 0;
+    this.usuarios.forEach( u =>{
+      console.log(u,'u')
+      this.adelantoViatico.monto += Number(u.monto);
+    })
+  }
+
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+  
+    // filter our data
+    const temp = this.temp.filter(function (d) {
+    //d.nombre, d.descripcion, etc..
+    console.log('d',d)
+      return d.nombre.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+  
+    // update the rows
+    this.rows = temp;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
+  
+  }
   ngOnInit() {
 
     this.vistasService.syncGetClientesToPromise().then(clientes => {
       clientes.forEach((cliente, index) => {
-        if (cliente.cia == 'CVET' || cliente.cia == 'COOK' || cliente.cia == 'CORE') {
+        if (cliente.cia == 'CVET' || cliente.cia == 'COOK' || cliente.cia == 'CRCB') {
           let i = this.clientes.findIndex(c => c.cia == cliente.cia);
           if (i < 0) {
             this.clientes.push(cliente)
@@ -109,16 +155,46 @@ export class RegistroAnticiposPage implements OnInit {
     modal.present();
     const { data } = await modal.onWillDismiss();
     if (data != undefined) {
-      console.log(data)
-      data.forEach((usuario: UsuarioExactus) => {
-        let i = this.usuarios.findIndex(e => e.usuario == usuario.usuario);
-        if (i < 0) {
-          usuario.monto = 0;
-          this.usuarios.push(usuario)
-        }
-
-      })
+      console.log(data,'usuarios')
+      this.cargarUsuarios(data)
+    
     }
+  }
+
+  cargarUsuarios(usuarios: UsuarioExactus[]){
+   
+   this.rows = [];
+   this.columns = []
+   console.log('procesando data', usuarios)
+   console.log('rows', this.rows)
+   console.log('columns', this.columns)
+    this.columns = [
+      { id: "usuario", label: "Usuario", size: 2},
+      { id: "nombre", label: "Nombre", size: 2 },
+      { id: "monto", label: "Monto", size: 4 },
+      { id: "opciones", label: "Opciones", size: 2 }
+  ];
+  usuarios.forEach((usuario, index) => {
+      let i = this.usuarios.findIndex(e => e.usuario == usuario.usuario);
+      if (i < 0) {
+        usuario.monto = 0;
+        this.usuarios.push(usuario)
+      
+      }
+
+      if(usuarios.length -1 == index) {
+        this.usuarios.forEach( (usuario, index) => {
+          this.rows.push(usuario)
+if(this.usuarios.length -1 == index){
+  //this.rows = this.usuarios
+  this.temp = [...this.rows];
+  this.actualizarTotales();
+}
+        })
+       
+      } 
+
+    })
   }
   cargarDatos() {
     this.adelantoViatico.fechA_INICIAL = new Date(this.formatoFecha);
@@ -130,6 +206,23 @@ export class RegistroAnticiposPage implements OnInit {
   cerrarModal() {
     this.modalCtrl.dismiss();
 
+  }
+
+  borrarElemento(row) {
+    this.adelantoViatico.monto -= Number(row.monto);
+    let i = this.rows.findIndex( e => e.usuario == row.usuario);
+    if(i >= 0){
+      let u = this.usuarios.findIndex( e => e.usuario == row.usuario);
+      if(u >= 0){
+        this.usuarios.splice(u, 1)
+      }
+      this.rows.splice(i, 1)
+      console.log('this.rows[i]',this.rows[i])
+ 
+      this.cargarUsuarios(this.usuarios)
+    }
+  
+    console.log(row,'borrarElemento');
   }
   borrarDatos() {
     this.formatoFecha = new Date(format(new Date(), 'yyy/MM/dd')).toISOString();
@@ -215,6 +308,7 @@ export class RegistroAnticiposPage implements OnInit {
 
   incrementarMonto(usuario: UsuarioExactus, $event) {
     usuario.monto = $event.detail.value;
+    this.adelantoViatico.monto +=  usuario.monto
     this.actualziarTotales();
 
   }
@@ -311,6 +405,7 @@ let diario:ONE_Diario[] = [
      asiento:numAsiento,
      consecutivo:0,
      nit:null,
+     usuario:null,
      centrO_COSTO:'00-00-00',
      cuentA_CONTABLE:'1-01-02-002-007',
      fuente:'fuente',
@@ -319,6 +414,7 @@ let diario:ONE_Diario[] = [
      debitO_DOLAR:0,
      creditO_LOCAL:this.adelantoViatico.monto,
      creditO_DOLAR:0,
+     descripcion:'',
      debitO_UNIDADES:0,
      creditO_UNIDADES:0,
      tipO_CAMBIO:0,
@@ -342,9 +438,11 @@ let diario:ONE_Diario[] = [
     asiento:numAsiento,
     consecutivo:0,
     nit:null,
+    usuario:null,
     centrO_COSTO:'00-00-00',
     cuentA_CONTABLE:'1-01-05-004-011',
     fuente:'fuente',
+    descripcion:'',
     referencia:`Pago de viáticos + ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')}  + ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')}`,
     debitO_LOCAL:0,
     debitO_DOLAR:0,
@@ -373,6 +471,7 @@ let diario:ONE_Diario[] = [
   asiento:numAsiento,
   consecutivo:0,
   nit:null,
+  usuario:null,
   centrO_COSTO:'00-00-00',
   cuentA_CONTABLE:'7-99-01-009-000',
   fuente:'fuente',
@@ -382,6 +481,7 @@ let diario:ONE_Diario[] = [
   creditO_LOCAL:this.adelantoViatico.monto,
   creditO_DOLAR:0,
   debitO_UNIDADES:0,
+  descripcion:'',
   creditO_UNIDADES:0,
   tipO_CAMBIO:0,
   rowPointer:null,
@@ -406,7 +506,6 @@ await this.procesoContableService.syncPostDiarioToPromise(diario);
         const linea: LineaAnticipo = {
           id: null,
           iD_ANTICIPO: resp.id,
-          metodO_DEVOLUCION: null,
           correO_ENVIADO: 0,
           estatus: 'P',
           usuario: usuario.usuario,
@@ -415,6 +514,7 @@ await this.procesoContableService.syncPostDiarioToPromise(diario);
           restante: usuario.monto
         }
         await this.lineasAnticipoService.syncPostLineaAnticipoToPromise(linea)
+        this.notificarUsuario(usuario.usuario,numAsiento);
         if (index == this.usuarios.length - 1) {
           this.alertasService.loadingDissmiss();
           this.alertasService.message('APP', 'El Anticipo se creo con exito!.')
@@ -428,7 +528,32 @@ await this.procesoContableService.syncPostDiarioToPromise(diario);
     })
   }
 
+  notificarUsuario(usuario:string, referencia){
 
+    let notificacion:Notificaciones = {
+       id : 0,
+       remitente : this.usuariosService.usuario.usuario,
+       usuario : usuario,
+       canal:'co',
+       tipo:'RA', // Registro Anticipo
+       referencia:this.adelantoViatico.numerO_TRANSACCION,
+       estatus:'P',
+       fecha: new Date(),
+       fechaLimite: new Date(),
+       titulo:`Registro Anticipo ${referencia}`,
+       descripcion: `Se ha creado un nuevo anticipo ${referencia}`
+    }
+ 
+   
 
+    this.notificacionesService.syncPostNotificacionToPromise(notificacion).then(resp =>{
+    
+console.log('resp usuario notificado', resp)
+    }, error =>{
+    
+    })
+
+  }
+ 
 
 }

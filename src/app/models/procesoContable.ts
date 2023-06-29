@@ -53,6 +53,7 @@ export class ONE_Diario {
         public id:number,
         public coD_COMPANIA:string, 
         public asiento:string,
+        public usuario:string,
         public consecutivo:number,
         public nit:string,
         public centrO_COSTO:string,
@@ -76,6 +77,7 @@ export class ONE_Diario {
         public createdBy:string,
         public updatedBy:string,
         public createdDate:Date,
-        public documentO_GLOBAL:string
+        public documentO_GLOBAL:string,
+        public descripcion:string
     ){}
 }

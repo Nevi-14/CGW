@@ -79,9 +79,9 @@ export class EditarMatrizAccesoPage implements OnInit {
       this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
         this.matrizAccesoService.matrizAcceso = accesos;
         if(this.modulos.length == 0){
-          this.modalCtrl.dismiss();
           this.alertasService.message('Dione','Acceso actualizado');    
           this.modalCtrl.dismiss(true)
+          
         }
 
         this.modulos.forEach(async (modulo, index) =>{
@@ -93,7 +93,6 @@ export class EditarMatrizAccesoPage implements OnInit {
           console.log(mod)
          await  this.modulosMatrizccesoService.syncPostModuloMatrizAccesoToPromise(mod);
           if(index == this.modulos.length -1){
-            this.modalCtrl.dismiss();
             this.alertasService.message('Dione','Acceso actualizado');    
             this.modalCtrl.dismiss(true)
           }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { gastos } from '../models/gastos';
+import { LineaGasto, LineaGastoView, gastos } from '../models/gastos';
 import { AlertasService } from './alertas.service';
 import { UsuariosService } from './usuarios.service';
 import { vistaGastos } from '../models/gastosView';
@@ -72,7 +72,7 @@ console.log('URL', URL)
     let URL = this.getAPI(environment.getGastosAnticipo);
     URL = URL+id;
         console.log('URL', URL)
-    return this.http.get<vistaGastos[]>(URL);
+    return this.http.get<LineaGastoView[]>(URL);
 
   }
   private getFacturaGastos(Factura){
