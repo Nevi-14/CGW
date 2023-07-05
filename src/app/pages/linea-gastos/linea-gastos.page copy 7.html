@@ -1,0 +1,81 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
+       <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+      <ion-title>USUARIO {{linea.usuario}}  /  ESTATUS   <ion-badge color="primary" mode="ios">{{linea.estatus == 'P' ?  'Pendiente' :  linea.estatus == 'A' ? 'Aprobada' : linea.estatus == 'I' ? 'Requiere Aprobacion' : 'Rechazada'}}</ion-badge></ion-title>
+  
+  
+    </ion-toolbar>
+  
+  </ion-header>
+  
+  <ion-content>
+    <ion-list>
+     
+   
+      <ion-item lines="full">
+        <ion-label><strong>Monto Dispensado</strong> </ion-label>
+        <ion-label slot="end"> {{linea.monto | colones}}</ion-label>
+      </ion-item>
+      <ion-item lines="full" *ngIf="linea.utilizado > 0">
+        <ion-label><strong>Monto Utilizado</strong> </ion-label>
+        <ion-label slot="end">{{linea.utilizado | colones}}</ion-label>
+       </ion-item>
+       
+     
+       <ion-grid  style="height: 100%;">
+        <ion-row style="height: 100%;">
+          <ion-col size="12" style="height: 100%;">
+            <ngx-datatable 
+            class="material  light striped"
+            [limit]="8" 
+            [rows]="rows" 
+            [rowHeight]="50" 
+            [columnMode]="'force'" 
+            [sortType]="multi" 
+            [headerHeight]="50" 
+            [footerHeight]="50"
+            style="height: 100%;"
+            [columns]="columns" 
+            [scrollbarV]="true"
+            
+            >
+          
+          
+            <ng-template  ngFor let-column [ngForOf]="columns" let-i="index"  >
+              <ngx-datatable-column *ngIf="column.id != 'opciones'" name="{{column.label}}" prop="{{column.id}}">
+          
+              </ngx-datatable-column>
+            </ng-template>
+            <ngx-datatable-column name="opciones"  prop="opciones">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <ion-button (click)="editarElemento(row)"  fill="clear"  >
+          <ion-icon color="warning"   name="create"></ion-icon>
+          </ion-button>
+          <ion-button  (click)="borrarElemento(row)"   fill="clear"  >
+          <ion-icon color="danger" name="trash"></ion-icon>
+          </ion-button>
+              </ng-template>
+          </ngx-datatable-column>
+          </ngx-datatable>
+          </ion-col>
+       
+        </ion-row>
+      </ion-grid>
+  
+   
+   
+  
+  
+  
+    </ion-list>
+  </ion-content>
+  <ion-footer class="ion-no-border" *ngIf="linea.estatus == 'R'">
+    <ion-toolbar>
+      <app-button (click)="notificarUsuario()" label="Notificar Usuario"></app-button>
+       
+    </ion-toolbar>
+  </ion-footer>
+  
+  

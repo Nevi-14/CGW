@@ -20,8 +20,8 @@ export class ControlEstadosCuentaPage implements OnInit {
   multi:any ='multi';
   url = 'http://mercaderistas.di-apps.co.cr/api/get/estados/cuenta/archivo/?ID='
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  public columns: any;
-  public rows: any[];
+  public columns: any[]=[];
+  public rows: any[]=[];
   temp = [];
   constructor(
   public modalCtrl: ModalController,
@@ -29,10 +29,10 @@ export class ControlEstadosCuentaPage implements OnInit {
   public estadosCuentaService:EstadosCuentaService ,
   public correoService: CorreoService, 
   public usuariosService: UsuariosService
-  ) { }
+  ) {   this.cargarDatos()}
 
   ngOnInit() {
-    this.cargarDatos();
+   
   }
 
   cargarDatos(){
@@ -45,14 +45,15 @@ export class ControlEstadosCuentaPage implements OnInit {
       { id: "archivo", label: "Archivo", size: 2 },
       { id: "opciones", label: "Opciones", size: 2 }
   ];
+  
   this.estadosCuentaService.syncGetEstadosCuentaToPromise()
-      .then((res) => {
-        console.log(res)
-        this.temp = [...res];
+  .then((res) => {
+    console.log(res)
+    this.temp = [...res];
 
-      // push our inital complete list
-      this.rows = res;
-      });
+  // push our inital complete list
+  this.rows = res;
+  });
   }
 editarElemento(row) {
   console.log(row,'editarElemento');

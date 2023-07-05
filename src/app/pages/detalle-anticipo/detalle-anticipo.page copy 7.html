@@ -142,14 +142,29 @@
     <ion-label class="ion-text-uppercase"><strong>No hay datos que mostrar!..</strong></ion-label>
 
   </ion-item>
-  <ion-item *ngFor="let linea of lineas" button (click)="lineaGastos(linea)" detail>
+  <ion-item *ngFor="let linea of lineas"  >
     <ion-avatar slot="start">
       <img src="assets/imgs/user.svg" />
     </ion-avatar>
     <ion-label>{{linea.usuario}}</ion-label>
-<ion-label> <strong>Dispensado :</strong> {{linea.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-label>
-<ion-label> <strong>Utilizado :</strong> {{linea.utilizado | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-label>
+    <ion-label>
+<p>
+  <strong>Dispensado :</strong> {{linea.monto}}
+</p>
+<p>
+  <strong>Consumido :</strong> {{linea.utilizado}}
+</p>
+    </ion-label>
  
+    <span  slot="end"   style="position: relative;">
+      <ion-fab-button   size="small">
+        <ion-icon name="notifications"></ion-icon>
+      </ion-fab-button>
+      <ion-badge style="position: absolute; top: 0rem;right: -1rem;" color="warning" mode="ios">0</ion-badge>
+    </span>
+    <ion-fab-button slot="end" (click)="lineaGastos(linea)" size="small">
+      <ion-icon name="eye"></ion-icon>
+    </ion-fab-button>
   </ion-item>
 </ion-list>
  

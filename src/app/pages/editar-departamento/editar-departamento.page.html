@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
-      <ion-icon size="large" name="close-outline"></ion-icon>
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
     </ion-button>
-<ion-title>    <h1>Editar Departamento</h1></ion-title>
+<ion-title> EDITAR DEPARTAMENTO</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,13 +11,14 @@
 
    
  
-  <form id="form" (ngSubmit)="editarDepartamento(fLogin)" #fLogin="ngForm" class="ion-padding">
+  <form id="form" (ngSubmit)="editarDepartamento(fLogin)" #fLogin="ngForm" >
     <app-input    name="nombre" type="text" label="Nombre" ngModel="{{departamento.nombre}}"></app-input>
     <app-input    name="descripcion" type="text" label="Descripción" ngModel="{{departamento.descripcion}}"></app-input>
     
 
 
-    <app-button  label="Actualizar Departamento"></app-button>
+ 
+    <app-button style="position: absolute;bottom: 0rem;width:90%"  label="Editar Departamento"></app-button>
  
 
   </form>

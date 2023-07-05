@@ -101,6 +101,7 @@ this.cargarDatos();
           const modal = await this.modalCtrl.create({
      component:CrearUsuarioPage,
      cssClass:'alert-modal',
+     mode:'ios',
  
           });
     
@@ -148,6 +149,7 @@ this.editaUsuario(usuario,roles)
     const modal = await this.modalCtrl.create({
 component:EditarUsuarioPage,
 cssClass:'alert-modal',
+mode:'ios',
 componentProps:{
 usuario,
 roles,
@@ -171,6 +173,7 @@ if(data != undefined){
     const alert = await this.alertCrl.create({
       subHeader:'Dione',
       message:`¿Desea borrar el usuario ${usuario.nombre}?`,
+      mode:'ios',
       buttons:[
         {
           text:'cancelar',

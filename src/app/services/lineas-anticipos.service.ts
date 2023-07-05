@@ -34,6 +34,13 @@ export class LineasAnticiposService {
     console.log('URL', URL)
     return this.http.get<LineaAnticipo[]>(URL);
   }
+  private getLineasAnticipoEstatus(id:number,estatus:string) {
+
+    let URL = this.getAPI(environment.getLineasAnticipoEstatus);
+        URL = URL +id+'&estatus='+estatus;
+    console.log('URL', URL)
+    return this.http.get<LineaAnticipo[]>(URL);
+  }
   private getLineasAnticiposLineas(id:number) {
 
     let URL = this.getAPI(environment.getGastosAnticipoLineas);
@@ -72,7 +79,11 @@ export class LineasAnticiposService {
   syncGetLineasAnriciposToPromise(id:number) {
     return this.getLineasAnticipos(id).toPromise();
   }
-
+  syncGetLineasAnticipoEstatusToPromise(id:number,estatus:string) {
+    return this.getLineasAnticipoEstatus(id,estatus).toPromise();
+  }
+ 
+   
   syncGetLineasAnticiposLineasToPromise(id:number) {
     return this.getLineasAnticiposLineas(id).toPromise();
   }

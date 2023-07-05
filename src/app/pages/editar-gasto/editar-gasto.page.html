@@ -1,0 +1,97 @@
+ 
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+   <ion-button slot="start" (click)="regresar()" fill="clear">
+    <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+   </ion-button>
+   <ion-title>DETALLE GASTO</ion-title>
+   <ion-avatar *ngIf="tipoGasto" slot="end" style="margin-right: 1rem;">
+     <img [src]="tipoGasto.imagen" />
+   </ion-avatar>
+ 
+ 
+  </ion-toolbar>
+  
+ </ion-header>
+ <ion-content class="ion-padding">
+  
+   <form id="form"   (ngSubmit)="actualizarGasto(fRegistroGasto)"   #fRegistroGasto="ngForm">
+
+    <ion-grid >
+      <ion-row>
+        <ion-col size="6">
+        <app-select readonly="{{sobrante ? false : true }}" name="estatus"  (ionChange)="estadoGasto(fRegistroGasto)" ngModel="{{nuevoGasto.estatus}}" label="Estatus" [data]="estatus">
+
+        </app-select>
+ 
+        </ion-col>
+        <ion-col size="6">
+          <app-input readonly="true"   name="fecha" type="text" label="Fecha" ngModel="{{nuevoGasto.fecha | date}}"></app-input>
+ 
+        </ion-col>
+        <ion-col size="6">
+          <app-input  readonly="true"  name="tipoGasto" type="text"   label="Tipo Gasto" ngModel="{{tipoGasto.descripcion }}"></app-input>
+ 
+        </ion-col>
+        <ion-col size="6">
+            
+ 
+          <app-input readonly="true"   name="factura" type="text" label="Factura" ngModel="{{nuevoGasto.factura}}"></app-input>
+      
+      
+             </ion-col>
+        <ion-col size="6">
+            
+ 
+     <app-input  readonly="true"  name="proveedor" type="text" label="Proveedor" ngModel="{{nuevoGasto.proveedor}}"></app-input>
+ 
+ 
+        </ion-col>
+        <ion-col size="6">
+            
+   <app-input readonly="true"  name="monto" type="number" label="Monto" ngModel="{{nuevoGasto.monto}}"></app-input>
+        </ion-col>
+        <ion-col size="6">
+          <app-input  readonly="true"  name="porcentajeIVA" type="number" label="Porcentaje IVA" ngModel=""></app-input>
+        </ion-col>
+        <ion-col size="6">
+          <app-input readonly="true" name="montoIVA" type="iva" label="Monto IVA" ngModel=""></app-input>
+        </ion-col>
+        <ion-col size="{{ nuevoGasto.adjunto ? 6 : 12}}">
+ 
+          <app-input  readonly="true"  name="descripcion" type="text" label="Detalle" ngModel="{{nuevoGasto.descripcion}}"></app-input>
+        </ion-col>  
+        <ion-col size="6" readonly="true" *ngIf="nuevoGasto.adjunto">
+          <app-input   name="adjunto" type="text" label="Adjunto" ngModel="{{nuevoGasto.adjunto}}"></app-input>
+        </ion-col>
+        <ion-col size="12" *ngIf="nuevoGasto.estatus == 'RA'">
+          <app-button label="Actualizar"></app-button>
+        </ion-col>
+        
+      </ion-row>
+    </ion-grid>
+  
+   
+ 
+ 
+  
+    
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+  
+    
+ 
+ 
+   </form>
+ 
+   
+ </ion-content>
+ 
+  
+  

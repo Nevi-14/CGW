@@ -61,6 +61,7 @@ export class AlertasService {
     const alert = await this.alertCtrl.create({
       cssClass: 'alert-popup',
       header: header,
+      mode:'ios',
       message: message,
       buttons: ['OK']
     });

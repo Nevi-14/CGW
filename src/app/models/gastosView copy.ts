@@ -7,10 +7,13 @@ export class vistaGastos {
         public tipO_GASTO:string,
         public tarjeta:boolean,
         public referencia: string,
+        public iD_TIPO_GASTO:number,
         public usuario: string,
         public proveedor: string,
+        public justificacion: string,
+        public descripcion: string,
         public estatus: string,
-        public monto: number,
+        public exedente: boolean,
         public id: number
     ){}
 }

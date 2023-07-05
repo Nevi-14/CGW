@@ -9,6 +9,7 @@ import { LineaGastosPageRoutingModule } from './linea-gastos-routing.module';
 import { LineaGastosPage } from './linea-gastos.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { ComponentModule } from 'src/app/components/component.module';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { ComponentModule } from 'src/app/components/component.module';
     IonicModule,
     LineaGastosPageRoutingModule,
     PipesModule,
-    ComponentModule
+    ComponentModule,
+    NgxDatatableModule
   ],
   declarations: [LineaGastosPage]
 })

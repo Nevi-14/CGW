@@ -149,6 +149,7 @@ export class ControlDepartamentosPage implements OnInit {
     const alert = await this.alertCrl.create({
       subHeader:'Dione',
       message:`¿Desea borrar el departamento ${departamento.nombre}?`,
+      mode:'ios',
       buttons:[
         {
           text:'cancelar',

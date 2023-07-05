@@ -76,9 +76,14 @@ const routes: Routes = [
   {
     path: 'liquidacion-sin-anticipo',
     loadChildren: () => import('./pages/liquidacion-sin-anticipo/liquidacion-sin-anticipo.module').then( m => m.LiquidacionSinAnticipoPageModule)
-  },  {
+  },
+  {
     path: 'estadisticas',
     loadChildren: () => import('./pages/estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule)
+  },
+  {
+    path: 'editar-gasto',
+    loadChildren: () => import('./pages/editar-gasto/editar-gasto.module').then( m => m.EditarGastoPageModule)
   }
 
 

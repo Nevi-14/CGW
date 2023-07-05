@@ -336,6 +336,8 @@ return randomstring
 
   generarPost() {
 
+
+    if(!this.adelantoViatico.detalle || !this.adelantoViatico.coD_COMPANIA || !this.adelantoViatico.numerO_TRANSACCION ) return this.alertasService.message('DIONE','Todos los campos son obligatorios!..')
     this.adelantoViatico.cREADO_POR = this.usuariosService.usuario.id
     this.adelantoViatico.mODIFICADO_POR = this.usuariosService.usuario.id
     this.adelantoViatico.lineas = this.usuarios.length;
@@ -514,8 +516,10 @@ await this.procesoContableService.syncPostDiarioToPromise(diario);
           restante: usuario.monto
         }
         await this.lineasAnticipoService.syncPostLineaAnticipoToPromise(linea)
-        this.notificarUsuario(usuario.usuario,numAsiento);
+        this.notificarUsuario(usuario.usuario,this.adelantoViatico.numerO_TRANSACCION);
         if (index == this.usuarios.length - 1) {
+          this.rows = [];
+          this.temp  = [];
           this.alertasService.loadingDissmiss();
           this.alertasService.message('APP', 'El Anticipo se creo con exito!.')
           this.borrarDatos();
@@ -536,7 +540,7 @@ await this.procesoContableService.syncPostDiarioToPromise(diario);
        usuario : usuario,
        canal:'co',
        tipo:'RA', // Registro Anticipo
-       referencia:this.adelantoViatico.numerO_TRANSACCION,
+       referencia:referencia,
        estatus:'P',
        fecha: new Date(),
        fechaLimite: new Date(),

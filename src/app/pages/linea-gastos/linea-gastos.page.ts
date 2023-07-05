@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { LineaAnticipo } from 'src/app/models/adelantoViaticos';
 import { LineaGasto } from 'src/app/models/gastos';
@@ -11,6 +11,8 @@ import { LineasAnticiposService } from 'src/app/services/lineas-anticipos.servic
 import { SobrantesPage } from '../sobrantes/sobrantes.page';
 import { NotificacionesService } from 'src/app/services/notificaciones.service';
 import { Notificaciones } from 'src/app/models/notificaciones';
+import { EditarGastoPage } from '../editar-gasto/editar-gasto.page';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-linea-gastos',
@@ -23,6 +25,10 @@ gastos:LineaGasto[]=[]
 observaciones = null;
 isOpen:boolean = false;
 sobrante:Sobrantes = null;
+@ViewChild(DatatableComponent) table: DatatableComponent;
+public columns: any;
+public rows: any[];
+temp = [];
 url = "https://sde1.sderp.site/api-coris-control-viaticos/api/descargar-archivo?id=";
   constructor(
 public modalCtrl:ModalController,
@@ -35,12 +41,13 @@ public changeDetector:ChangeDetectorRef,
 public notificacionesService:NotificacionesService,
 public alertCtrl:AlertController
 
-  ) { }
+  ) {   }
 
   ngOnInit() {
 
    
     console.log(this.linea)
+    this.cargarDatos()
     this.lineasAnticiposService.syncGetGastosLineasToPromise(this.linea.id).then(async (resp) =>{
 
       this.gastos = resp;
@@ -51,6 +58,34 @@ public alertCtrl:AlertController
   }
   cerrarModal(){
     this.modalCtrl.dismiss();
+  }
+
+  
+  cargarDatos(){
+
+    this.columns = [
+      { id: "referencia", label: "Factura", size: 2 },
+      { id: "descripcion", label: "Descripcion", size: 2},
+      { id: "monto", label: "Monto", size: 2 },
+      { id: "estatus", label: "Estatus", size: 2 },
+      { id: "opciones", label: "Opciones", size: 2 }
+  ];
+  this.lineasAnticiposService.syncGetGastosLineasToPromise(this.linea.id).then((res) => {
+        console.log(res)
+        this.temp = [...res];
+
+      // push our inital complete list
+      this.rows = res;
+      });
+ 
+  }
+
+  editarElemento(row) {
+    console.log(row,'editarElemento');
+    let i = this.rows.findIndex( e => e.id == row.id);
+    if(i >= 0){
+      this.gastoDetalle(this.rows[i])
+    }
   }
   async consultarSobrante() {
     const modal = await this.modalCtrl.create({
@@ -70,16 +105,26 @@ public alertCtrl:AlertController
  
     }
   }
- 
-  async aprobar(linea:LineaGasto){
- 
 
-    linea.estatus = 'A';
-    await   this.gastosAnticiposService.syncPutGastoToPromise(linea);
-    this.alertasService.message('SD1', 'Linea Actualizada')
-this.actualizar();
+  async gastoDetalle(nuevoGasto) {
+    const modal = await this.modalCtrl.create({
+      component: EditarGastoPage,
+      cssClass: 'alert-modal',
+      mode: 'ios',
+      componentProps:{
+        nuevoGasto: nuevoGasto,
+        linea: this.linea
+      }
+    })
+
+    modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data != undefined) {
+ 
+    }
   }
-
+   
+ 
   notificarUsuario(){
 
   }

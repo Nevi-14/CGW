@@ -131,7 +131,8 @@ this.cargarDatos();
 
     const modal = await this.modalCtrl.create({
       component: CrearMatrizAccesoPage,
-      cssClass: 'alert-modal'
+      cssClass: 'alert-modal',
+      mode:'ios',
     });
 
     if (this.isOpen) {
@@ -173,6 +174,7 @@ this.editarMatriz(modulos,acceso[0])
     const modal = await this.modalCtrl.create({
       component: EditarMatrizAccesoPage,
       cssClass: 'alert-modal',
+      mode:'ios',
       componentProps:{
         acceso,
         modulos
@@ -195,7 +197,8 @@ this.editarMatriz(modulos,acceso[0])
   async borrarMatrizAcceso(acceso1:MatrizAccesoView) {
     const alert = await this.alertCrl.create({
       subHeader:'Dione',
-      message:`¿Desea borrar el acceso # ${acceso1.nombre}?`,
+      message:`¿Desea borrar el acceso  ${acceso1.nombre}?`,
+      mode:'ios',
       buttons:[
         {
           text:'cancelar',

@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CrearMatrizAccesoPageRoutingModule } from './crear-matriz-acceso-routing.module';
+import { EditarGastoPageRoutingModule } from './editar-gasto-routing.module';
 
-import { CrearMatrizAccesoPage } from './crear-matriz-acceso.page';
+import { EditarGastoPage } from './editar-gasto.page';
 import { ComponentModule } from 'src/app/components/component.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { ComponentModule } from 'src/app/components/component.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    CrearMatrizAccesoPageRoutingModule,
+    EditarGastoPageRoutingModule,
     ComponentModule
   ],
-  declarations: [CrearMatrizAccesoPage]
+  declarations: [EditarGastoPage]
 })
-export class CrearMatrizAccesoPageModule {}
+export class EditarGastoPageModule {}

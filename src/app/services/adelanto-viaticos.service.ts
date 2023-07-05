@@ -31,6 +31,13 @@ export class AdelantoViaticosService {
     console.log('URL', URL)
     return this.http.get<adelantoViaticos[]>(URL);
   }
+  private getAdelantoViaticosBYID(id) {
+
+    let URL = this.getAPI(environment.getAdelantoViaticosID);
+        URL = URL + id;
+    console.log('URL', URL)
+    return this.http.get<adelantoViaticos[]>(URL);
+  }
   private getConsecutivo() {
 
     let URL = this.getAPI(environment.getUltimoConsecitvo);
@@ -73,6 +80,11 @@ export class AdelantoViaticosService {
   syncGetAdelantoViaticosToPromise() {
     return this.getAdelantoViaticos().toPromise();
   }
+  syncGetAdelantoViaticoIDToPromise(id) {
+    return this.getAdelantoViaticosBYID(id).toPromise();
+  }
+
+  
   syncGetConsecutivo(){
     return this.getConsecutivo().toPromise();
   }

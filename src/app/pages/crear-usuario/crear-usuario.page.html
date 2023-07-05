@@ -1,27 +1,24 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
-     <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
     </ion-button>
-    <ion-title>Crear Usuario</ion-title>
+<ion-title>CREAR USUARIO</ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content class="ion-padding">
+  <form id="form" (ngSubmit)="crearDepartamento(fLogin)" #fLogin="ngForm" class="ion-padding">
 <ion-grid >
   <ion-row>
     <ion-col size="12">
       <ion-row>
-        <ion-col size="12" style="display: flex;justify-content: space-between;align-items: center;">
-          <ion-label>Asignación Roles</ion-label>
-         
-        </ion-col>
+ 
         <ion-col size="12">
 
-          <ion-select  multiple="true"     name="matriz"  [(ngModel)]="roles"   placeholder="Seleccionar">
-            <ion-select-option  *ngFor="let role of matriz"  [value]="role.iD_MATRIZ_ACCESO
-            ">{{role.nombre}}</ion-select-option>
-          </ion-select>
+          <app-select label="Roles"></app-select>
+      
       
         </ion-col>
       </ion-row>
@@ -29,31 +26,25 @@
     <ion-col size="6">
       <ion-row>
         <ion-col size="12">
-          <ion-label class="ion-margin-bottom">Nombre</ion-label>
+         <app-input   type="text"label="Nombre" name="nombre"></app-input>
         </ion-col>
-        <ion-col size="12">
-          <ion-input  name="nombre"  type="text" placeholder="nombre" [(ngModel)]="usuario.nombre"></ion-input>
-        </ion-col>
+     
       </ion-row>
           </ion-col>
           <ion-col size="6">
             <ion-row>
+           
               <ion-col size="12">
-                <ion-label class="ion-margin-bottom">Apellido</ion-label>
-              </ion-col>
-              <ion-col size="12">
-                <ion-input  name="apellido"  type="text" placeholder="apellido" [(ngModel)]="usuario.apellido"></ion-input>
+                <app-input  type="text" label="Apellido" name="apellido"></app-input>
               </ion-col>
             </ion-row>
                 </ion-col>
                 
           <ion-col size="12">
             <ion-row>
+        
               <ion-col size="12">
-                <ion-label class="ion-margin-bottom">Correo</ion-label>
-              </ion-col>
-              <ion-col size="12">
-                <ion-input  name="correo" [(ngModel)]="usuario.correo"  type="text" placeholder="correo"></ion-input>
+                <app-input  type="text" label="Correo" name="correo"></app-input>
               </ion-col>
  
             </ion-row>
@@ -61,21 +52,17 @@
 
                 <ion-col size="6">
                   <ion-row>
+            
                     <ion-col size="12">
-                      <ion-label class="ion-margin-bottom">Usuario</ion-label>
-                    </ion-col>
-                    <ion-col size="12">
-                      <ion-input name="usuario" [(ngModel)]="usuario.usuario"  type="text" placeholder="usuario"></ion-input>
+                      <app-input label="Usuario" type="text"  name="usuario"></app-input>
                     </ion-col>
                   </ion-row>
                       </ion-col>
                 <ion-col size="6">
                   <ion-row>
+                    
                     <ion-col size="12">
-                      <ion-label class="ion-margin-bottom">Contraseña</ion-label>
-                    </ion-col>
-                    <ion-col size="12">
-                      <ion-input  name="clave" [(ngModel)]="usuario.clave"  type="password" placeholder="clave"></ion-input>
+                      <app-input label="Contraseña" type="password" name="clave"></app-input>
                     </ion-col>
        
                   </ion-row>
@@ -84,14 +71,15 @@
               
   </ion-row>
 </ion-grid>
+    
+
+
+<app-button style="position: fixed;bottom: 1rem;width:90%"  label="Crear Usuario"></app-button>
+ 
+
+</form>
 
 </ion-content>
 
  
-<ion-footer class="ion-no-border">
-  <ion-toolbar class="ion-padding">
-    <ion-button (click)="post()"      color="dark" shape="round">
-    Crear Usuario
-    </ion-button>
-  </ion-toolbar>
-</ion-footer>
+ 
