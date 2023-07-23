@@ -50,6 +50,11 @@ const routes: Routes = [
         path: 'gastos-sin-anticipo',
         loadChildren: () => import('../gastos-sin-anticipo/gastos-sin-anticipo.module').then( m => m.GastosSinAnticipoPageModule)
       },
+      {
+        path: 'liquidacion-gastos-sin-anticipo',
+        loadChildren: () => import('../liquidacion-gastos-sin-anticipo/liquidacion-gastos-sin-anticipo.module').then( m => m.LiquidacionGastosSinAnticipoPageModule)
+      }
+    
     
     ]
   },

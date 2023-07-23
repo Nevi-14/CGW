@@ -8,6 +8,7 @@ import { ListaUsuariosPageRoutingModule } from './lista-usuarios-routing.module'
 
 import { ListaUsuariosPage } from './lista-usuarios.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ComponentModule } from 'src/app/components/component.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     FormsModule,
     IonicModule,
     ListaUsuariosPageRoutingModule,
-    PipesModule
+    PipesModule,
+    ComponentModule
   ],
   declarations: [ListaUsuariosPage]
 })

@@ -64,7 +64,7 @@ export class RegistroAnticiposPage implements OnInit {
   textoBuscar = '';
   clientes: Clientes[] = []
   usuariosAnticipo: UsuarioExactus[] = []
-  multi:any = 'multi';
+  multi: any = 'multi';
   constructor(
     public modalCtrl: ModalController,
     public alertasService: AlertasService,
@@ -76,44 +76,44 @@ export class RegistroAnticiposPage implements OnInit {
     public vistasService: VistassService,
     public lineasAnticipoService: LineasAnticiposService,
     public procesoContableService: ProcesoContableService,
-    public notificacionesService:NotificacionesService
+    public notificacionesService: NotificacionesService
 
-  ) {   this.cargarUsuarios(this.usuarios)}
+  ) { this.cargarUsuarios(this.usuarios) }
   updateValue(event, cell, rowIndex, row) {
     console.log('inline editing rowIndex', rowIndex, 'row', row);
     this.editing[rowIndex + '-' + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
- 
+
     this.rows = [...this.rows];
     console.log('UPDATED!', this.rows[rowIndex][cell]);
     this.actualizarTotales();
-  
+
   }
 
-  actualizarTotales(){
+  actualizarTotales() {
     console.log('actualizando totales')
     this.adelantoViatico.monto = 0;
-    this.usuarios.forEach( u =>{
-      console.log(u,'u')
+    this.usuarios.forEach(u => {
+      console.log(u, 'u')
       this.adelantoViatico.monto += Number(u.monto);
     })
   }
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-  
+
     // filter our data
     const temp = this.temp.filter(function (d) {
-    //d.nombre, d.descripcion, etc..
-    console.log('d',d)
+      //d.nombre, d.descripcion, etc..
+      console.log('d', d)
       return d.nombre.toLowerCase().indexOf(val) !== -1 || !val;
     });
-  
+
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
-  
+
   }
   ngOnInit() {
 
@@ -155,44 +155,44 @@ export class RegistroAnticiposPage implements OnInit {
     modal.present();
     const { data } = await modal.onWillDismiss();
     if (data != undefined) {
-      console.log(data,'usuarios')
+      console.log(data, 'usuarios')
       this.cargarUsuarios(data)
-    
+
     }
   }
 
-  cargarUsuarios(usuarios: UsuarioExactus[]){
-   
-   this.rows = [];
-   this.columns = []
-   console.log('procesando data', usuarios)
-   console.log('rows', this.rows)
-   console.log('columns', this.columns)
+  cargarUsuarios(usuarios: UsuarioExactus[]) {
+
+    this.rows = [];
+    this.columns = []
+    console.log('procesando data', usuarios)
+    console.log('rows', this.rows)
+    console.log('columns', this.columns)
     this.columns = [
-      { id: "usuario", label: "Usuario", size: 2},
+      { id: "usuario", label: "Usuario", size: 2 },
       { id: "nombre", label: "Nombre", size: 2 },
       { id: "monto", label: "Monto", size: 4 },
       { id: "opciones", label: "Opciones", size: 2 }
-  ];
-  usuarios.forEach((usuario, index) => {
+    ];
+    usuarios.forEach((usuario, index) => {
       let i = this.usuarios.findIndex(e => e.usuario == usuario.usuario);
       if (i < 0) {
         usuario.monto = 0;
         this.usuarios.push(usuario)
-      
+
       }
 
-      if(usuarios.length -1 == index) {
-        this.usuarios.forEach( (usuario, index) => {
+      if (usuarios.length - 1 == index) {
+        this.usuarios.forEach((usuario, index) => {
           this.rows.push(usuario)
-if(this.usuarios.length -1 == index){
-  //this.rows = this.usuarios
-  this.temp = [...this.rows];
-  this.actualizarTotales();
-}
+          if (this.usuarios.length - 1 == index) {
+            //this.rows = this.usuarios
+            this.temp = [...this.rows];
+            this.actualizarTotales();
+          }
         })
-       
-      } 
+
+      }
 
     })
   }
@@ -210,19 +210,19 @@ if(this.usuarios.length -1 == index){
 
   borrarElemento(row) {
     this.adelantoViatico.monto -= Number(row.monto);
-    let i = this.rows.findIndex( e => e.usuario == row.usuario);
-    if(i >= 0){
-      let u = this.usuarios.findIndex( e => e.usuario == row.usuario);
-      if(u >= 0){
+    let i = this.rows.findIndex(e => e.usuario == row.usuario);
+    if (i >= 0) {
+      let u = this.usuarios.findIndex(e => e.usuario == row.usuario);
+      if (u >= 0) {
         this.usuarios.splice(u, 1)
       }
       this.rows.splice(i, 1)
-      console.log('this.rows[i]',this.rows[i])
- 
+      console.log('this.rows[i]', this.rows[i])
+
       this.cargarUsuarios(this.usuarios)
     }
-  
-    console.log(row,'borrarElemento');
+
+    console.log(row, 'borrarElemento');
   }
   borrarDatos() {
     this.formatoFecha = new Date(format(new Date(), 'yyy/MM/dd')).toISOString();
@@ -308,7 +308,7 @@ if(this.usuarios.length -1 == index){
 
   incrementarMonto(usuario: UsuarioExactus, $event) {
     usuario.monto = $event.detail.value;
-    this.adelantoViatico.monto +=  usuario.monto
+    this.adelantoViatico.monto += usuario.monto
     this.actualziarTotales();
 
   }
@@ -318,246 +318,261 @@ if(this.usuarios.length -1 == index){
       this.adelantoViatico.monto += Number(usuario.monto);
     })
   }
-  randomID(){
+  randomID() {
     //define a variable consisting alphabets in small and capital letter  
-var characters = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";  
-var lenString = 10;  
-var randomstring = '';  
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+    var lenString = 10;
+    var randomstring = '';
 
-//loop to select a new character in each iteration  
-for (var i=0; i<lenString; i++) {  
-var rnum = Math.floor(Math.random() * characters.length);  
-randomstring += characters.substring(rnum, rnum+1);  
-if(i == lenString -1){
-return randomstring
-}
-}  
-}
+    //loop to select a new character in each iteration  
+    for (var i = 0; i < lenString; i++) {
+      var rnum = Math.floor(Math.random() * characters.length);
+      randomstring += characters.substring(rnum, rnum + 1);
+      if (i == lenString - 1) {
+        return randomstring
+      }
+    }
+  }
 
   generarPost() {
 
 
-    if(!this.adelantoViatico.detalle || !this.adelantoViatico.coD_COMPANIA || !this.adelantoViatico.numerO_TRANSACCION ) return this.alertasService.message('DIONE','Todos los campos son obligatorios!..')
-    this.adelantoViatico.cREADO_POR = this.usuariosService.usuario.id
-    this.adelantoViatico.mODIFICADO_POR = this.usuariosService.usuario.id
-    this.adelantoViatico.lineas = this.usuarios.length;
-    this.adelantoViatico.restante = this.adelantoViatico.monto;
-    this.alertasService.presentaLoading('Guardando Datos...')
-    this.adelantoViaticosService.syncPostAdelantoViaticosToPromise(this.adelantoViatico).then(async (resp: adelantoViaticos) => {
+    if (!this.adelantoViatico.detalle || !this.adelantoViatico.coD_COMPANIA || !this.adelantoViatico.numerO_TRANSACCION) return this.alertasService.message('DIONE', 'Todos los campos son obligatorios!..')
+    let usuariosSinMontoAsignado = 0;
+    this.usuarios.forEach((usuario, index) => {
 
-      let numAsiento = this.randomID();  
+      if (usuario.monto == 0) {
+        usuariosSinMontoAsignado += 1;
+      }
 
-      let movDir:ONE_MOVDIR = {
-        id : this.adelantoViatico.numerO_TRANSACCION,
-        tipO_GASTO: 'N/D',
-        tipo:'N/D',
-        suB_TIPO:'N/D',
-        fecha: this.adelantoViatico.fechA_TRANSACCION,
-        monto:this.adelantoViatico.monto,
-        tipO_ASIENTO:'CB',
-        paquete:'CB',
-        concepto:`Pago de
+      if (this.usuarios.length - 1 == index) {
+        if (usuariosSinMontoAsignado > 0) {
+          return this.alertasService.message('DIONE', 'Verifica que todos los usuarios tengan un monto asignado!.')
+        }
+        this.adelantoViatico.cREADO_POR = this.usuariosService.usuario.id
+        this.adelantoViatico.mODIFICADO_POR = this.usuariosService.usuario.id
+        this.adelantoViatico.lineas = this.usuarios.length;
+        this.adelantoViatico.restante = this.adelantoViatico.monto;
+        this.alertasService.presentaLoading('Guardando Datos...')
+        this.adelantoViaticosService.syncPostAdelantoViaticosToPromise(this.adelantoViatico).then(async (resp: adelantoViaticos) => {
+
+          let numAsiento = this.randomID();
+
+          let movDir: ONE_MOVDIR = {
+            id: this.adelantoViatico.numerO_TRANSACCION,
+            tipO_GASTO: 'N/D',
+            tipo: 'N/D',
+            suB_TIPO: 'N/D',
+            fecha: this.adelantoViatico.fechA_TRANSACCION,
+            monto: this.adelantoViatico.monto,
+            tipO_ASIENTO: 'CB',
+            paquete: 'CB',
+            concepto: `Pago de
         viáticos +
-        ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')} +
-        ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')}`,
-        nuM_ASIENTO: numAsiento
-     }
+        ${format(this.adelantoViatico.fechA_INICIAL, 'MM/dd/yyyy')} +
+        ${format(this.adelantoViatico.fechA_FINAL, 'MM/dd/yyyy')}`,
+            nuM_ASIENTO: numAsiento
+          }
 
-await this.procesoContableService.syncPostMovDirToPromise(movDir);
+          await this.procesoContableService.syncPostMovDirToPromise(movDir);
 
-let asientoDiario:ONE_Asiento_Diario = {
-  id:null,
- coD_COMPANIA:this.adelantoViatico.coD_COMPANIA, 
- asiento:numAsiento,
- paquete:'CB',
- tipO_ASIENTO:'CB',
- fecha:new Date(),
- contabilidad:'C',
- origen:'CB',
- clasE_ASIENTO:'C',
- totaL_DEBITO_LOC:this.adelantoViatico.monto,
- totaL_DEBITO_DOL:0,
- totaL_CREDITO_LOC:0,
- totaL_CREDITO_DOL:0,
- ultimO_USUARIO:this.usuariosService.usuario.usuario,
- fechA_ULT_MODIF:new Date(),
- marcado:'N',
- notas:`Pago de viáticos ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')}`,
- totaL_CONTROL_LOC:0,
- totaL_CONTROL_DOL:0,
- usuariO_CREACION:this.usuariosService.usuario.usuario,
- fechA_CREACION:new Date(),
- rowPointer:null,
- dependencia:null,
- noteExistingFlag:0,
- recordDate:new Date(),
- createdBy:this.usuariosService.usuario.usuario,
- updatedBy:this.usuariosService.usuario.usuario,
- createdDate:new Date(),
- documentO_GLOBAL:null
-}
+          let asientoDiario: ONE_Asiento_Diario = {
+            id: null,
+            coD_COMPANIA: this.adelantoViatico.coD_COMPANIA,
+            asiento: numAsiento,
+            paquete: 'CB',
+            tipO_ASIENTO: 'CB',
+            fecha: new Date(),
+            contabilidad: 'C',
+            origen: 'CB',
+            clasE_ASIENTO: 'C',
+            totaL_DEBITO_LOC: this.adelantoViatico.monto,
+            totaL_DEBITO_DOL: 0,
+            totaL_CREDITO_LOC: 0,
+            totaL_CREDITO_DOL: 0,
+            ultimO_USUARIO: this.usuariosService.usuario.usuario,
+            fechA_ULT_MODIF: new Date(),
+            marcado: 'N',
+            notas: `Pago de viáticos ${format(this.adelantoViatico.fechA_INICIAL, 'MM/dd/yyyy')} + ${format(this.adelantoViatico.fechA_FINAL, 'MM/dd/yyyy')}`,
+            totaL_CONTROL_LOC: 0,
+            totaL_CONTROL_DOL: 0,
+            usuariO_CREACION: this.usuariosService.usuario.usuario,
+            fechA_CREACION: new Date(),
+            rowPointer: null,
+            dependencia: null,
+            noteExistingFlag: 0,
+            recordDate: new Date(),
+            createdBy: this.usuariosService.usuario.usuario,
+            updatedBy: this.usuariosService.usuario.usuario,
+            createdDate: new Date(),
+            documentO_GLOBAL: null
+          }
 
-await this.procesoContableService.syncPostAsientoDiarioToPromise(asientoDiario);
-
-
-let diario:ONE_Diario[] = [
-  {
-     id:null,
-     coD_COMPANIA:this.adelantoViatico.coD_COMPANIA, 
-     asiento:numAsiento,
-     consecutivo:0,
-     nit:null,
-     usuario:null,
-     centrO_COSTO:'00-00-00',
-     cuentA_CONTABLE:'1-01-02-002-007',
-     fuente:'fuente',
-     referencia:`Pago de viáticos ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')}`,
-     debitO_LOCAL:0,
-     debitO_DOLAR:0,
-     creditO_LOCAL:this.adelantoViatico.monto,
-     creditO_DOLAR:0,
-     descripcion:'',
-     debitO_UNIDADES:0,
-     creditO_UNIDADES:0,
-     tipO_CAMBIO:0,
-     rowPointer:null,
-     basE_LOCAL:0,
-     basE_DOLAR:0,
-     proyecto:null,
-     fase:null,
-     noteExistingFlag:0,
-     recordDate:new Date(),
-     createdBy:this.usuariosService.usuario.usuario,
-     updatedBy:this.usuariosService.usuario.usuario,
-    createdDate:new Date(),
-     documentO_GLOBAL:null
-  },
+          await this.procesoContableService.syncPostAsientoDiarioToPromise(asientoDiario);
 
 
-  {
-    id:null,
-    coD_COMPANIA:this.adelantoViatico.coD_COMPANIA, 
-    asiento:numAsiento,
-    consecutivo:0,
-    nit:null,
-    usuario:null,
-    centrO_COSTO:'00-00-00',
-    cuentA_CONTABLE:'1-01-05-004-011',
-    fuente:'fuente',
-    descripcion:'',
-    referencia:`Pago de viáticos + ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')}  + ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')}`,
-    debitO_LOCAL:0,
-    debitO_DOLAR:0,
-    creditO_LOCAL:this.adelantoViatico.monto,
-    creditO_DOLAR:0,
-    debitO_UNIDADES:0,
-    creditO_UNIDADES:0,
-    tipO_CAMBIO:0,
-    rowPointer:null,
-    basE_LOCAL:0,
-    basE_DOLAR:0,
-    proyecto:null,
-    fase:null,
-    noteExistingFlag:0,
-    recordDate:new Date(),
-    createdBy:this.usuariosService.usuario.usuario,
-    updatedBy:this.usuariosService.usuario.usuario,
-    createdDate:new Date(),
-    documentO_GLOBAL:null
- },
+          let diario: ONE_Diario[] = [
+            {
+              id: null,
+              coD_COMPANIA: this.adelantoViatico.coD_COMPANIA,
+              asiento: numAsiento,
+              consecutivo: 0,
+              nit: null,
+              usuario: null,
+              centrO_COSTO: '00-00-00',
+              cuentA_CONTABLE: '1-01-02-002-007',
+              fuente: 'fuente',
+              referencia: `Pago de viáticos ${format(this.adelantoViatico.fechA_INICIAL, 'MM/dd/yyyy')} + ${format(this.adelantoViatico.fechA_FINAL, 'MM/dd/yyyy')}`,
+              debitO_LOCAL: 0,
+              debitO_DOLAR: 0,
+              creditO_LOCAL: this.adelantoViatico.monto,
+              creditO_DOLAR: 0,
+              descripcion: '',
+              debitO_UNIDADES: 0,
+              creditO_UNIDADES: 0,
+              tipO_CAMBIO: 0,
+              rowPointer: null,
+              basE_LOCAL: 0,
+              basE_DOLAR: 0,
+              proyecto: null,
+              fase: null,
+              noteExistingFlag: 0,
+              recordDate: new Date(),
+              createdBy: this.usuariosService.usuario.usuario,
+              updatedBy: this.usuariosService.usuario.usuario,
+              createdDate: new Date(),
+              documentO_GLOBAL: null
+            },
 
 
- {
-  id:null,
-  coD_COMPANIA:this.adelantoViatico.coD_COMPANIA, 
-  asiento:numAsiento,
-  consecutivo:0,
-  nit:null,
-  usuario:null,
-  centrO_COSTO:'00-00-00',
-  cuentA_CONTABLE:'7-99-01-009-000',
-  fuente:'fuente',
-  referencia:`Pago de viáticos ${format(this.adelantoViatico.fechA_INICIAL,'MM/dd/yyyy')} + ${format(this.adelantoViatico.fechA_FINAL,'MM/dd/yyyy')} +  ${this.adelantoViatico.numerO_TRANSACCION}`,
-  debitO_LOCAL:0,
-  debitO_DOLAR:0,
-  creditO_LOCAL:this.adelantoViatico.monto,
-  creditO_DOLAR:0,
-  debitO_UNIDADES:0,
-  descripcion:'',
-  creditO_UNIDADES:0,
-  tipO_CAMBIO:0,
-  rowPointer:null,
-  basE_LOCAL:0,
-  basE_DOLAR:0,
-  proyecto:null,
-  fase:null,
-  noteExistingFlag:0,
-  recordDate:new Date(),
-  createdBy:this.usuariosService.usuario.usuario,
-  updatedBy:this.usuariosService.usuario.usuario,
-  createdDate:new Date(),
-  documentO_GLOBAL:null
-}
-]
+            {
+              id: null,
+              coD_COMPANIA: this.adelantoViatico.coD_COMPANIA,
+              asiento: numAsiento,
+              consecutivo: 0,
+              nit: null,
+              usuario: null,
+              centrO_COSTO: '00-00-00',
+              cuentA_CONTABLE: '1-01-05-004-011',
+              fuente: 'fuente',
+              descripcion: '',
+              referencia: `Pago de viáticos + ${format(this.adelantoViatico.fechA_INICIAL, 'MM/dd/yyyy')}  + ${format(this.adelantoViatico.fechA_FINAL, 'MM/dd/yyyy')}`,
+              debitO_LOCAL: 0,
+              debitO_DOLAR: 0,
+              creditO_LOCAL: this.adelantoViatico.monto,
+              creditO_DOLAR: 0,
+              debitO_UNIDADES: 0,
+              creditO_UNIDADES: 0,
+              tipO_CAMBIO: 0,
+              rowPointer: null,
+              basE_LOCAL: 0,
+              basE_DOLAR: 0,
+              proyecto: null,
+              fase: null,
+              noteExistingFlag: 0,
+              recordDate: new Date(),
+              createdBy: this.usuariosService.usuario.usuario,
+              updatedBy: this.usuariosService.usuario.usuario,
+              createdDate: new Date(),
+              documentO_GLOBAL: null
+            },
 
-await this.procesoContableService.syncPostDiarioToPromise(diario);
 
-      console.log(resp)
-      this.usuarios.forEach(async (usuario, index) => {
+            {
+              id: null,
+              coD_COMPANIA: this.adelantoViatico.coD_COMPANIA,
+              asiento: numAsiento,
+              consecutivo: 0,
+              nit: null,
+              usuario: null,
+              centrO_COSTO: '00-00-00',
+              cuentA_CONTABLE: '7-99-01-009-000',
+              fuente: 'fuente',
+              referencia: `Pago de viáticos ${format(this.adelantoViatico.fechA_INICIAL, 'MM/dd/yyyy')} + ${format(this.adelantoViatico.fechA_FINAL, 'MM/dd/yyyy')} +  ${this.adelantoViatico.numerO_TRANSACCION}`,
+              debitO_LOCAL: 0,
+              debitO_DOLAR: 0,
+              creditO_LOCAL: this.adelantoViatico.monto,
+              creditO_DOLAR: 0,
+              debitO_UNIDADES: 0,
+              descripcion: '',
+              creditO_UNIDADES: 0,
+              tipO_CAMBIO: 0,
+              rowPointer: null,
+              basE_LOCAL: 0,
+              basE_DOLAR: 0,
+              proyecto: null,
+              fase: null,
+              noteExistingFlag: 0,
+              recordDate: new Date(),
+              createdBy: this.usuariosService.usuario.usuario,
+              updatedBy: this.usuariosService.usuario.usuario,
+              createdDate: new Date(),
+              documentO_GLOBAL: null
+            }
+          ]
 
-        const linea: LineaAnticipo = {
-          id: null,
-          iD_ANTICIPO: resp.id,
-          correO_ENVIADO: 0,
-          estatus: 'P',
-          usuario: usuario.usuario,
-          monto: usuario.monto,
-          utilizado: 0,
-          restante: usuario.monto
-        }
-        await this.lineasAnticipoService.syncPostLineaAnticipoToPromise(linea)
-        this.notificarUsuario(usuario.usuario,this.adelantoViatico.numerO_TRANSACCION);
-        if (index == this.usuarios.length - 1) {
-          this.rows = [];
-          this.temp  = [];
+          await this.procesoContableService.syncPostDiarioToPromise(diario);
+
+          console.log(resp)
+          this.usuarios.forEach(async (usuario, index) => {
+
+            const linea: LineaAnticipo = {
+              id: null,
+              iD_ANTICIPO: resp.id,
+              correO_ENVIADO: 0,
+              estatus: 'P',
+              usuario: usuario.usuario,
+              monto: usuario.monto,
+              utilizado: 0,
+              restante: usuario.monto
+            }
+            await this.lineasAnticipoService.syncPostLineaAnticipoToPromise(linea)
+            this.notificarUsuario(usuario.usuario, this.adelantoViatico.numerO_TRANSACCION);
+            if (index == this.usuarios.length - 1) {
+              this.rows = [];
+              this.temp = [];
+              this.alertasService.loadingDissmiss();
+              this.alertasService.message('APP', 'El Anticipo se creo con exito!.')
+              this.borrarDatos();
+            }
+          })
+
+        }, error => {
           this.alertasService.loadingDissmiss();
-          this.alertasService.message('APP', 'El Anticipo se creo con exito!.')
-          this.borrarDatos();
-        }
-      })
+          this.alertasService.message('APP', 'Lo sentimos algo salio mal...')
+        })
 
-    }, error => {
-      this.alertasService.loadingDissmiss();
-      this.alertasService.message('APP', 'Lo sentimos algo salio mal...')
+      }
     })
+
   }
 
-  notificarUsuario(usuario:string, referencia){
+  notificarUsuario(usuario: string, referencia) {
 
-    let notificacion:Notificaciones = {
-       id : 0,
-       remitente : this.usuariosService.usuario.usuario,
-       usuario : usuario,
-       canal:'co',
-       tipo:'RA', // Registro Anticipo
-       referencia:referencia,
-       estatus:'P',
-       fecha: new Date(),
-       fechaLimite: new Date(),
-       titulo:`Registro Anticipo ${referencia}`,
-       descripcion: `Se ha creado un nuevo anticipo ${referencia}`
+    let notificacion: Notificaciones = {
+      id: 0,
+      remitente: this.usuariosService.usuario.usuario,
+      usuario: usuario,
+      canal: 'co',
+      tipo: 'RA', // Registro Anticipo
+      referencia: referencia,
+      estatus: 'P',
+      fecha: new Date(),
+      fechaLimite: new Date(),
+      titulo: `Registro Anticipo ${referencia}`,
+      descripcion: `Se ha creado un nuevo anticipo ${referencia}`
     }
- 
-   
 
-    this.notificacionesService.syncPostNotificacionToPromise(notificacion).then(resp =>{
-    
-console.log('resp usuario notificado', resp)
-    }, error =>{
-    
+
+
+    this.notificacionesService.syncPostNotificacionToPromise(notificacion).then(resp => {
+
+      console.log('resp usuario notificado', resp)
+    }, error => {
+
     })
 
   }
- 
+
 
 }

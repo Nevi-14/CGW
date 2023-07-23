@@ -27,7 +27,7 @@ isOpen:boolean = false;
 sobrante:Sobrantes = null;
 @ViewChild(DatatableComponent) table: DatatableComponent;
 public columns: any;
-public rows: any[];
+public rows: any[]=[];
 temp = [];
 url = "https://sde1.sderp.site/api-coris-control-viaticos/api/descargar-archivo?id=";
   constructor(
@@ -48,13 +48,7 @@ public alertCtrl:AlertController
    
     console.log(this.linea)
     this.cargarDatos()
-    this.lineasAnticiposService.syncGetGastosLineasToPromise(this.linea.id).then(async (resp) =>{
-
-      this.gastos = resp;
-      let sobrante = await  this.sobrantesService.syncGetSobranteAnticipoUsuarioToPromise( this.linea.usuario,this.adelantosService.adelantoViatico.numerO_TRANSACCION)
-      this.sobrante = sobrante[0]
-      console.log(this.gastos)
-    })
+ 
   }
   cerrarModal(){
     this.modalCtrl.dismiss();
@@ -62,22 +56,30 @@ public alertCtrl:AlertController
 
   
   cargarDatos(){
+    this.lineasAnticiposService.syncGetGastosLineasToPromise(this.linea.id).then(async (resp) =>{
 
-    this.columns = [
-      { id: "referencia", label: "Factura", size: 2 },
-      { id: "descripcion", label: "Descripcion", size: 2},
-      { id: "monto", label: "Monto", size: 2 },
-      { id: "estatus", label: "Estatus", size: 2 },
-      { id: "opciones", label: "Opciones", size: 2 }
-  ];
-  this.lineasAnticiposService.syncGetGastosLineasToPromise(this.linea.id).then((res) => {
-        console.log(res)
-        this.temp = [...res];
-
-      // push our inital complete list
-      this.rows = res;
-      });
- 
+      this.gastos = resp;
+      let sobrante = await  this.sobrantesService.syncGetSobranteAnticipoUsuarioToPromise( this.linea.usuario,this.adelantosService.adelantoViatico.numerO_TRANSACCION)
+      this.sobrante = sobrante[0]
+      console.log(this.gastos)
+      this.columns = [
+        { id: "referencia", label: "Factura", size: 2 },
+        { id: "descripcion", label: "Descripcion", size: 2},
+        { id: "monto", label: "Monto", size: 2 },
+        { id: "estatus", label: "Estatus", size: 2 },
+        { id: "opciones", label: "Opciones", size: 2 }
+    ];
+    this.lineasAnticiposService.syncGetGastosLineasToPromise(this.linea.id).then((res) => {
+          console.log(res)
+          this.temp = [...res];
+  
+        // push our inital complete list
+        this.rows = res;
+       
+        });
+   
+    })
+    
   }
 
   editarElemento(row) {
@@ -88,12 +90,11 @@ public alertCtrl:AlertController
     }
   }
   async consultarSobrante() {
+    if(this.temp.length != this.rows.filter( e => e.estatus == 'A').length) return this.alertasService.message('Dione','Lo sentimos!, debes de aprobar todos los gastos antes de proceder!..')
     const modal = await this.modalCtrl.create({
       component: SobrantesPage,
       cssClass: 'alert-modal',
       mode: 'ios',
-      initialBreakpoint: 0.75,
-      breakpoints: [0, 0.25, 0.5, 0.75],
       componentProps:{
         sobrante: this.sobrante
       }
@@ -122,6 +123,7 @@ public alertCtrl:AlertController
     if (data != undefined) {
  
     }
+    this.cargarDatos();
   }
    
  
@@ -145,27 +147,48 @@ public alertCtrl:AlertController
   
     await alert.present();
   }
-  actualizar(){
-    let count = this.gastos.length;
-    let filter = 0;
-    this.gastos.forEach((gasto, index) =>{
-      if(gasto.estatus == 'A') filter +=1;
-      if(gasto.estatus == 'R') this.linea.estatus = "R";
-      if(index == this.gastos.length -1){
-        if(count == filter){
-          this.linea.estatus = "A";
- 
-        }else if(this.linea.estatus  != 'R'){
-          this.linea.estatus = "I";
-        }
-        this.lineasAnticiposService.syncPutLineaAnticipoToPromise(this.linea).then((resp:LineaAnticipo) =>{
-          if(resp.estatus == 'A'){
-            console.log(resp)
-          }
-  
-        })
-      } 
 
+  async actualizarLineaAnticipo() {
+    if( this.sobrante && this.sobrante.estatus != 'A') return  this.alertasService.message('SD1', 'Lo sentimos, debes de aprobar el sobrante antes de proceder!..');
+    if(this.temp.length != this.rows.filter( e => e.estatus == 'A').length) return this.alertasService.message('Dione','Lo sentimos!, debes de aprobar todos los gastos antes de proceder!..')
+    const alert = await this.alertCtrl.create({
+      header: 'DIONE',
+      subHeader:'¿Desea completar la linea anticipo?',
+      mode:'ios',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+           
+          },
+        },
+        {
+          text: 'Continuar',
+          role: 'confirm',
+          handler: () => {
+             this.actualizar();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
+   
+  }
+
+
+  actualizar(){
+    this.alertasService.presentaLoading('Guardando cambios...')
+    this.linea.estatus = "A";
+    this.lineasAnticiposService.syncPutLineaAnticipoToPromise(this.linea).then((resp:LineaAnticipo) =>{
+      this.alertasService.loadingDissmiss();
+   this.alertasService.message('DIONE','Linea Anticipo Completada!..')
+    }, error =>{
+      this.alertasService.loadingDissmiss();
+      this.alertasService.message('DIONE','Lo sentimos algo salio mal!..')
     })
 
     

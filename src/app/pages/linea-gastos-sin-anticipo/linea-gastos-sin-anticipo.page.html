@@ -1,0 +1,80 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
+     <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-title>USUARIO {{gastosSinAnticipo.usuario}}   /  ESTATUS   <ion-badge color="primary" mode="ios"> </ion-badge></ion-title>
+
+
+  </ion-toolbar>
+<ion-grid >
+<ion-row>
+ 
+  <ion-col size="12">
+    <ion-item lines="full" *ngIf="gastosSinAnticipo.utilizado > 0" mode="md">
+      <ion-label><strong>Monto Utilizado</strong> </ion-label>
+      <ion-label slot="end">{{gastosSinAnticipo.utilizado  | colones : 2 : '.' : ',' :  gastosSinanticipoService.moneda  }}</ion-label>
+     </ion-item>
+ 
+  </ion-col>
+ 
+  <ion-col size="12">
+    <ion-item   lines="full"   button mode="md">
+      <ion-label><strong>Solicitud Devolucion <ion-badge color="primary" mode="ios"> </ion-badge></strong> </ion-label>
+      <ion-label slot="end"> </ion-label>
+      <ion-fab-button size="small" color="dark" slot="end">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+     </ion-item>
+  </ion-col>
+</ion-row>
+</ion-grid>
+   
+</ion-header>
+
+<ion-content class="ion-padding">
+
+     
+   
+  <ngx-datatable 
+  class="material   striped"  
+  [limit]="8" 
+  [rows]="rows" 
+  [columns]="columns" 
+  [rowHeight]="70" 
+  [columnMode]="'force'" 
+  [sortType]="multi" 
+  [headerHeight]="50" 
+  [footerHeight]="50"
+  [ngStyle]="{'height': rows.length > 0 ? '100%' : 'auto' }"
+  >
+
+
+  <ng-template  ngFor let-column [ngForOf]="columns" let-i="index"  >
+    <ngx-datatable-column class="strong"   *ngIf="column.id != 'opciones'" name="{{column.label}}" prop="{{column.id}}">
+
+    </ngx-datatable-column>
+  </ng-template>
+  <ngx-datatable-column name="opciones"  prop="opciones">
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+<ion-button (click)="editarElemento(row)"  fill="clear"  >
+<ion-icon color="warning"   name="eye"></ion-icon>
+</ion-button>
+
+    </ng-template>
+</ngx-datatable-column>
+
+</ngx-datatable>
+ 
+
+
+
+
+</ion-content>
+<ion-footer class="ion-no-border"   *ngIf="this.gastosSinAnticipo.pendientes  == 0">
+  <ion-toolbar class="ion-padding">
+    <app-button  label="Completar Gastos Sin Anticipo"></app-button>
+     
+  </ion-toolbar>
+</ion-footer>
+

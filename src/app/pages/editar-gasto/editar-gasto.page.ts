@@ -60,6 +60,9 @@ export class EditarGastoPage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    if(this.nuevoGasto.estatus == 'RA'){
+      this.estatus.splice(0,1)
+    }
     this.montoAnterior = this.nuevoGasto.monto;
     let i = this.tiposGastosService.tiposGastos.findIndex(e => e.id == this.nuevoGasto.iD_TIPO_GASTO);
    if(i >=0) this.tipoGasto= this.tiposGastosService.tiposGastos[i];

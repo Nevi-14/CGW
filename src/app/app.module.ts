@@ -12,6 +12,7 @@ import { PdfMakeWrapper } from 'pdfmake-wrapper';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
  
  
 
@@ -20,7 +21,7 @@ PdfMakeWrapper.setFonts(pdfFonts);
 @NgModule({
     declarations: [AppComponent],
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,NgxDatatableModule],
-    providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+    providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },FileOpener],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

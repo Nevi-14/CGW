@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Sobrantes } from 'src/app/models/sobrantes';
 import { SobrantesService } from 'src/app/models/sobrantes.service';
@@ -13,6 +14,38 @@ export class SobrantesPage implements OnInit {
 @Input() sobrante:Sobrantes
 img = null
 file:any  = null;
+estatus = [
+  {
+   id: 'P',
+   valor : 'Pendiente'
+  },
+  {
+    id: 'RA',
+    valor : 'Requiere Aprobación'
+   },
+  {
+    id: 'A',
+    valor : 'Aprobado'
+   },
+   {
+    id: 'R',
+    valor : 'Rechazado'
+   }
+]
+metodoDevolucion = [
+  {
+   id: 'S',
+   valor : 'Sinpe Móvil'
+  },
+  {
+    id: 'T',
+    valor : 'Transferencia'
+   },
+  {
+    id: 'D',
+    valor : 'Deposito'
+   } 
+]
   constructor(
     public alertasService: AlertasService,
 public sobrantesService:SobrantesService,
@@ -20,6 +53,10 @@ public modalCtrl:ModalController
   ) { }
 
   ngOnInit() {
+    console.log(this.sobrante, 'sobrante')
+    if(this.sobrante.estatus == 'RA'){
+      this.estatus.splice(0,1)
+    }
   }
  
  
@@ -40,8 +77,13 @@ public modalCtrl:ModalController
     this.file = null;
     this.img = null;
    }
-     
-actualizarSobrante(){
+   cerrarModal(){
+    this.modalCtrl.dismiss();
+   }
+   actualizarSobrante(fSobrante:NgForm){
+    let data = fSobrante.value;
+    this.sobrante.estatus = data.estatus;
+    this.sobrante.observaciones = data.observaciones
   this.alertasService.presentaLoading('actualizando sobrante');
   this.sobrantesService.syncPutSobranteToPromise(this.sobrante).then( resp =>{
     this.alertasService.loadingDissmiss();

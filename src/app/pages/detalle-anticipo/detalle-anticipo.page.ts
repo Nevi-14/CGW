@@ -240,12 +240,13 @@ export class DetalleAnticipoPage implements OnInit {
     }
   }
   async liquidacionAnticipo() {
-
+ 
+    if(this.totalLineas.length != this.totalLineas.filter( e => e.estatus == 'A').length) return this.alertasService.message('DIONE','Lo sentimos debes de aprobar todas las lineas antes de proceder!..')
     this.isOpen = true;
 
     const modal = await this.modalCtrl.create({
       component: LiquidacionAnticipoPage,
-      cssClass: 'alert-modal-large',
+      cssClass: 'alert-modal',
       mode: 'ios'
     });
 

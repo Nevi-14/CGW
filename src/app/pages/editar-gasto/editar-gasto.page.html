@@ -20,7 +20,7 @@
     <ion-grid >
       <ion-row>
         <ion-col size="6">
-        <app-select readonly="{{sobrante ? false : true }}" name="estatus"  (ionChange)="estadoGasto(fRegistroGasto)" ngModel="{{nuevoGasto.estatus}}" label="Estatus" [data]="estatus">
+        <app-select [readonly]="nuevoGasto.estatus == 'RA' ? 'false' : 'true'" name="estatus"  (ionChange)="estadoGasto(fRegistroGasto)" ngModel="{{nuevoGasto.estatus}}" label="Estatus" [data]="estatus">
 
         </app-select>
  

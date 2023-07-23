@@ -9,10 +9,13 @@
     </ion-col>
     <ion-col size="10" style="display: flex;justify-content: flex-start;align-items: center;">
       <ion-title ><strong>Colaboradores</strong></ion-title>
+      <ion-fab-button (click)="filtroUsuarios()" size="small" color="dark">
+        <img src="../assets/google-material/filter_alt_white_24dp.svg" />
+      </ion-fab-button>
     </ion-col>
     <ion-col size="12" >
      
-      <ion-searchbar   (ionChange)="onSearchChange($event)"   style="max-width: 80%;margin: 0 auto;display: block;"  mode="ios" placeholder="Buscar Colaborador" type="text"
+      <ion-searchbar   (ionChange)="onSearchChange($event)"     mode="ios" placeholder="Buscar Colaborador" type="text"
       [debounce]="250"></ion-searchbar>
     </ion-col>
   </ion-row>
@@ -61,8 +64,7 @@
 </ion-content>
 <ion-footer class="ion-no-border">
   <ion-toolbar class="ion-padding">
-<ion-button (click)="retornarUsuarios()" expand="block" fill="solid" color="dark">
- Agregar Colaboradores
-</ion-button>
+    <app-button label=" Agregar Colaboradores {{totalUsuarios}}"  (click)="retornarUsuarios()"></app-button>
+ 
   </ion-toolbar>
 </ion-footer>

@@ -135,7 +135,7 @@
 </ion-toolbar>
 </ion-col>
 <ion-col *ngIf="adelantoViatico.monto > 0" size="12" style="display: flex;justify-content: flex-end;align-items: center;">
-  <ion-label  style="margin-right: 1rem; font-size:1.5rem;"> TOTAL : <strong>{{adelantoViatico.monto  | colones }}</strong></ion-label>
+  <ion-label  style="margin-right: 1rem; font-size:1rem;"> TOTAL : <strong>{{adelantoViatico.monto  | colones }}</strong></ion-label>
   <ion-button (click)="generarPost()"   fill="solid" shape="round">
   GENERAR ANTICIPO
   </ion-button>

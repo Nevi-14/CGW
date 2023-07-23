@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import {PdfMakeWrapper} from 'pdfmake-wrapper';
-
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import { HttpClient } from '@angular/common/http';
 import { ColonesPipe } from '../pipes/colones.pipe';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { Platform } from '@ionic/angular';
+import { EstadosCuenta } from '../models/estadosCuenta';
  // npm i pdfmake-wrapper --save --dev
  // npm i pdfmake --save --dev
+ // npm i @ionic-native/file-opener --save --dev
+ // npm i cordova-plugin-file-opener2 --save --dev
+ // npm install @awesome-cordova-plugins/file-opener --save --dev
 interface productsToAdd {
   id: number,
   total: number,
@@ -23,8 +29,9 @@ interface productsToAdd {
 export class PdfService {
 
   constructor(
-public http: HttpClient
-
+public http: HttpClient,
+public fileOpener:FileOpener,
+public platform: Platform
   ) { }
 
   getFormattedDate(date) {
@@ -38,16 +45,16 @@ public http: HttpClient
 }
 
 
-generatePDF( invoice:any, lines:any[]){
+generatePDF( linea:EstadosCuenta, gastos:any[]){
 
-  this.http.get('assets/imgs/devCodingLogo.png', { responseType: 'blob' })
+  this.http.get('assets/coris.png', { responseType: 'blob' })
   .subscribe(res => {
     const reader = new FileReader();
     reader.onloadend = () => {
       var base64data = reader.result;                
           console.log(base64data);
  
-         this.rellenarpdf(base64data, invoice, lines)
+         this.rellenarpdf(base64data, linea, gastos)
     }
 
     reader.readAsDataURL(res); 
@@ -58,7 +65,7 @@ generatePDF( invoice:any, lines:any[]){
 }
 
 
-  async rellenarpdf(image,invoice:any, lines:any[]){
+  async rellenarpdf(image,linea:EstadosCuenta, gastos:any[]){
 
  
     
@@ -67,9 +74,9 @@ generatePDF( invoice:any, lines:any[]){
     pdf.pageMargins(20);
 
     pdf.info({
-      title:invoice.title,
-      author: String(invoice.iD_USER),
-      subject: 'Orden de compra',
+      title:'Estdo de cuenta',
+      author: 'autor',
+      subject: 'Estado Cuenta',
   });
 
     let data = [];
@@ -83,22 +90,22 @@ generatePDF( invoice:any, lines:any[]){
       body: [
         [ { image: image,width: 100},
           [
-          { text: 'Dev-Coding'},
-          { text: 'Factura Electrónica'},
-          { text: invoice.title},
+          { text: 'Grupo Coris'},
+          { text: 'Reporte Estado De  Cuenta'},
           { text: ''}
 
-        ], '', this.getFormattedDate(new Date(invoice.requireD_DATE)) ],
+        ], '', this.getFormattedDate(new Date()) ],
         [{ text: '', margin: [ 10, 10, 10, 10 ]} , '' , '' , '', ],
-        [   { text: 'País:', bold: true} , 'CR' , '' , '', ],
-        [   { text: 'Forma de pago', bold: true} ,'' +'  Contado' , '' , '', ],
-        [   { text: 'Moneda:', bold: true} , invoice.currency , '' , '', ],
-        [   { text: 'Dirección:', bold: true} , '' , '' , '', ],
-        [   { text:'Fecha de la Orden:', bold: true} , this.getFormattedDate(new Date(invoice.date)) , '' , '', ],
-        [   { text: 'Fecha de Cotización:', bold: true} , this.getFormattedDate(new Date(invoice.quotatioN_DATE)) , '' , '', ],
-        [   { text: 'Fecha Requerida:', bold: true} , this.getFormattedDate(new Date(invoice.requireD_DATE)) , '' , '', ],
+        [   { text: 'Fecha Inicio Corte:', bold: true} , this.getFormattedDate(new Date()) , '' , '', ],
+        [   { text: 'Fecha Fin Corte:', bold: true} , this.getFormattedDate(new Date()) , '' , '', ],
+        [   { text: 'Usuario:', bold: true} , linea.usuario , '' , '' ],
+        [   { text: 'Moneda', bold: true} ,'' +'' , '' , '' ],
+        [   { text: 'Monto:', bold: true} ,ColonesPipe.prototype.transform(linea.monto, 2 , '.' , ',' , '') , '' , '' ],
+        [   { text: 'Consumido:', bold: true} , ColonesPipe.prototype.transform(linea.utilizado, 2 , '.' , ',' , '') , '' , ''],
+        [   { text:'Restante:', bold: true} , ColonesPipe.prototype.transform(linea.restante, 2 , '.' , ',' , '') , '' , '' ],
+
     
-        [     { text: 'Lista de Articulos',alignment: 'left',margin: [0, 10, 0, 10],bold: true}, '', '', '' ]
+        [     { text: 'Desgloce Gastos',alignment: 'left',margin: [0, 10, 0, 10],bold: true}, '', '', '' ]
       ]
     }
     }
@@ -107,10 +114,9 @@ generatePDF( invoice:any, lines:any[]){
       layout: 'lightHorizontalLines', // optional
       table: {
       headerRows: 1,
-      widths: [55, 115,60,60, 90,60 ],
+      widths: ['*', 'auto', '*', '*','*'],
       body: [
-        ['','', 'Cantidad', 'Precio', 'Descuento','Importe'],
-        ['Artículo','Descripción', 'Ordenada', 'Unitario', '%','Total']
+        ['Factura','Fecha','Proveedor', 'Descripción', 'Monto']
       ]
     }
     }
@@ -118,14 +124,14 @@ generatePDF( invoice:any, lines:any[]){
       layout: 'noBorders', // optional
       table: {
       headerRows: 1,
-      widths: ['*', 'auto', '*', '*','*','*'],
+      widths: ['*', 'auto', '*', '*','*'],
       body: [
-        ['','', '', '',  { text: 'Envio: ', bold: true},ColonesPipe.prototype.transform(invoice.shppinG_AMOUNT, 2 , '.' , ',' ,   invoice.currency)],
-        ['','', '', '',  { text: 'Descuento: ', bold: true},ColonesPipe.prototype.transform(invoice.discounT_AMOUNT, 2 , '.' , ',' ,   invoice.currency)],
-        ['','', '', '',  { text: 'SubTotal: ', bold: true},ColonesPipe.prototype.transform(invoice.suB_TOTAL, 2 , '.' , ',' ,   invoice.currency)],
-        ['','', '', '',  { text: 'Total: ', bold: true},ColonesPipe.prototype.transform(invoice.total, 2 , '.' , ',' , invoice.currency)],
-        [{ text: 'Instrucciones: ', bold: true},'', '', '',  '',''],
-        [{ text: invoice.instructions},'', '', '',  '',''],
+        ['','', '',   '',''],
+        [{ text: 'Total Gastos: ', bold: true},'', '',   '',''],
+        [{ text: ColonesPipe.prototype.transform(linea.utilizado, 2 , '.' , ',' , '')},'', '', '',  ''],
+        [{ text: 'Sobrantes: ', bold: true},'', '', '',  ''],
+        [{ text: ColonesPipe.prototype.transform(linea.restante, 2 , '.' , ',' , '')},'', '', '',  ''],
+        
       ]
     }
     }
@@ -133,34 +139,57 @@ generatePDF( invoice:any, lines:any[]){
 
 
 
-    for(let a =0; a < lines.length ; a++){
+    for(let a =0; a < gastos.length ; a++){
 
-      body.table.body.push([ String(lines[a].id), lines[a].product.description, String(lines[a].units), ColonesPipe.prototype.transform(lines[a].product.price, 2 , '.' , ',' ,   invoice.currency),String(lines[a].taxPercentage) ,  ColonesPipe.prototype.transform(lines[a].total, 2 , '.' , ',' ,   invoice.currency)])
-      if( a == lines.length -1){
+      body.table.body.push([ gastos[a].referencia, this.getFormattedDate(new Date(gastos[a].fecha)), gastos[a].proveedor, gastos[a].descripcion,  ColonesPipe.prototype.transform(gastos[a].monto, 2 , '.' , ',' ,   '')])
+      if( a == gastos.length -1){
 
   
         pdf.add(
           [
           header,
           body,
-          montos,
-          { text: 'Código QR: ', bold: true, margin: [ 0, 20, 0, 20 ] },
-          { qr: String('https://isa-app.dev/product-catalog/web/facturacion-digital/invoice-url/'+invoice.id) , margin :0}
+          montos
+         
         ]
       
         );
-        pdf.create().download(invoice.title);
-    
+   
+        if(!this.platform.is('mobileweb')) {
+          pdf.create().download('estado cuenta');
+          pdf.create().getBase64( base64URL =>{
 
+ 
+            console.log('base64URL', base64URL)
+   
+            return this.save(base64URL)
+          })
+          
+        }else{
+          pdf.create().download('estado cuenta');
+        }
+      //  pdf.create().download('estado cuenta');
+ 
       }
     }
 
 
-    return
+    
 
 
 
   }
-
+  async save(base64URL){
+    let path = `pdf/reporte_${Date.now()}.pdf`;
+     const saveFile = await Filesystem.writeFile({
+       path,
+       data:base64URL,
+       directory:Directory.Documents,
+       recursive:true
+     
+      })
+ 
+      this.fileOpener.open(saveFile.uri,'application/pdf')
+   }
 
 }

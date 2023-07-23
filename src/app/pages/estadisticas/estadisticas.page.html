@@ -1,5 +1,9 @@
 <ion-header class="ion-no-border">
+ 
   <ion-toolbar>
+    <ion-button slot="start" (click)="regresar()" fill="clear">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+     </ion-button>
     <ion-title>Estadisticas</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,7 +16,7 @@
           Gráfico De Barras
         </ion-card-header>
         <ion-card-content>
-          <canvas  class="barCanvas"  style="position: relative; height:100%;min-height: 30vh; width:100%"></canvas>
+          <canvas  id="barCanvas2"  style="position: relative; height:100%;min-height: 30vh; width:100%"></canvas>
         </ion-card-content>
       </ion-card>
   
@@ -22,7 +26,7 @@
 
         </ion-card-header>
         <ion-card-content>
-          <canvas  id="doughnutCanvas"  #doughnutCanvas style="position: relative; height:35vh; width:100%"></canvas>
+          <canvas  id="doughnutCanvas"  #doughnutCanvas style="position: relative; max-height:35vh; width:100%"></canvas>
         </ion-card-content>
       </ion-card>
 
@@ -34,7 +38,7 @@
 
         </ion-card-header>
         <ion-card-content>
-          <canvas  id="lineCanvas"  #lineCanvas style="position: relative; height:35vh; width:100%"></canvas>
+          <canvas  id="lineCanvas"  #lineCanvas style="position: relative; max-height:35vh; width:100%"></canvas>
         </ion-card-content>
       </ion-card>
     </div>

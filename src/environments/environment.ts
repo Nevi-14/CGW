@@ -12,8 +12,18 @@ export const environment = {
   prdMode: true,
   
   // APIS
-
-
+  // ANTICIPOS
+  getAnticipo:'get/anticipo?id=',
+  getVistaAnticipoLineasAnticipo:'get/vista/anticipo/linea/anticipo?id=',
+  putAnticipoAPI: 'put/anticipo?id=',
+  getGastosConAnticipo:'get/gastos/linea/anticipo?id=',
+  getGastosConAnticipoTipo:'get/gastos/linea/anticipo/tipo?id=',
+  // LINEA ANTICIPOS
+  getLineaAnticipo:'get/linea/anticipo?id=',
+  getVistaUsuarioLineaAnticipo:'get/vista/usuario/linea/anticipo?id=',
+  getVistaAnticipoReferencia:'get/vista/anticipo/linea/anticipo?referencia=',
+  getLineanticipo:'get/linea/anticipo?id=',
+  putLineaAnticipo:'put/linea/anticipo?id=',
 // GASTOS
 
 getGastos:'get/gastos/estado/rango/fecha?estado=',
@@ -104,19 +114,26 @@ TipGastosURL: 'get/tipos/gastos',
 getUltimoConsecitvo:'get/ultimo-consecutivo/exactus',
 
 getGastosSinAnticipoURL:'get/lista/gastos/sin-anticipo',
+getGastosSinAnticipoURL2:'get/usuario/gastos/sin/anticipo/estado/rango/fecha?id=',
   // SOBRANTES
   getUsuarioSobrante:'get/sobrante/usuario?id=',
   postSobrante:'post/sobrante',
   putSobrante:'put/sobrante?id=',
   deleteSobrante:'delete/sobrante?id=',
+// GASTOS SIN ANTICIPO
 
-
+  gastosSinAnticipoCompaniaMonedaEstadoRangoFecha:'get/gastos/sin/anticipo/compania/moneda/estado/rango/fecha?compania=',
+  putGastosSinAnticipos:'put/gasto/sin/anticipo?id=',
   // notificaciones
 
 getNotificacionesUsuario:'get/notificaciones/usuario?id=',
 postNotificacion:'post/notificacion',
 putNotificacion:'put/notificacion?id=',
-
+ // GASTOS CON ANTICIPO
+ getGastosConAnticipoEstado:'get/gastos/linea/anticipo/estado/?id=',
+ getGastosConAnticipoReferencia:'get/anticipo?referencia=',
+ postGastosConAnticipos:'post/gasto/linea/anticipo',
+ deleteGastosConAnticipos:'delete/gasto/linea/anticipo?id=',
 
 };
 

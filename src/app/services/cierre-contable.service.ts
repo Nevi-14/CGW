@@ -75,7 +75,7 @@ export class CierreContableService {
   generarDiario(usuario,consecutivo,descripcion,cuentA_CONTABLE,referencia,dbL:boolean,debitO_LOCAL,cL:boolean,creditO_LOCAL) {
     let diario: ONE_Diario = {
       id: null,
-      coD_COMPANIA: this.adelantosService.adelantoViatico ? this.adelantosService.adelantoViatico.coD_COMPANIA : 'N-A',
+      coD_COMPANIA: this.adelantosService.adelantoViatico ? this.adelantosService.adelantoViatico.coD_COMPANIA : 'COOK',
       asiento: consecutivo,
       consecutivo: 0,
       nit: null,

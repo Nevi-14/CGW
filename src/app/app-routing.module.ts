@@ -84,7 +84,23 @@ const routes: Routes = [
   {
     path: 'editar-gasto',
     loadChildren: () => import('./pages/editar-gasto/editar-gasto.module').then( m => m.EditarGastoPageModule)
+  },  {
+    path: 'devoluciones',
+    loadChildren: () => import('./pages/devoluciones/devoluciones.module').then( m => m.DevolucionesPageModule)
+  },
+  {
+    path: 'linea-gastos-sin-anticipo',
+    loadChildren: () => import('./pages/linea-gastos-sin-anticipo/linea-gastos-sin-anticipo.module').then( m => m.LineaGastosSinAnticipoPageModule)
+  },
+  {
+    path: 'filtro-gastos-sin-anticipo',
+    loadChildren: () => import('./pages/filtro-gastos-sin-anticipo/filtro-gastos-sin-anticipo.module').then( m => m.FiltroGastosSinAnticipoPageModule)
+  },
+  {
+    path: 'editar-gasto-sin-anticipo',
+    loadChildren: () => import('./pages/editar-gasto-sin-anticipo/editar-gasto-sin-anticipo.module').then( m => m.EditarGastoSinAnticipoPageModule)
   }
+
 
 
 

@@ -3,36 +3,36 @@
       <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
-      <ion-title>USUARIO {{linea.usuario}}  /  ESTATUS   <ion-badge color="primary" mode="ios">{{linea.estatus == 'P' ?  'Pendiente' :  linea.estatus == 'A' ? 'Aprobada' : linea.estatus == 'I' ? 'Requiere Aprobacion' : 'Rechazada'}}</ion-badge></ion-title>
+      <ion-title>USUARIO {{linea.usuario}}  /  ESTATUS   <ion-badge color="primary" mode="ios">{{linea.estatus}}</ion-badge></ion-title>
   
   
     </ion-toolbar>
  <ion-grid >
   <ion-row>
     <ion-col size="{{ linea.utilizado == 0 ? 12 : 6 }}">
-      <ion-item lines="full">
+      <ion-item lines="full" mode="md">
         <ion-label><strong>Monto Dispensado</strong> </ion-label>
         <ion-label slot="end"> {{linea.monto | colones}}</ion-label>
       </ion-item>
        
     </ion-col>
     <ion-col size="6">
-      <ion-item lines="full" *ngIf="linea.utilizado > 0">
+      <ion-item lines="full" *ngIf="linea.utilizado > 0" mode="md">
         <ion-label><strong>Monto Utilizado</strong> </ion-label>
         <ion-label slot="end">{{linea.utilizado | colones}}</ion-label>
        </ion-item>
    
     </ion-col>
     <ion-col size="{{sobrante ? 6 : 12 }}">
-      <ion-item lines="full" *ngIf="linea.utilizado > 0">
+      <ion-item   lines="full" *ngIf="linea.utilizado > 0" mode="md">
         <ion-label><strong>Monto Restante</strong> </ion-label>
         <ion-label slot="end">{{linea.restante | colones}}</ion-label>
        </ion-item>
         
     </ion-col>
     <ion-col size="6">
-      <ion-item lines="full" *ngIf="sobrante" detail>
-        <ion-label><strong>Solicitud Sobrante</strong> </ion-label>
+      <ion-item (click)="consultarSobrante()" lines="full" *ngIf="sobrante" button mode="md">
+        <ion-label><strong>Solicitud Sobrante <ion-badge color="primary" mode="ios">{{sobrante.estatus}}</ion-badge></strong> </ion-label>
         <ion-label slot="end">{{linea.restante | colones}}</ion-label>
        </ion-item>
     </ion-col>
@@ -55,7 +55,7 @@
     [sortType]="multi" 
     [headerHeight]="50" 
     [footerHeight]="50"
-    
+    [ngStyle]="{'height': rows.length > 0 ? '100%' : 'auto' }"
     >
   
   
@@ -80,9 +80,9 @@
   
  
   </ion-content>
-  <ion-footer class="ion-no-border" *ngIf="linea.estatus == 'R'">
-    <ion-toolbar>
-      <app-button (click)="notificarUsuario()" label="Notificar Usuario"></app-button>
+  <ion-footer class="ion-no-border" *ngIf=" sobrante && sobrante.estatus =='A' && linea.estatus !='A' || linea.restante == 0 && linea.utilizado == linea.monto  && sobrante.estatus !='A'" >
+    <ion-toolbar class="ion-padding">
+      <app-button (click)="actualizarLineaAnticipo()"  label="Completar Linea Anticipo"></app-button>
        
     </ion-toolbar>
   </ion-footer>

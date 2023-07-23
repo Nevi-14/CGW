@@ -2,16 +2,7 @@
   <ion-toolbar>
     <ion-title class="ion-text-capitalize" class="page-title">Control Anticipos</ion-title>
     <ion-searchbar   (ionChange)="updateFilter($event)"   slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar anticipo"  type="text"   [debounce]="250"  ></ion-searchbar>
-
-    <span style="position: relative;" slot="end">
-      <ion-fab-button   size="small"  class="margin-right"    color="dark"  >
-        <ion-icon name="notifications"></ion-icon>
-      </ion-fab-button>
-      <ion-badge style="position: absolute;top: 0;right:-0.5rem" color="primary" mode="ios">0</ion-badge>
-    </span>
-    <ion-fab-button   slot="end" size="small"  class="margin-right"     color="dark"  >
-      <ion-icon name="funnel"></ion-icon>
-    </ion-fab-button>
+ 
     <ion-fab-button *ngIf="usuariosService.moduloAcceso.c"  size="small"  class="margin-right" (click)="adelantoViaticos()" slot="end" color="dark"  >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

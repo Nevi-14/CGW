@@ -38,7 +38,9 @@ export class MatrizAccesoGuard implements CanActivate {
 console.log(this.currentUrl, 'current module')
 this.usuariosService.accesoModulos  = [];
 this.usuariosService.accesoModulos = accesos;
-if(this.currentUrl == '/inicio-sesion' || this.currentUrl == '/inicio/detalle') return true
+if(this.currentUrl == '/inicio-sesion' || this.currentUrl == '/inicio/detalle' || this.currentUrl == '/inicio/liquidacion-gastos-sin-anticipo') return true
+
+
 let indexControlAnticipos = accesos.findIndex(e => e.ruta == '/inicio/control-anticipos')
 if(indexControlAnticipos >=0 &&  this.currentUrl == '/inicio/registro-anticipos' || indexControlAnticipos >=0 &&  this.currentUrl == '/inicio/detalle-anticipo' ) {
   this.usuariosService.moduloAcceso = null;

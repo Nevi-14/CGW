@@ -1,0 +1,168 @@
+ 
+<ion-content  class="ion-padding">
+  <ion-grid style="height: 100%;">
+   <ion-row style="height: 100%;">
+  
+     
+     <ion-col size="6" style="height:100%;">
+ <ion-row  >
+   <ion-col size="12"    >
+     <ion-list  lines="none">
+     
+ <ion-card >
+   <ion-card-header>
+     <ion-card-title><strong>Detalle Gastos Sin Anticipo</strong>  <ion-badge style="margin-left: 1rem;" color="primary" mode="ios"> 
+      {{this.gastosSinanticipoService.filtro.compania ? this.gastosSinanticipoService.filtro.valor1 : this.gastosSinanticipoService.fechaInicioMes   }}
+      
+      
+      /    {{this.gastosSinanticipoService.filtro.compania ? this.gastosSinanticipoService.filtro.valor2  : this.gastosSinanticipoService.fechaFinMes   }} </ion-badge></ion-card-title>
+   </ion-card-header>
+   <ion-card-content>
+     <ion-grid >
+       <ion-row>
+         <ion-col size="6">
+ <ion-item>
+ 
+ <ion-label class="custom-title">  
+  Identificador
+  <p># {{identificador}} </p>
+ </ion-label>
+ </ion-item>
+         </ion-col>
+         <ion-col size="6">
+           <ion-item>
+             <ion-label class="custom-title">Compañia</ion-label>
+             <br>
+             <ion-label  class="subcustom-title">{{this.gastosSinanticipoService.compania ? this.gastosSinanticipoService.compania.nombre  : this.gastosSinanticipoService.filtro.compania}}</ion-label>
+           </ion-item>
+         </ion-col>
+         <ion-col size="6">
+           <ion-item>
+             <ion-label class="custom-title" >Cantidad Usuarios</ion-label>
+             <br>
+             <ion-label  class="subcustom-title">{{ this.gastosSinanticipoService.gastos.length}}</ion-label>
+           </ion-item>
+         </ion-col>
+         <ion-col size="6">
+          <ion-item>
+           <ion-label class="custom-title" >Pendientes</ion-label>
+           <br>
+           <ion-label  class="subcustom-title">{{lineasPendientes}}</ion-label>
+          </ion-item>
+         </ion-col>
+ 
+         <ion-col size="12">
+           <ion-item>
+             <ion-label class="custom-title">
+               Consumido   
+           
+              </ion-label>
+              <br>
+              <ion-label  class="subcustom-title">{{utilizado | colones : 2 : '.' : ',' :  gastosSinanticipoService.moneda  }}</ion-label>
+           </ion-item>
+            </ion-col>
+       </ion-row>
+      </ion-grid>
+   </ion-card-content>
+ </ion-card>
+      
+     </ion-list>
+   </ion-col>
+ 
+   <ion-col size="12"  >
+    
+     <ion-card  style="max-height: 50vh;">
+       <ion-card-header>
+        <ion-toolbar>
+         <ion-title>Estadísticas</ion-title>
+          
+         <ion-button (click)="mostrarEstadisiticas()"  fill="clear"  slot="end">
+          <ion-icon slot="icon-only" size="large" color="primary" name="arrow-forward"></ion-icon>
+         </ion-button>
+        </ion-toolbar>
+       </ion-card-header>
+       <ion-card-content>
+         <canvas  id="barCanvas"    #barCanvas style="position: relative; height:100%;max-height: 30vh; width:100%"></canvas>
+       </ion-card-content>
+     </ion-card>
+   </ion-col>
+ </ion-row>
+ 
+       
+     </ion-col>
+  
+     <ion-col size="6" style="height:100%;">
+ 
+      <ion-grid >
+       <ion-row>
+         
+         <ion-col size="12">
+           <ion-segment value="P" (ionChange)="segmentChanged($event)" class="ion-padding">
+             <ion-segment-button value="P">
+          
+             <span style="position: relative;"> 
+               <ion-icon size="large" color="primary" name="time"></ion-icon>
+               <ion-badge  style="position: absolute;top:0;right: -2rem;"  color="primary" mode="ios">{{p}}</ion-badge>
+             </span>
+             <ion-label  style="margin-top: 0.5rem;"><strong>Pendientes</strong></ion-label>
+        
+             </ion-segment-button>
+             <ion-segment-button value="RA">
+               <span style="position: relative;"> 
+               <ion-icon  size="large" color="warning" name="alert-circle-outline"></ion-icon>
+               <ion-badge style="position: absolute;top:0;right: -2rem;" color="primary" mode="ios">{{ra}}</ion-badge>
+             </span>
+               <ion-label   style="margin-top: 0.5rem;"><strong>Requieren Aprobación</strong></ion-label>
+             </ion-segment-button>
+             <ion-segment-button value="A">
+               <span style="position: relative;"> 
+               <ion-icon size="large" color="success"  name="checkmark-circle-outline"></ion-icon>
+               <ion-badge  style="position: absolute;top:0;right: -2rem;" color="primary" mode="ios">{{a}}</ion-badge>
+             </span>
+               <ion-label   style="margin-top: 0.5rem;"><strong>Aprobadas</strong></ion-label>
+             </ion-segment-button>
+             <ion-segment-button value="R">
+               <span style="position: relative;"> 
+               <ion-icon  size="large" color="danger" name="close-circle-outline"></ion-icon>
+               <ion-badge  style="position: absolute;top:0;right: -2rem;"  color="primary" mode="ios">{{r}}</ion-badge>
+             </span>
+               <ion-label  style="margin-top: 0.5rem;" ><strong>Rechazadas</strong></ion-label>
+             </ion-segment-button>
+           </ion-segment>
+         </ion-col>
+         <ion-col size="12">
+ <ion-list>
+   <ion-item *ngIf="gastos.length == 0" >
+     <ion-avatar slot="start" style="height: 2rem;width: 2rem;">
+       <img src="assets/warning.svg" />
+     </ion-avatar>
+     <ion-label class="ion-text-uppercase"><strong>No hay datos que mostrar!..</strong></ion-label>
+ 
+   </ion-item>
+   <ion-item *ngFor="let gasto of gastos" button (click)="lineaGastos(gasto)" detail>
+     <ion-avatar slot="start">
+       <img src="assets/imgs/user.svg" />
+     </ion-avatar>
+     <ion-label>{{gasto.usuario}}</ion-label>
+  
+ <ion-label> <strong>Utilizado : {{gasto.utilizado | colones : 2 : '.' : ',' :  gastosSinanticipoService.moneda  }}</strong>    </ion-label>
+  
+   </ion-item>
+ </ion-list>
+  
+         </ion-col>
+         <ion-col size="12" style="padding: 1rem;" *ngIf="lineasPendientes == 0">
+           
+           <app-button  (click)="liquidacionAnticipo()"   label="Liquidar Anticipo"></app-button>
+         </ion-col>
+       </ion-row>
+      </ion-grid>
+  
+  
+     </ion-col>
+   
+   </ion-row>
+  </ion-grid>
+   
+   </ion-content>
+   <app-pie-pagina></app-pie-pagina>

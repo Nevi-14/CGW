@@ -23,8 +23,9 @@ putGastos:'put/gasto/linea/anticipo?id=',
 getFacturaGastos:'get/gasto?id=',
 getUsuarioGastos:'get/gastos/usuario?id=',
 getUsuarioGastosRangoFecha:'get/usuario/gastos/estado/rango/fecha?id=',
-
+putGastosConAnticipos:'put/gasto/linea/anticipo?id=',
 // ADELANTO VIATICOS
+getAdelantoViaticosID:'get/anticipo?id=',
 getAdelantoViaticos:'get/anticipos',
 postAdelantoViaticos:'post/anticipo',
 putAdelantoViaticos:'put/anticipo?id=',
@@ -32,6 +33,7 @@ putAdelantoViaticos:'put/anticipo?id=',
 postLineaAnticipos:'post/linea/anticipo',
 putLineaAnticipos:'put/linea/anticipo?id=',
 getLineasAnticipos:'get/linea/web/anticipo?id=',
+getLineasAnticipoEstatus:'get/lineas/anticipo?id=',
 // ESTADOS CUENTA
 getEstadosCuenta:'get/estados/cuenta',
 postEstadosCuenta:'post/estado/cuenta',
@@ -107,14 +109,15 @@ getGastosSinAnticipoURL:'get/lista/gastos/sin-anticipo',
   postSobrante:'post/sobrante',
   putSobrante:'put/sobrante?id=',
   deleteSobrante:'delete/sobrante?id=',
+// GASTOS SIN ANTICIPO
 
-
+  gastosSinAnticipoCompaniaMonedaEstadoRangoFecha:'get/gastos/sin/anticipo/compania/moneda/estado/rango/fecha?compania=',
+  putGastosSinAnticipos:'put/gasto/sin/anticipo?id=',
   // notificaciones
 
 getNotificacionesUsuario:'get/notificaciones/usuario?id=',
 postNotificacion:'post/notificacion',
 putNotificacion:'put/notificacion?id=',
-
 
 };
 

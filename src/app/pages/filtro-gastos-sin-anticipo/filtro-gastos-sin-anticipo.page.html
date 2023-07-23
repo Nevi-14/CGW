@@ -1,0 +1,39 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+<ion-title>FILTRAR GASTOS SIN ANTICIPO</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+   
+ 
+  <form id="form" (ngSubmit)="filtrarGastos(ngForm)" #ngForm="ngForm">
+
+    <app-input name="valor1" readonly="true" label="Fecha Inicial" (click)="fecha('valor1')" ngModel="{{valor1  | date}}">
+    </app-input>
+  
+      <app-input name="valor2" readonly="true" label="Fecha Final" (click)="fecha('valor2')" ngModel="{{valor2  | date}}">
+      </app-input>
+        <app-select name="compania" label="Compañia" [data]="companias" ngModel="{{compania}}">
+        </app-select>
+        <app-select name="estatus" label="Estatus" [data]="estatuses" ngModel="{{estatus}}">
+        </app-select>
+          <app-select name="moneda" label="Moneda" [data]="monedas" ngModel="{{moneda}}">
+          </app-select>
+
+    <app-button style="position: absolute;bottom:0rem;width:90%"  label="Filtrar Gastos"></app-button>
+ 
+
+  </form>
+
+
+
+ 
+
+</ion-content>
+
+ 

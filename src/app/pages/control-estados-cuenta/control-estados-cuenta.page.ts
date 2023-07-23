@@ -7,6 +7,11 @@ import { CorreoService } from '../../services/correo.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { EstadosCuenta } from 'src/app/models/estadosCuenta';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { AnticiposService } from 'src/app/services/anticipos.service';
+import { SobrantesService } from 'src/app/models/sobrantes.service';
+import { PdfService } from 'src/app/services/pdf.service';
+import { GastosSinAnticipoService } from '../../services/gastos-sin-anticipo.service';
+import { GastosConAnticipoService } from 'src/app/services/gastos-con-anticipo.service';
 
 @Component({
   selector: 'app-control-estados-cuenta',
@@ -28,7 +33,12 @@ export class ControlEstadosCuentaPage implements OnInit {
   public alertasService: AlertasService,
   public estadosCuentaService:EstadosCuentaService ,
   public correoService: CorreoService, 
-  public usuariosService: UsuariosService
+  public usuariosService: UsuariosService,
+  public anticiposService:AnticiposService,
+  public gastosConAnticipoService:GastosConAnticipoService,
+  public sobrantesService:SobrantesService,
+  public pdfService:PdfService,
+  public gastosSinAnticipoService:GastosSinAnticipoService
   ) {   this.cargarDatos()}
 
   ngOnInit() {
@@ -42,7 +52,6 @@ export class ControlEstadosCuentaPage implements OnInit {
       { id: "usuario", label: "Usuario", size: 2 },
       { id: "fecha", label: "Fecha", size: 2 },
       { id: "monto", label: "Monto", size: 2 },
-      { id: "archivo", label: "Archivo", size: 2 },
       { id: "opciones", label: "Opciones", size: 2 }
   ];
   
@@ -60,6 +69,7 @@ editarElemento(row) {
   let i = this.rows.findIndex( e => e.id == row.id);
   if(i >= 0){
     console.log('elemento',this.rows[i])
+    this.descargarEstadoDeCuenta(row)
   }
 }
 borrarElemento(row) {
@@ -141,12 +151,26 @@ this.alertasService.message('APP', 'Lo sentimos algo salio mal..')
   }
 
 
-  descargarArchivo(estado:EstadosCuenta){
-    this.estadosCuentaService.syncGetArchivoEstadosCuenta(estado.id).then(resp =>{
-
-      console.log('resp')
-    }, error =>{
-      this.alertasService.message('APP', 'Lo sentimos algo salio mal..')
-    })
-  }
+  async descargarEstadoDeCuenta(estado:EstadosCuenta){
+    this.alertasService.presentaLoading('Generando estado de cuenta...')
+  console.log(estado)
+      if(estado.anticipo){
+  let vistaAnticipo  = await this.anticiposService.syncGetVistaAnticipoLineas(estado.usuario,estado.referencia);
+  console.log(vistaAnticipo)
+  let lineaAnticipo = await this.anticiposService.syncGetLineaUsuarioAnticipoBYId(vistaAnticipo[0].id)
+  let gastos = await this.gastosConAnticipoService.getUsuarioGastosConAnticipoEstadoToPromise(vistaAnticipo[0].id,""); 
+  let sobrantes = await this.sobrantesService.syncGetSobranteAnticipoUsuarioToPromise(estado.usuario, vistaAnticipo[0].numerO_TRANSACCION)
+  this.pdfService.generatePDF(estado,gastos)
+  this.alertasService.loadingDissmiss();
+  
+      }else{
+  
+          let gastos = await this.gastosSinAnticipoService.syncGetGastosSinAnticipoToPromise2(estado.usuario,'F', estado.fechA_INICIAL.split('T')[0],estado.fechA_FINAL.split('T')[0])
+          this.pdfService.generatePDF(estado,gastos)
+          this.alertasService.loadingDissmiss();
+          
+            
+      }
+  
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { format } from 'date-fns';
@@ -16,18 +16,21 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import { gastos } from '../../models/gastos';
 import { Notificaciones } from 'src/app/models/notificaciones';
 import { NotificacionesService } from 'src/app/services/notificaciones.service';
+import { EstadosCuenta } from 'src/app/models/estadosCuenta';
 interface gastosSin {
   usuario :string,
   totalColones:number,
   totalDolares:number,
   gastos:GastoSinAnticipo[]
 }
+ 
 @Component({
   selector: 'app-liquidacion-sin-anticipo',
   templateUrl: './liquidacion-sin-anticipo.page.html',
   styleUrls: ['./liquidacion-sin-anticipo.page.scss'],
 })
 export class LiquidacionSinAnticipoPage implements OnInit {
+@Input() gastos:GastoSinAnticipo[]
   fecha: Date = new Date();
   ano = this.fecha.getFullYear();
   mes = this.fecha.getMonth();
@@ -65,10 +68,10 @@ export class LiquidacionSinAnticipoPage implements OnInit {
   
   let consecutivo = this.fechaInicioMes.split('T')[0]+this.fechaFinMes.split('T')[0];
  
-    this.gastosSinAnticipoService.syncGetGastosSinAnticipoToPromise().then(async (gastos) =>{
+ 
       console.log(gastos,'gastos')
 
-      gastos.forEach((gasto, gastoIndex) =>{
+      this.gastos.forEach((gasto, gastoIndex) =>{
         let gastoU = {
           usuario:gasto.usuario,
           totalColones:  gasto.moneda == '¢' ? +gasto.monto : 0,
@@ -88,7 +91,7 @@ export class LiquidacionSinAnticipoPage implements OnInit {
         // DIARIO
         this.diario.push(this.cierreContableService.generarDiario(gasto.usuario,consecutivo,gasto.iD_TIPO_GASTO,'1-01-02-002-007', referencia, true, gasto.monto, false,0))
 
-if(gastoIndex == gastos.length -1){
+if(gastoIndex ==  this.gastos.length -1){
   let referencia = `Liquidación de gastons sin Anticipo ${format(new Date(this.fechaInicioMes), 'MM/dd/yyyy')} + ${format(new Date(this.fechaFinMes), 'MM/dd/yyyy')}`;
   this.postAsiento = this.cierreContableService.generarDiario(gasto.usuario,consecutivo,gasto.iD_TIPO_GASTO,'1-01-02-002-007', referencia, true, this.total, false,0)
  
@@ -96,15 +99,46 @@ if(gastoIndex == gastos.length -1){
 
       })
   
-    })
+    
   }
 
   notificarUsuario(usuario){
 
   }
 
-  liquidar(){
+ async  liquidar(){
+ // this.alertasService.presentaLoading('guardando cambios...')
+this.gastos.forEach(async (gasto, index) =>{
+  gasto.estatus = 'F';
+  this.gastosSinAnticipoService.syncPutGastoSinAnticipoToPromise(gasto).then(async  (resp) =>{
 
+    let estadoCuenta:EstadosCuenta = {
+      id : null,
+      anticipo: false,
+      referencia : gasto.identificador,
+      usuario: gasto.usuario,
+      fecha: format(new Date(), 'MM/dd/yyyy'),
+      fechA_INICIAL: format(new Date(gasto.fechA_INICIAL), 'MM/dd/yyyy'),
+      fechA_FINAL:format(new Date(gasto.fechA_FINAL), 'MM/dd/yyyy'),
+      monto: gasto.monto,
+      restante: 0,
+      utilizado:gasto.monto,
+      observaciones:'observaciones'
+   }
+   await this.estadosCuentaService.syncPostEstadosCuentaToPromise(estadoCuenta);
+
+  })
+
+  if(this.gastos.length -1 == index){
+    this.alertasService.loadingDissmiss();
+    this.cerrarModal();
+    this.router.navigateByUrl('/inicio/control-estados-cuenta',{replaceUrl:true})
+    await this.procesoContableService.syncPostDiarioToPromise(this.diario);
+    await this.procesoContableService.syncPostAsientoDiarioToPromise(this.asientoDiarioSobrante);
+
+   }
+})
+ 
     console.log('liquidar')
   }
  

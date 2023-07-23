@@ -4,19 +4,17 @@
     <ion-title class="ion-text-capitalize" class="page-title">Gastos Sin Anticipo</ion-title>
     <ion-searchbar   (ionChange)="updateFilter($event)"   slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar usuario"  type="text"   [debounce]="250"  ></ion-searchbar>
  
-    <span style="position: relative;" slot="end">
-      <ion-fab-button   size="small"  class="margin-right"    color="dark"  >
-        <ion-icon name="notifications"></ion-icon>
-      </ion-fab-button>
-      <ion-badge style="position: absolute;top: 0;right:-0.5rem" color="primary" mode="ios">0</ion-badge>
-    </span>
-    <ion-fab-button   slot="end" size="small"  class="margin-right"     color="dark"  >
+    <ion-fab-button (click)="filtroGastosSinAnticipo()"   slot="end" size="small"  class="margin-right"     color="dark"  >
       <ion-icon name="funnel"></ion-icon>
     </ion-fab-button>
-<ion-fab-button color="dark" (click)="liquidacionAnticipo()" slot="end" size="small">
-  <ion-icon name="calculator"></ion-icon>
-</ion-fab-button>
+
+     
+
+
  
+ <ion-fab-button color="dark" (click)="seleccionarCompania()" slot="end" size="small">
+  <ion-icon name="arrow-forward-outline"></ion-icon>
+</ion-fab-button>
   </ion-toolbar>
 </ion-header>
 
@@ -48,16 +46,7 @@
       
           </ngx-datatable-column>
         </ng-template>
-        <ngx-datatable-column name="opciones"  prop="opciones">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <ion-button (click)="editarElemento(row)"  fill="clear"  >
-      <ion-icon color="warning"   name="create"></ion-icon>
-      </ion-button>
-      <ion-button  (click)="borrarElemento(row)"   fill="clear"  >
-      <ion-icon color="danger" name="trash"></ion-icon>
-      </ion-button>
-          </ng-template>
-      </ngx-datatable-column>
+ 
       </ngx-datatable>
       </ion-col>
    

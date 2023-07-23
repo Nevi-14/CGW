@@ -17,6 +17,7 @@ interface gastos {
 
 export class GraficosService {
   barChart: any;
+  barChart2: any;
   doughnutChart: any;
   lineChart: any;
  accionGasto:boolean = false;
@@ -44,8 +45,13 @@ anticipoLiquidado:boolean = false;
     if(this.barChart instanceof Chart)
     {
       this.barChart.destroy();
+      
     }
-     
+    if(this.barChart2 instanceof Chart)
+    {
+   
+      this.barChart2.destroy();
+    }
     if(this.doughnutChart instanceof Chart)
     {
       this.doughnutChart.destroy();
@@ -61,6 +67,7 @@ anticipoLiquidado:boolean = false;
  async   cargarGRaficos(){
   await this.destruirDashboard();
     this.barChartMethod();
+    this.barChartMethod2();
     this.doughnutChartMethod();
     this.lineChartMethod();
      
@@ -81,7 +88,7 @@ anticipoLiquidado:boolean = false;
   }
 
    barChartMethod() {
-    let barCanvas: any = document.getElementsByClassName('barCanvas');
+    let barCanvas: any = document.getElementById('barCanvas');
     console.log('barCanvas',barCanvas)
 if(barCanvas){
   this.barChart = new Chart(barCanvas, {
@@ -116,7 +123,42 @@ if(barCanvas){
   });
 }
   }
+  barChartMethod2() {
+    let barCanvas2: any = document.getElementById('barCanvas2');
+    console.log('barCanvas',barCanvas2)
+if(barCanvas2){
+  this.barChart2 = new Chart(barCanvas2, {
+    type: 'bar',
+    data: {
+      labels: this.labels,
+      datasets: [{
+        label: '# de gastos',
+        data: this.data,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
 
+    }
+  });
+}
+  }
   doughnutChartMethod() {
     let doughnutCanvas: any = document.getElementById('doughnutCanvas');
     console.log('doughnutCanvas',doughnutCanvas)

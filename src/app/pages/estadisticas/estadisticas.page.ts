@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { GraficosService } from 'src/app/services/graficos.service';
 
 @Component({
@@ -9,7 +10,8 @@ import { GraficosService } from 'src/app/services/graficos.service';
 export class EstadisticasPage implements OnInit {
 
   constructor(
-  public graficosService: GraficosService  
+  public graficosService: GraficosService ,
+  public modalCtrl:ModalController 
   ) { }
 
   ngOnInit() {
@@ -17,5 +19,8 @@ export class EstadisticasPage implements OnInit {
   ionViewWillEnter(){
     this.graficosService.cargarGRaficos();
   }
+  regresar(){
+    this.modalCtrl.dismiss()
 
+  }
 }

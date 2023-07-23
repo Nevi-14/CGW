@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+     </ion-button>
+    <ion-title  >Devoluciones</ion-title>
+  
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form id="form" (ngSubmit)="actualizarDevolucion(fSobrante)"     #fSobrante="ngForm" class="ion-padding">
+  <ion-grid >
+    <ion-row>
+
+      <ion-col size="6"  >
+
+        <app-input name="monto" readonly="true" label="Monto Devolucion"  ></app-input>
+         
+      </ion-col>
+
+      <ion-col size="6">
+<app-select readonly="true" label="Metodo Devolucion" name="metodO_DEVOLUCION" [data]="metodoDevolucion" ></app-select>
+      </ion-col>
+
+      <ion-col size="6">
+        <app-select [readonly]=" sobrante.estatus == 'A' ? true : false" label="Estatus" name="estatus" [data]="estatus"  ></app-select>
+             </ion-col>
+             <ion-col size="6">
+
+              <app-input name="observaciones"  label="Observaciones"   ></app-input>
+         
+            </ion-col>
+            <ion-col size="12"  style="display: flex;justify-content: space-between;align-items: center;">
+              <app-input readonly="true"  name="adjunto" style="display: block;margin-top: 1rem;" readonly="true" label="Adjunto" ngModel="{{file ? file.name : ''}}"></app-input>
+              <ion-fab-button  size="small">
+                <ion-icon name="add"></ion-icon>
+              </ion-fab-button>
+         
+            </ion-col>
+  
+    </ion-row>
+  </ion-grid>
+  
+<app-button  style="position: fixed;bottom: 1rem;width:95%"  label="Actualizar" ></app-button>
+  </form>
+</ion-content>

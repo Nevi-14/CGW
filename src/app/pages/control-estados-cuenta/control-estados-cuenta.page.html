@@ -3,9 +3,6 @@
   <ion-toolbar  >
     <ion-title class="ion-text-capitalize" class="page-title">Estados De Cuenta</ion-title>
     <ion-searchbar   (ionChange)="updateFilter($event)"   slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar usuario"  type="text"   [debounce]="250"  ></ion-searchbar>
-    <ion-fab-button  *ngIf="usuariosService.moduloAcceso.c" size="small"  class="margin-right" (click)="estadoCuenta()" slot="end" color="dark"  >
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
  
     <ion-fab-button  size="small"  (click)="cargarDatos()" class="margin-right" slot="end" color="dark"  >
       <ion-icon name="refresh"></ion-icon>
@@ -42,11 +39,9 @@
         <ngx-datatable-column name="opciones"  prop="opciones">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
       <ion-button (click)="editarElemento(row)"  fill="clear"  >
-      <ion-icon color="warning"   name="create"></ion-icon>
+      <ion-icon color="warning"   name="document"></ion-icon>
       </ion-button>
-      <ion-button  (click)="borrarElemento(row)"   fill="clear"  >
-      <ion-icon color="danger" name="trash"></ion-icon>
-      </ion-button>
+ 
           </ng-template>
       </ngx-datatable-column>
       </ngx-datatable>
