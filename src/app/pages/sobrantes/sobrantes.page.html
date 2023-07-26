@@ -15,14 +15,23 @@
 
       <ion-col size="6" *ngIf="sobrante">
 
-        <app-input name="monto" readonly="true" label="Monto Sobrante" ngModel="{{sobrante.monto | colones}}"></app-input>
+        <app-input name="monto" [readonly]="readonly" label="Monto Sobrante" ngModel="{{sobrante.monto | colones}}"></app-input>
          
       </ion-col>
 
       <ion-col size="6">
-<app-select readonly="true" label="Metodo Devolucion" name="metodO_DEVOLUCION" [data]="metodoDevolucion" ngModel="{{sobrante.metodO_DEVOLUCION}}"></app-select>
+<app-select [readonly]="readonly" label="Metodo Devolucion" name="metodO_DEVOLUCION" [data]="metodoDevolucion" ngModel="{{sobrante.metodO_DEVOLUCION}}"></app-select>
       </ion-col>
+      <ion-col size="6">
 
+        <app-input name="telefono" [readonly]="readonly"  label="Telefono" ngModel="{{sobrante.telefono}}"  ></app-input>
+   
+      </ion-col>
+      <ion-col size="6">
+
+        <app-input name="cuenta" [readonly]="readonly" label="Cuenta" ngModel="{{sobrante.cuenta}}"  ></app-input>
+   
+      </ion-col>
       <ion-col size="6">
         <app-select [readonly]=" sobrante.estatus == 'A' ? true : false" label="Estatus" name="estatus" [data]="estatus" ngModel="{{sobrante.estatus}}"></app-select>
              </ion-col>
@@ -32,7 +41,7 @@
          
             </ion-col>
             <ion-col size="12"  style="display: flex;justify-content: space-between;align-items: center;">
-              <app-input readonly="true"   [ngStyle]="{'width': sobrante.estatus == 'RA' || sobrante.estatus == 'P' ? '90%' : '100%'}" name="adjunto" style="display: block;margin-top: 1rem;" readonly="true" label="Adjunto" ngModel="{{file ? file.name : ''}}"></app-input>
+              <app-input [readonly]="readonly"   [ngStyle]="{'width': sobrante.estatus == 'RA' || sobrante.estatus == 'P' ? '90%' : '100%'}" name="adjunto" style="display: block;margin-top: 1rem;" [readonly]="readonly" label="Adjunto" ngModel="{{file ? file.name : ''}}"></app-input>
               <ion-fab-button *ngIf="sobrante.estatus == 'RA' || sobrante.estatus == 'P'" size="small">
                 <ion-icon name="add"></ion-icon>
               </ion-fab-button>
@@ -42,6 +51,6 @@
     </ion-row>
   </ion-grid>
   
-<app-button *ngIf="sobrante.estatus == 'RA' || sobrante.estatus == 'P'" style="position: fixed;bottom: 1rem;width:95%"  label="Actualizar" ></app-button>
+<app-button *ngIf="sobrante.estatus == 'RA' || sobrante.estatus == 'P' || sobrante.estatus == 'R'" style="position: fixed;bottom: 1rem;width:95%"  label="Actualizar" ></app-button>
   </form>
 </ion-content>

@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border" >
   <ion-toolbar>
     <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
-     <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+     <ion-icon slot="icon-only" size="large" name="arrow-back"></ion-icon>
     </ion-button>
     <h5 style="margin-right: 1rem;" slot="end"><strong>CIERRE CONTABLE</strong></h5>
 
@@ -55,7 +55,7 @@
          </ion-item>
          
      </ion-list>
-     <ion-list>
+     <ion-list *ngIf="this.adelantosService.adelantoViatico.restante >0">
       <h5 style="margin-left: 1rem;"><strong>SOBRANTES LINEAS</strong></h5>
         <ion-item>
        <ion-grid >
@@ -197,10 +197,9 @@
            </ion-list>
         
 </ion-content>
-<ion-footer      class="ion-no-border ion-padding">
+<ion-footer      class="ion-no-border ion-padding"  *ngIf="this.adelantosService.adelantoViatico.estatus != 'F'">
   <ion-toolbar>
-    <ion-button (click)="liquidar()"  expand="block" fill="solid" color="dark">
- Liquidar Anticipo
-      </ion-button>
+    <app-button  (click)="liquidar()"   label="Liquidar Anticipo"></app-button>
+ 
   </ion-toolbar>
  </ion-footer>

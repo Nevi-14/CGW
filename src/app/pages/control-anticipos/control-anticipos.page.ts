@@ -61,7 +61,7 @@ borrarElemento(row) {
   if(i >= 0){
     console.log('elemento',this.rows[i])
   }
-
+  this.alertasService.message('DIONE', 'La opción no se encuentra disponible..');
   console.log(row,'borrarElemento');
 }
 

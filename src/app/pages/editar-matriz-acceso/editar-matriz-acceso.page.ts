@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { OneUsuariosModulosMatrizAccesoView } from 'src/app/models/OneUsuariosModulosMatrizAccesoView';
 import { MatrizAcceso } from 'src/app/models/matrizAcceso';
@@ -9,15 +10,22 @@ import { MatrizAccesoService } from 'src/app/services/matriz-acceso.service';
 import { ModulosMatrizAccesoService } from 'src/app/services/modulos-matriz-acceso.service';
 import { ModulosService } from 'src/app/services/modulos.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-
+interface data {
+  id:any,
+  valor:any, 
+ }
 @Component({
   selector: 'app-editar-matriz-acceso',
   templateUrl: './editar-matriz-acceso.page.html',
   styleUrls: ['./editar-matriz-acceso.page.scss'],
 })
 export class EditarMatrizAccesoPage implements OnInit {
+  @Input()companias:data[] 
+  @Input()departamentos:data[] ;
+  @Input()modulos:data[]
   @Input() acceso: MatrizAcceso
-  @Input() modulos:[]=[]
+  @Input() editarModulos:[]
+  multiple = true;
   total = 0;
   usuarios:OneUsuariosModulosMatrizAccesoView[]=[]
   constructor(
@@ -32,35 +40,32 @@ export class EditarMatrizAccesoPage implements OnInit {
     public modulosMatrizccesoService:ModulosMatrizAccesoService
   ) { }
 
-  ngOnInit() {
-    this.total = this.modulos.length;
-    console.log(this.acceso, 'acceso')
-    this.alertasService.presentaLoading('Cargando datos..');
-    this.modulosService.syncGetModulosToPromise().then(modulos => {
-      this.modulosService.modulos = modulos;
-      this.companiaService.syncGetCompaniasToPromise().then(companias => {
-        this.companiaService.companias = companias;
-        this.departamentosService.syncGetDepartamentoToPromise().then(departamentos => {
-          this.departamentosService.departamentos = departamentos;
-          this.alertasService.loadingDissmiss();
-          console.log('modulos', this.modulosService.modulos);
-          console.log('companias', this.companiaService.companias)
-          console.log('departamentos', this.departamentosService.departamentos);
- 
 
-        }, error => {
-          this.alertasService.loadingDissmiss();
-          this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')
-        })
-      }, error => {
-        this.alertasService.loadingDissmiss();
-        this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')
-      })
-    }, error => {
-      this.alertasService.loadingDissmiss();
-      this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')
-    })
+
+  ngOnInit() {
+    console.log(this.acceso,'acceso')
+ console.log(this.editarModulos,'editarModulos')
+ console.log(this.companias,'companias')
+ console.log(this.departamentos,'departamentos')
+ console.log(this.modulos,'modulos')
   }
+  async retornarArreglo(array:any[],id:string,valor:string){
+     let data:data[] = [];
+      array.forEach((element, index) => {  
+        let item = {
+          id : element[id],
+          valor: element[valor]
+         };
+          data.push(item) 
+
+          if(index == array.length -1){
+            return data;
+          }
+      });
+
+      return data
+  }
+
 
   cerrarModal() {
     this.modalCtrl.dismiss();
@@ -69,7 +74,22 @@ export class EditarMatrizAccesoPage implements OnInit {
   borrarModulo($event){
     console.log($event)
       }
- async  generarPost(){
+      onChangeCompania(formulario:NgForm, $event){
+        console.log('formulario',formulario)
+console.log('fformulario', formulario.value.compania)
+this.acceso.iD_COMPANIA = formulario.value.compania;
+this.cd.detectChanges();
+      }
+ async  editarRolAcceso(fAcceso:NgForm){
+
+let data = fAcceso.value;
+console.log(data,'data')
+console.log(this.acceso,'acceso')
+let modulos = data.modulos;
+this.acceso.id = data.id;
+this.acceso.iD_COMPANIA = data.compania;
+this.acceso.iD_DEPARTAMENTO = data.departamento;
+this.acceso.nombre = data.nombre;
 
   await this.modulosMatrizccesoService.syncDeleteModuloMatrizAccesoToPromise(this.acceso.id);
 
@@ -78,13 +98,13 @@ export class EditarMatrizAccesoPage implements OnInit {
       this.alertasService.loadingDissmiss();
       this.matrizAccesoService.syncGetMatrizAccesotoToPromise().then(accesos =>{
         this.matrizAccesoService.matrizAcceso = accesos;
-        if(this.modulos.length == 0){
+        if(modulos.length == 0){
           this.alertasService.message('Dione','Acceso actualizado');    
           this.modalCtrl.dismiss(true)
           
         }
 
-        this.modulos.forEach(async (modulo, index) =>{
+        modulos.forEach(async (modulo, index) =>{
           let mod = {
              id:null,
              iD_MATRIZ_ACCESO: this.acceso.id,
@@ -92,7 +112,7 @@ export class EditarMatrizAccesoPage implements OnInit {
           }
           console.log(mod)
          await  this.modulosMatrizccesoService.syncPostModuloMatrizAccesoToPromise(mod);
-          if(index == this.modulos.length -1){
+          if(index == modulos.length -1){
             this.alertasService.message('Dione','Acceso actualizado');    
             this.modalCtrl.dismiss(true)
           }

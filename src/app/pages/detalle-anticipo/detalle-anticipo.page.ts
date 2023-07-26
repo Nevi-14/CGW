@@ -37,6 +37,7 @@ export class DetalleAnticipoPage implements OnInit {
   ra = 0;
   a = 0;
   r = 0;
+  segment = 'P';
   constructor(
     public modalCtrl: ModalController,
     public alertasService: AlertasService,
@@ -84,7 +85,7 @@ export class DetalleAnticipoPage implements OnInit {
   }
   ngOnInit() {
 
-
+ 
 
   }
 
@@ -172,8 +173,8 @@ export class DetalleAnticipoPage implements OnInit {
 
 
 
-    this.cargarGastos('P')
-
+  
+    if(this.adelantosService.adelantoViatico.estatus == 'F'){this.segment='A';   }else { this.cargarGastos(this.segment)}
 
  
 
@@ -246,8 +247,8 @@ export class DetalleAnticipoPage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: LiquidacionAnticipoPage,
-      cssClass: 'alert-modal',
-      mode: 'ios'
+      cssClass: 'large-modal',
+      mode: 'md'
     });
 
     if (this.isOpen) {

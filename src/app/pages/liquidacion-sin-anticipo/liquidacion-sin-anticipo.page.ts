@@ -110,8 +110,9 @@ if(gastoIndex ==  this.gastos.length -1){
  // this.alertasService.presentaLoading('guardando cambios...')
 this.gastos.forEach(async (gasto, index) =>{
   gasto.estatus = 'F';
-  this.gastosSinAnticipoService.syncPutGastoSinAnticipoToPromise(gasto).then(async  (resp) =>{
-
+ if(this.gastos.length-1  == index){
+  await this.gastosSinAnticipoService.syncPutGastoSinAnticipoToPromise(gasto) 
+  this.gastosSinAnticipo.forEach(async (gastoSin, index) =>{
     let estadoCuenta:EstadosCuenta = {
       id : null,
       anticipo: false,
@@ -120,23 +121,26 @@ this.gastos.forEach(async (gasto, index) =>{
       fecha: format(new Date(), 'MM/dd/yyyy'),
       fechA_INICIAL: format(new Date(gasto.fechA_INICIAL), 'MM/dd/yyyy'),
       fechA_FINAL:format(new Date(gasto.fechA_FINAL), 'MM/dd/yyyy'),
-      monto: gasto.monto,
+      monto: gastoSin.totalColones > 0 
+      ? gastoSin.totalColones : gastoSin.totalDolares,
       restante: 0,
-      utilizado:gasto.monto,
+      utilizado:gastoSin.totalColones > 0 
+      ? gastoSin.totalColones : gastoSin.totalDolares,
       observaciones:'observaciones'
    }
    await this.estadosCuentaService.syncPostEstadosCuentaToPromise(estadoCuenta);
+   if(this.gastosSinAnticipo.length -1 == index){
+    // if(this.diario){ await this.procesoContableService.syncPostDiarioToPromise(this.diario);}
+      //await this.procesoContableService.syncPostAsientoDiarioToPromise(this.asientoDiarioSobrante);
+      this.alertasService.loadingDissmiss();
+      this.cerrarModal();
+      this.router.navigateByUrl('/inicio/control-estados-cuenta',{replaceUrl:true})
+  
+     }
 
   })
-
-  if(this.gastos.length -1 == index){
-    this.alertasService.loadingDissmiss();
-    this.cerrarModal();
-    this.router.navigateByUrl('/inicio/control-estados-cuenta',{replaceUrl:true})
-    await this.procesoContableService.syncPostDiarioToPromise(this.diario);
-    await this.procesoContableService.syncPostAsientoDiarioToPromise(this.asientoDiarioSobrante);
-
-   }
+ }
+ 
 })
  
     console.log('liquidar')

@@ -99,6 +99,10 @@ const routes: Routes = [
   {
     path: 'editar-gasto-sin-anticipo',
     loadChildren: () => import('./pages/editar-gasto-sin-anticipo/editar-gasto-sin-anticipo.module').then( m => m.EditarGastoSinAnticipoPageModule)
+  },
+  {
+    path: 'visor-archivos',
+    loadChildren: () => import('./pages/visor-archivos/visor-archivos.module').then( m => m.VisorArchivosPageModule)
   }
 
 

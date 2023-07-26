@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { UsuariosMatrizAcceso } from 'src/app/models/matrizAcceso';
 import { Usuarios } from 'src/app/models/usuarios';
@@ -6,7 +7,10 @@ import { AlertasService } from 'src/app/services/alertas.service';
 import { MatrizAccesoService } from 'src/app/services/matriz-acceso.service';
 import { UsuariosMatrizAccesoService } from 'src/app/services/usuarios-matriz-acceso.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-
+interface data {
+  id:any,
+  valor:any, 
+ }
 @Component({
   selector: 'app-crear-usuario',
   templateUrl: './crear-usuario.page.html',
@@ -28,6 +32,7 @@ export class CrearUsuarioPage implements OnInit {
   }
   roles = [];
   matriz = [];
+  multiple:boolean = true;
   constructor(
 public usuariosService:UsuariosService,
 public alertasService:AlertasService,
@@ -38,13 +43,39 @@ public usuariosMatrizAccesoService:UsuariosMatrizAccesoService
   ) { }
 
  async  ngOnInit() {
-   this.matriz =  await this.matrizAccesoService.syncGetMatrizAccesotoToPromise();
+let matriz =  await this.matrizAccesoService.syncGetMatrizAccesotoToPromise();
+this.matriz = await this.retornarArreglo(matriz,'iD_MATRIZ_ACCESO','nombre');
    console.log(this.matriz)
 
   }
+  async retornarArreglo(array:any[],id:string,valor:string){
+    let data:data[] = [];
+     array.forEach((element, index) => {  
+      console.log(element)
+       let item = {
+         id : element[id],
+         valor: element[valor]
+        };
+         data.push(item) 
+
+         if(index == array.length -1){
+           return data;
+         }
+     });
+
+     return data
+ }
 
 
-  post(){
+ crearUsuario(form:NgForm){
+let data = form.value;
+console.log(data,'data') 
+this.usuario.nombre = data.nombre;
+this.usuario.apellido = data.apellido;
+this.usuario.correo = data.correo;
+this.usuario.usuario = data.usuario;
+this.usuario.clave = data.clave;
+this.roles = data.roles
     if(this.roles.length == 0){
       this.alertasService.message('Dione', 'Seleciona un rol para continuar!.')
       return

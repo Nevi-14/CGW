@@ -37,7 +37,7 @@ export class RegistroAnticiposPage implements OnInit {
     id: null,
     cREADO_POR: null,
     mODIFICADO_POR: null,
-    eSTATUS: 'P',
+    estatus: 'P',
     coD_COMPANIA: null,
     fecha: new Date(),
     fechA_INICIAL: new Date(),
@@ -231,7 +231,7 @@ export class RegistroAnticiposPage implements OnInit {
       id: null,
       cREADO_POR: null,
       mODIFICADO_POR: null,
-      eSTATUS: 'P',
+      estatus: 'P',
       coD_COMPANIA: null,
       fecha: new Date(),
       fechA_INICIAL: new Date(),
@@ -303,7 +303,6 @@ export class RegistroAnticiposPage implements OnInit {
   }
   borrarUsuario(i) {
     this.usuarios.splice(i, 1);
-    this.actualziarTotales();
   }
 
   incrementarMonto(usuario: UsuarioExactus, $event) {

@@ -40,34 +40,27 @@
   user-select: text;
   
   }
+  ion-modal.auto-height {
+    align-items: start; 
+    padding-top: 6rem;
+    ion-content {
+      display: contents;
+    
+      &::part(scroll) {
+        position: static;
+      }
+    }
+    --height: auto !important;
+
+    .ion-page {
+      max-height: calc(100vh - (var(--ion-grid-padding) * 2));
+      position: relative;
+      
+      contain: content;
+    }
+    
+}
  
-    ion-modal.auto-size-modal {
-      &.bottom {
-          align-items: flex-end;
-      }
-      ion-label{
-        font-size: 14px;
-        letter-spacing: 2px;
-        font-weight: 400;
-      }
-    
-      --height: auto;
-      --width: 90vw!important;
-      color: #000!important;
-      --color: #000!important;
-      .ion-page {
-          position: relative;
-          display: block;
-          contain: content;
-    
-          .inner-content {
-              max-height: 80vh;
-       overflow-y: scroll;
-                 color: #000!important;
-              --color: #000!important;
-          }
-      }
-    } 
 .scroll-modal {
     max-height:400px;
     position: relative;

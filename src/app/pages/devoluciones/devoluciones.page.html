@@ -15,16 +15,16 @@
 
       <ion-col size="6"  >
 
-        <app-input name="monto" readonly="true" label="Monto Devolucion"  ></app-input>
+        <app-input name="monto" label="Monto Devolucion"  ></app-input>
          
       </ion-col>
 
       <ion-col size="6">
-<app-select readonly="true" label="Metodo Devolucion" name="metodO_DEVOLUCION" [data]="metodoDevolucion" ></app-select>
+<app-select [readonly]="readonly" label="Metodo Devolucion" name="metodO_DEVOLUCION"  ></app-select>
       </ion-col>
 
       <ion-col size="6">
-        <app-select [readonly]=" sobrante.estatus == 'A' ? true : false" label="Estatus" name="estatus" [data]="estatus"  ></app-select>
+        <app-select  label="Estatus" name="estatus"   ></app-select>
              </ion-col>
              <ion-col size="6">
 
@@ -32,7 +32,7 @@
          
             </ion-col>
             <ion-col size="12"  style="display: flex;justify-content: space-between;align-items: center;">
-              <app-input readonly="true"  name="adjunto" style="display: block;margin-top: 1rem;" readonly="true" label="Adjunto" ngModel="{{file ? file.name : ''}}"></app-input>
+              <app-input   name="adjunto" style="display: block;margin-top: 1rem;"  label="Adjunto" ></app-input>
               <ion-fab-button  size="small">
                 <ion-icon name="add"></ion-icon>
               </ion-fab-button>

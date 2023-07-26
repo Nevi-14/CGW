@@ -11,6 +11,7 @@ import { GastosAnticiposService } from 'src/app/services/gastos-anticipos.servic
 import { Notificaciones } from 'src/app/models/notificaciones';
 import { NotificacionesService } from 'src/app/services/notificaciones.service';
 import { LineaGasto } from 'src/app/models/gastos';
+import { VisorArchivosPage } from '../visor-archivos/visor-archivos.page';
 
 @Component({
   selector: 'app-editar-gasto',
@@ -24,6 +25,8 @@ export class EditarGastoPage implements OnInit {
   montoAnterior = 0;
   restanteAnterior = 0;
   motivoRechazo  = null;
+  isOpen: boolean = false;
+ 
   estatus = [
     {
      id: 'P',
@@ -176,6 +179,31 @@ console.log('resp usuario notificado', resp)
 
   }
 
+  async mostrarArchivo(file: string) {
 
+
+    this.isOpen = true;
+
+    const modal = await this.modalctrl.create({
+      component: VisorArchivosPage,
+      cssClass: 'alert-modal',
+      mode: 'ios',
+      componentProps: {
+        file
+      }
+    });
+
+    if (this.isOpen) {
+
+      modal.present();
+      const { data } = await modal.onWillDismiss();
+      this.isOpen = false;
+      if (data != undefined) {
+
+
+      }
+
+    }
+  }
 
 }

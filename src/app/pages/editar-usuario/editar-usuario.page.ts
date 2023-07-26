@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { UsuariosMatrizAcceso } from 'src/app/models/matrizAcceso';
 import { MatrizAccesoView } from 'src/app/models/matrizAccesoView';
@@ -7,7 +8,10 @@ import { AlertasService } from 'src/app/services/alertas.service';
 import { MatrizAccesoService } from 'src/app/services/matriz-acceso.service';
 import { UsuariosMatrizAccesoService } from 'src/app/services/usuarios-matriz-acceso.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-
+interface data {
+  id:any,
+  valor:any, 
+ }
 @Component({
   selector: 'app-editar-usuario',
   templateUrl: './editar-usuario.page.html',
@@ -15,8 +19,9 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 })
 export class EditarUsuarioPage implements OnInit {
 @Input() usuario:Usuarios
-@Input()roles:[] = [];
-@Input()matriz:MatrizAccesoView[] = [];
+@Input()roles:any[] = [];
+@Input() matriz:data[]= [];
+multiple = true;
   constructor(
 public usuariosService:UsuariosService,
 public alertasService:AlertasService,
@@ -27,13 +32,22 @@ public usuariosMatrizAccesoService: UsuariosMatrizAccesoService
   ) { }
 
  async ngOnInit() {
- 
+ console.log(this.matriz)
 
-  console.log('roles', this.roles)
+ console.log(this.roles)
   }
 
-
- async post(){
+ 
+ async editarUsuario(form:NgForm){
+  let data = form.value;
+  console.log(data,'data') 
+  this.usuario.nombre = data.nombre;
+this.usuario.apellido = data.apellido;
+this.usuario.correo = data.correo;
+this.usuario.usuario = data.usuario;
+this.usuario.clave = data.clave;
+this.roles = data.roles
+ 
     console.log(this.usuario)
 await this.usuariosMatrizAccesoService.syncDeleteUsuarioMatrizAccesoToPromise(this.usuario.id);
     this.alertasService.presentaLoading('guardando cambios..')

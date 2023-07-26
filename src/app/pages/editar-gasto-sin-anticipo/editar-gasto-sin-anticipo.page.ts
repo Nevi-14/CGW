@@ -56,6 +56,9 @@ export class EditarGastoSinAnticipoPage implements OnInit {
   
     console.log(this.nuevoGasto, 'gastooo')
   }
+  estadoGasto(fRegistroGasto){
+    
+  }
   actualizarGasto(ngForm:NgForm){
     this.alertasService.presentaLoading('Guardando cambios...')
     this.nuevoGasto.estatus = ngForm.value.estatus;

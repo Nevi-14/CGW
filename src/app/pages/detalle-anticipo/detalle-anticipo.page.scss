@@ -4,7 +4,11 @@ ion-title{
     margin-left: 1rem;
     text-transform: uppercase;
  } 
-
+ ion-card{
+    min-height: 50vh;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 0px;
+   
+    }
  ion-button ion-icon{
     color: #000;
 }
@@ -38,7 +42,18 @@ ion-avatar{
     width: 100%;
   }
  
-
+.custom-title{
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.subcustom-title{
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+ 
+}
  
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) { }

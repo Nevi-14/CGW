@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { EditarMatrizAccesoPageRoutingModule } from './editar-matriz-acceso-routing.module';
 
 import { EditarMatrizAccesoPage } from './editar-matriz-acceso.page';
+import { ComponentModule } from 'src/app/components/component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EditarMatrizAccesoPageRoutingModule
+    EditarMatrizAccesoPageRoutingModule,
+    ComponentModule
   ],
   declarations: [EditarMatrizAccesoPage]
 })

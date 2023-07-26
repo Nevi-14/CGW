@@ -4,7 +4,7 @@ export class  adelantoViaticos{
       public id : number,
       public cREADO_POR: number,
       public mODIFICADO_POR: number,
-      public eSTATUS :string,
+      public estatus :string,
       public coD_COMPANIA: string,
       public fecha: Date,
       public fechA_INICIAL: Date,

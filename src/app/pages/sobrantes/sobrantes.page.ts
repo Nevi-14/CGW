@@ -46,6 +46,7 @@ metodoDevolucion = [
     valor : 'Deposito'
    } 
 ]
+readonly = true;
   constructor(
     public alertasService: AlertasService,
 public sobrantesService:SobrantesService,

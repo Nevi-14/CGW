@@ -8,6 +8,7 @@ import { LiquidacionAnticipoPageRoutingModule } from './liquidacion-anticipo-rou
 
 import { LiquidacionAnticipoPage } from './liquidacion-anticipo.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ComponentModule } from 'src/app/components/component.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     FormsModule,
     IonicModule,
     LiquidacionAnticipoPageRoutingModule,
-    PipesModule
+    PipesModule,
+    ComponentModule
   ],
   declarations: [LiquidacionAnticipoPage]
 })

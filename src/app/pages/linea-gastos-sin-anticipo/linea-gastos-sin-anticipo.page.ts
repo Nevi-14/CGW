@@ -26,6 +26,7 @@ export class LineaGastosSinAnticipoPage implements OnInit {
   public columns: any;
   public rows: any[] = [];
   temp = [];
+  multi:any = 'multi';
   url = "https://sde1.sderp.site/api-coris-control-viaticos/api/descargar-archivo?id=";
   constructor(
     public gastosSinanticipoService: GastosSinAnticipoService,

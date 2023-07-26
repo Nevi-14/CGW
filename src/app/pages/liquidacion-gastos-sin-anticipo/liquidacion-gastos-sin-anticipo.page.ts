@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { GastoSinAnticipo } from 'src/app/models/gastoSinAnticipo';
 import { GastosSinAnticipoService } from 'src/app/services/gastos-sin-anticipo.service';
 import { GraficosService } from 'src/app/services/graficos.service';
@@ -31,6 +31,7 @@ export class LiquidacionGastosSinAnticipoPage implements OnInit {
   ra = 0;
   a = 0;
   r = 0;
+  segment = 'P';
   identificador = null;
   utilizado = 0;
   constructor(
@@ -38,7 +39,8 @@ public gastosSinanticipoService:GastosSinAnticipoService,
 public graficosService:GraficosService,
 public modalCtrl:ModalController,
 public alertasService:AlertasService,
-public tiposGastosSerivce:TiposGastosService
+public tiposGastosSerivce:TiposGastosService,
+public cd:ChangeDetectorRef
 
   ) { }
 
@@ -48,7 +50,7 @@ public tiposGastosSerivce:TiposGastosService
     this.identificador = (this.gastosSinanticipoService.filtro.compania ? this.gastosSinanticipoService.filtro.valor1 : this.gastosSinanticipoService.fechaInicioMes) + (this.gastosSinanticipoService.filtro.compania ? this.gastosSinanticipoService.filtro.valor2  : this.gastosSinanticipoService.fechaFinMes)
    
    console.log(this.gastosSinanticipoService.compania,'compania', this.gastosSinanticipoService.filtro,'filtro')
-   this.cargarGastos('P');
+   this.cargarGastos(this.segment);
   }
   async mostrarEstadisiticas() {
 
@@ -113,8 +115,8 @@ console.log(usuario,'gastoooooooos')
   this.a = 0;
   this.r = 0;
 
-
-
+ 
+ 
   this.gastosSinanticipoService.gastos.forEach( (gasto, index) =>{
     switch (gasto.estatus) {
       case 'P':
@@ -157,10 +159,11 @@ if(gasto.estatus == estado){
   }
   
   if( this.gastosSinanticipoService.gastos.length -1  == index){
-  console.log('gastos', this.gastos)
+  console.log('gastos3', this.gastos)
+ 
+   let gastos = this.gastos
   this.lineasPendientes = this.gastos.filter(e => e.pendientes > 0).length;
-
-  
+ 
 
 
 
@@ -168,17 +171,14 @@ if(gasto.estatus == estado){
   this.graficosService.data = [];
   //this.alertasService.presentaLoading('Cargando datos...')
   this.tiposGastosSerivce.getgastosToPromise().then((resp) => {
+  
     this.tiposGastosSerivce.tiposGastos = resp;
     resp.forEach(async (tipo, index) => {
       this.graficosService.labels.push(tipo.descripcion)
       this.graficosService.data.push(0)
       if (index == resp.length - 1) {
+   this.gastos = gastos;
    
- 
-
-
- 
-
 
     this.gastos.forEach(async (usuario, index) => {
 
@@ -194,8 +194,9 @@ if(gasto.estatus == estado){
           if (i >= 0) {
             this.graficosService.data[i] += 1;
           }
-      
+       
         if (indexGasto == usuario.gastos.length - 1) {
+        
           await this.alertasService.loadingDissmiss();
           this.graficosService.cargarGRaficos();
         }
@@ -203,6 +204,7 @@ if(gasto.estatus == estado){
       })
 
       if(index == this.gastos.length -1){
+    
         await this.alertasService.loadingDissmiss();
       }
       })
@@ -213,6 +215,15 @@ if(gasto.estatus == estado){
   })
 
 
+  }
+}
+
+if(this.gastosSinanticipoService.gastos.length -1 == index){
+  this.lineasPendientes = this.gastos.filter(e => e.pendientes > 0).length;
+  if( this.lineasPendientes == 0){
+    this.segment = 'RA'
+    this.cd.detectChanges();
+   this.cargarGastos('RA')
   }
 }
   })
@@ -246,7 +257,7 @@ if(gasto.estatus == estado){
   
           const modal = await this.modalCtrl.create({
             component: LiquidacionSinAnticipoPage,
-            cssClass: 'ui-modal',
+            cssClass: 'large-modal',
             mode:'ios',
             componentProps:{
               gastos: gastos

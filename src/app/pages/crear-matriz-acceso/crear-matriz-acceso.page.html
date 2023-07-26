@@ -3,12 +3,11 @@
 
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
-      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    <ion-button (click)="cerrarModal()"  fill="clear" slot="start">
+      <ion-icon color="dark" size="large" name="arrow-back-outline"></ion-icon>
     </ion-button>
 <ion-title>CREAR ROL ACCESO</ion-title>
-<ion-label slot="end" style="margin-right: 0.5rem;"><strong>Aprobador</strong></ion-label>
-<ion-toggle slot="end" name="aprobador" [(ngModel)]="acceso.aprobador"></ion-toggle>
+ 
 </ion-toolbar>
 </ion-header>
 
@@ -19,28 +18,32 @@
   <form id="form" (ngSubmit)="crearRolAcceso(fAcceso)" #fAcceso="ngForm" >
 <ion-grid >
   <ion-row>
-    <ion-col size="12">
+    <ion-col size="6">
       <app-input    name="id" type="text" label="ID Role" ngModel="{{acceso.id}}"></app-input>
  
    
     </ion-col>
-    <ion-col size="12">
+    <ion-col size="6">
       <app-input    name="nombre" type="text" label="Nombre" ngModel="{{acceso.nombre}}"></app-input>
       
  
     </ion-col>
-    <ion-col size="12">
-      <app-select label="Compañia" data=""></app-select>
+    <ion-col size="6">
+      <app-select name="compania" label="Compañia" [data]="companias" ngModel="{{acceso.iD_COMPANIA}}"></app-select>
  
     </ion-col>
-    <ion-col size="12">
+    <ion-col size="6">
                 
-      <app-select label="Departamento" data=""></app-select>
+      <app-select name="departamento" label="Departamento" [data]="departamentos" ngModel="{{acceso.iD_DEPARTAMENTO}}"></app-select>
  
     </ion-col>
     <ion-col size="12">
-      <app-select label="Modulos" data=""></app-select>
+      <app-select [multiple]="multiple" name="modulos" label="Modulos" [data]="modulos" ngModel="{{crearModulos}}"></app-select>
  
+    </ion-col>
+    <ion-col size="12" style="display: flex;justify-content: flex-end;align-items: center;margin-bottom: 1rem;">
+      <ion-label   style="margin-right: 0.5rem;"><strong>Aprobador</strong></ion-label>
+<ion-toggle   name="aprobador" [(ngModel)]="acceso.aprobador"></ion-toggle>
     </ion-col>
     <ion-col size="3">
       Lectura
@@ -69,7 +72,7 @@
 
   </ion-row>
 </ion-grid>
-<app-button style="position: absolute;bottom: 0rem;width:90%"  label="Crear Role Acceso"></app-button>
+<app-button    label="Crear Role Acceso"></app-button>
   </form>
 
 

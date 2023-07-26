@@ -1,9 +1,10 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
-      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    <ion-button (click)="cerrarModal()"  fill="clear" slot="start">
+      <ion-icon color="dark" size="large" name="arrow-back-outline"></ion-icon>
     </ion-button>
 <ion-title>CREAR DEPARTAMENTO</ion-title>
+ 
   </ion-toolbar>
 </ion-header>
 
@@ -11,13 +12,13 @@
 
    
  
-  <form id="form" (ngSubmit)="crearDepartamento(fLogin)" #fLogin="ngForm">
+  <form   id="form" (ngSubmit)="crearDepartamento(fLogin)" #fLogin="ngForm">
     <app-input    name="nombre" type="text" label="Nombre" ngModel="{{departamento.nombre}}"></app-input>
     <app-input    name="descripcion" type="text" label="Descripción" ngModel="{{departamento.descripcion}}"></app-input>
     
 
 
-    <app-button style="position: absolute;bottom:0rem;width:90%"  label="Registar Departamento"></app-button>
+    <app-button    label="Registar Departamento"></app-button>
  
 
   </form>

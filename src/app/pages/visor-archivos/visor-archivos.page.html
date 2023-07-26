@@ -1,0 +1,14 @@
+<ion-header class="ion-no-border" >
+  <ion-toolbar>
+    <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
+     <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+    <h5 style="margin-right: 1rem;" slot="end"><strong>Visor Archivos</strong></h5>
+
+
+  </ion-toolbar>
+
+</ion-header>
+<ion-content *ngIf="url" class="ion-padding">
+ <img [src]="url" alt="">
+</ion-content>

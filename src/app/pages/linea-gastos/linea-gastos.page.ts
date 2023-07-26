@@ -29,6 +29,7 @@ sobrante:Sobrantes = null;
 public columns: any;
 public rows: any[]=[];
 temp = [];
+multi:any = 'multi';
 url = "https://sde1.sderp.site/api-coris-control-viaticos/api/descargar-archivo?id=";
   constructor(
 public modalCtrl:ModalController,
@@ -61,7 +62,7 @@ public alertCtrl:AlertController
       this.gastos = resp;
       let sobrante = await  this.sobrantesService.syncGetSobranteAnticipoUsuarioToPromise( this.linea.usuario,this.adelantosService.adelantoViatico.numerO_TRANSACCION)
       this.sobrante = sobrante[0]
-      console.log(this.gastos)
+      console.log(this.sobrante,'sobrante')
       this.columns = [
         { id: "referencia", label: "Factura", size: 2 },
         { id: "descripcion", label: "Descripcion", size: 2},

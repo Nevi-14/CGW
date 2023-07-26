@@ -44,6 +44,7 @@ export class LiquidacionAnticipoPage implements OnInit {
     ) { }
 
  async  ngOnInit() {
+  this.alertasService.presentaLoading('Cargando...')
 let consecutivos = await this.adelantosService.syncGetConsecutivo();
 let i = consecutivos.findIndex(e => e.cia == this.adelantosService.adelantoViatico.coD_COMPANIA)
 let consecutivo = null;
@@ -62,6 +63,7 @@ let totalDiario = 0;
 if(gastoIndex == gastos.length -1){
   let referencia = `Liquidación de viáticos Anticipo ${format(new Date(this.adelantosService.adelantoViatico.fechA_INICIAL), 'MM/dd/yyyy')} + ${format(new Date(this.adelantosService.adelantoViatico.fechA_FINAL), 'MM/dd/yyyy')}`;
   this.postAsiento = this.cierreContableService.generarDiario(gasto.usuario,consecutivo,gasto.tipO_GASTO,'1-01-02-002-007', referencia, true, totalDiario, false,0)
+  if(this.adelantosService.adelantoViatico.restante == 0){ this.alertasService.loadingDissmiss(); }
   if (this.adelantosService.adelantoViatico.restante > 0) {
  
     this.lienasAnticiposService.syncGetLineasAnriciposToPromise(this.adelantosService.adelantoViatico.id).then(resp =>{
@@ -81,7 +83,9 @@ totalSobrante += lineas.restante;
     let referencia2 = `Sobrante 
 Anticipo +  ${format(new Date(this.adelantosService.adelantoViatico.fechA_INICIAL), 'MM/dd/yyyy')} + ${format(new Date(this.adelantosService.adelantoViatico.fechA_FINAL), 'MM/dd/yyyy')}`;
   this.postSobrante = this.cierreContableService.generarDiario(gasto.usuario,consecutivo,gasto.tipO_GASTO,'7-99-01-009-000', referencia2, false,  0, true, totalSobrante);
-  }
+  this.alertasService.loadingDissmiss();
+
+}
 })
 
 })
@@ -90,6 +94,9 @@ Anticipo +  ${format(new Date(this.adelantosService.adelantoViatico.fechA_INICIA
 
       })
   
+    }, error =>{
+      this.alertasService.loadingDissmiss();
+      this.alertasService.message('Error', 'Error al cargar los gastos')
     })
  
   }
@@ -101,9 +108,9 @@ Anticipo +  ${format(new Date(this.adelantosService.adelantoViatico.fechA_INICIA
 
  async  liquidar(){
   this.alertasService.presentaLoading('Guadando cambios...')
-    this.adelantosService.adelantoViatico.eSTATUS = 'F';
+    this.adelantosService.adelantoViatico.estatus = 'F';
     await   this.adelantosService.syncPuttAdelantoViaticosToPromise(this.adelantosService.adelantoViatico);
-    await this.procesoContableService.syncPostDiarioToPromise([this.postAsiento, this.postSobrante]);
+    await this.procesoContableService.syncPostDiarioToPromise(this.adelantosService.adelantoViatico.restante > 0 ? [this.postAsiento, this.postSobrante] : [this.postAsiento]);
 
     this.lienasAnticiposService.syncGetLineasAnriciposToPromise(this.adelantosService.adelantoViatico.id).then(resp =>{
 

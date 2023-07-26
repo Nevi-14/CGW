@@ -80,7 +80,7 @@
   
  
   </ion-content>
-  <ion-footer class="ion-no-border" *ngIf=" sobrante && sobrante.estatus =='A' && linea.estatus !='A' || linea.restante == 0 && linea.utilizado == linea.monto  && sobrante.estatus !='A'" >
+  <ion-footer class="ion-no-border" *ngIf=" sobrante && sobrante.estatus =='A' && linea.estatus !='A' || linea.restante == 0 && linea.utilizado == linea.monto  &&  sobrante && sobrante.estatus !='A' ||  linea.restante == 0 && linea.utilizado == linea.monto  &&  !sobrante && this.linea.estatus !='A'" >
     <ion-toolbar class="ion-padding">
       <app-button (click)="actualizarLineaAnticipo()"  label="Completar Linea Anticipo"></app-button>
        

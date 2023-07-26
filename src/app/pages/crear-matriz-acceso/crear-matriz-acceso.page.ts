@@ -8,9 +8,12 @@ import { DepartamentosService } from 'src/app/services/departamentos.service';
 import { MatrizAccesoService } from 'src/app/services/matriz-acceso.service';
 import { ModulosService } from 'src/app/services/modulos.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-import { Modulos } from '../../models/modulos';
 import { ModulosMatrizAccesoService } from 'src/app/services/modulos-matriz-acceso.service';
-
+import { NgForm } from '@angular/forms';
+interface data {
+  id:any,
+  valor:any, 
+ }
 @Component({
   selector: 'app-crear-matriz-acceso',
   templateUrl: './crear-matriz-acceso.page.html',
@@ -29,8 +32,11 @@ acceso:MatrizAcceso = {
    u: false,
    d: false
 }
-
-modulos= []
+companias:data[] = [];
+departamentos:data[] = [];
+modulos:data[]=[]
+crearModulos = [];
+multiple:boolean = true;
   constructor(
     public modalCtrl: ModalController,
     public modulosService: ModulosService,
@@ -44,12 +50,14 @@ modulos= []
 
   ngOnInit() {
     this.alertasService.presentaLoading('Cargando datos..');
-    this.modulosService.syncGetModulosToPromise().then(modulos => {
-      this.modulosService.modulos = modulos;
-      this.companiaService.syncGetCompaniasToPromise().then(companias => {
-        this.companiaService.companias = companias;
-        this.departamentosService.syncGetDepartamentoToPromise().then(departamentos => {
-          this.departamentosService.departamentos = departamentos;
+    this.modulosService.syncGetModulosToPromise().then(async (modulos) => {
+
+       
+      this.modulos = this.modulos.concat(await this.retornarArreglo(modulos,'id','nombre'));
+      this.companiaService.syncGetCompaniasToPromise().then(async (companias) => {
+        this.companias = this.companias.concat(await this.retornarArreglo(companias,'id','nombre'));
+        this.departamentosService.syncGetDepartamentoToPromise().then(async (departamentos) => {
+          this.departamentos = this.departamentos.concat(await this.retornarArreglo(departamentos,'id','nombre'));
           this.alertasService.loadingDissmiss();
           console.log('modulos', this.modulosService.modulos);
           console.log('companias', this.companiaService.companias)
@@ -69,6 +77,22 @@ modulos= []
       this.alertasService.message('Dione', 'Lo sentimos algo salio mal..')
     })
   }
+  async retornarArreglo(array:any[],id:string,valor:string){
+     let data:data[] = [];
+      array.forEach((element, index) => {  
+        let item = {
+          id : element[id],
+          valor: element[valor]
+         };
+          data.push(item) 
+
+          if(index == array.length -1){
+            return data;
+          }
+      });
+
+      return data
+  }
 
   cerrarModal() {
     this.modalCtrl.dismiss();
@@ -76,16 +100,23 @@ modulos= []
   }
 
 
-  generarPost(){
-    console.log(this.acceso, 'acceso')
-console.log('modulos', this.modulos)
-   
+  crearRolAcceso(fAcceso:NgForm){
+    let data = fAcceso.value;
+    let modulos = data.modulos;
+    this.acceso.id = data.id;
+    this.acceso.iD_COMPANIA = data.compania;
+    this.acceso.iD_DEPARTAMENTO = data.departamento;
+    this.acceso.nombre = data.nombre;
 
+    console.log(this.acceso, 'acceso')
+    //console.log(modulos, 'modulos')
+    //console.log(data, 'data')
+   
     this.alertasService.presentaLoading('Guardando cambios..');
     this.matrizAccesoService.syncPostMatrizAccesoToPromise(this.acceso).then( (resp:MatrizAcceso) =>{
 
       
-    this.modulos.forEach(async (modulo, index) =>{
+    modulos.forEach(async (modulo, index) =>{
       let mod = {
          id:null,
          iD_MATRIZ_ACCESO: resp.id,
@@ -93,7 +124,7 @@ console.log('modulos', this.modulos)
       }
       console.log(mod)
      await  this.modulosMatrizccesoService.syncPostModuloMatrizAccesoToPromise(mod);
-      if(index == this.modulos.length -1){
+      if(index == modulos.length -1){
         this.alertasService.loadingDissmiss();
         this.alertasService.message('Dione', 'Role Creado')
         this.modalCtrl.dismiss(true)

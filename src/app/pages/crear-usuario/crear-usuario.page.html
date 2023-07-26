@@ -9,7 +9,7 @@
 
 
 <ion-content class="ion-padding">
-  <form id="form" (ngSubmit)="crearDepartamento(fLogin)" #fLogin="ngForm" class="ion-padding">
+  <form id="form" (ngSubmit)="crearUsuario(form)" #form="ngForm" class="ion-padding">
 <ion-grid >
   <ion-row>
     <ion-col size="12">
@@ -17,7 +17,7 @@
  
         <ion-col size="12">
 
-          <app-select label="Roles"></app-select>
+          <app-select [multiple]="multiple"  name="roles" label="Roles" [data]="matriz" ngModel="{{roles}}"></app-select>
       
       
         </ion-col>
@@ -26,7 +26,7 @@
     <ion-col size="6">
       <ion-row>
         <ion-col size="12">
-         <app-input   type="text"label="Nombre" name="nombre"></app-input>
+         <app-input   type="text"label="Nombre" name="nombre"  ngModel="{{usuario.nombre}}"></app-input>
         </ion-col>
      
       </ion-row>
@@ -35,7 +35,7 @@
             <ion-row>
            
               <ion-col size="12">
-                <app-input  type="text" label="Apellido" name="apellido"></app-input>
+                <app-input  type="text" label="Apellido" name="apellido" ngModel="{{usuario.apellido}}"> </app-input>
               </ion-col>
             </ion-row>
                 </ion-col>
@@ -44,7 +44,7 @@
             <ion-row>
         
               <ion-col size="12">
-                <app-input  type="text" label="Correo" name="correo"></app-input>
+                <app-input  type="text" label="Correo" name="correo" ngModel="{{usuario.correo}}"></app-input>
               </ion-col>
  
             </ion-row>
@@ -54,7 +54,7 @@
                   <ion-row>
             
                     <ion-col size="12">
-                      <app-input label="Usuario" type="text"  name="usuario"></app-input>
+                      <app-input label="Usuario" type="text"  name="usuario" ngModel="{{usuario.usuario}}"></app-input>
                     </ion-col>
                   </ion-row>
                       </ion-col>
@@ -62,19 +62,21 @@
                   <ion-row>
                     
                     <ion-col size="12">
-                      <app-input label="Contraseña" type="password" name="clave"></app-input>
+                      <app-input label="Contraseña" type="password" name="clave" ngModel="{{usuario.clave}}"></app-input>
                     </ion-col>
        
                   </ion-row>
                       </ion-col>
-
+<ion-col size="12">
+  
+<app-button   label="Crear Usuario"></app-button>
+</ion-col>
               
   </ion-row>
 </ion-grid>
     
 
-
-<app-button style="position: fixed;bottom: 1rem;width:90%"  label="Crear Usuario"></app-button>
+ 
  
 
 </form>

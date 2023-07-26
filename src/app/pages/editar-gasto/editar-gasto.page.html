@@ -20,7 +20,7 @@
     <ion-grid >
       <ion-row>
         <ion-col size="6">
-        <app-select [readonly]="nuevoGasto.estatus == 'RA' ? 'false' : 'true'" name="estatus"  (ionChange)="estadoGasto(fRegistroGasto)" ngModel="{{nuevoGasto.estatus}}" label="Estatus" [data]="estatus">
+        <app-select [readonly]="nuevoGasto.estatus == 'RA' ? false : true" name="estatus"  (ionChange)="estadoGasto(fRegistroGasto)" ngModel="{{nuevoGasto.estatus}}" label="Estatus" [data]="estatus">
 
         </app-select>
  
@@ -36,7 +36,7 @@
         <ion-col size="6">
             
  
-          <app-input readonly="true"   name="factura" type="text" label="Factura" ngModel="{{nuevoGasto.factura}}"></app-input>
+          <app-input readonly="true"   name="referencia" type="text" label="referencia" ngModel="{{nuevoGasto.referencia}}"></app-input>
       
       
              </ion-col>
@@ -62,7 +62,7 @@
           <app-input  readonly="true"  name="descripcion" type="text" label="Detalle" ngModel="{{nuevoGasto.descripcion}}"></app-input>
         </ion-col>  
         <ion-col size="6" readonly="true" *ngIf="nuevoGasto.adjunto">
-          <app-input   name="adjunto" type="text" label="Adjunto" ngModel="{{nuevoGasto.adjunto}}"></app-input>
+          <app-input   (click)="mostrarArchivo(nuevoGasto.adjunto)" name="adjunto" type="text" label="Adjunto" ngModel="{{nuevoGasto.adjunto}}"></app-input>
         </ion-col>
         <ion-col size="12" *ngIf="nuevoGasto.estatus == 'RA'">
           <app-button label="Actualizar"></app-button>

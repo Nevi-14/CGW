@@ -39,6 +39,7 @@
     "logrocket": "^4.0.0",
     "mapbox-gl": "^2.7.0",
     "ng2-charts": "^4.1.1",
+    "ngx-doc-viewer": "^15.0.1",
     "ngx-echarts": "^15.0.1",
     "pdfmake": "^0.2.7",
     "pdfmake-wrapper": "^2.1.3",

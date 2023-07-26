@@ -8,6 +8,10 @@ import { Usuarios } from 'src/app/models/usuarios';
 import { UsuariosMatrizAccesoService } from 'src/app/services/usuarios-matriz-acceso.service';
 import { MatrizAccesoService } from 'src/app/services/matriz-acceso.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+interface data {
+  id:any,
+  valor:any, 
+ }
 @Component({
   selector: 'app-control-usuarios',
   templateUrl: './control-usuarios.page.html',
@@ -20,6 +24,7 @@ export class ControlUsuariosPage implements OnInit {
   public rows: any[];
   temp = [];
   multi:any ='multi';
+  matriz:data[]= [];
   constructor(
 
 public usuariosService:UsuariosService,
@@ -125,7 +130,7 @@ this.cargarDatos();
     console.log('rolesArray', rolesArray)
 let roles = [];
 if(rolesArray.length == 0){
-  this.editaUsuario(usuario, roles)
+  this.editaUsuario(usuario, roles[0])
 }
 rolesArray.forEach(async (role, index) =>{
   roles.push(role.iD_ONE_MATRIZ_ACCESO);
@@ -141,9 +146,26 @@ this.editaUsuario(usuario,roles)
     
 
   }
+  async retornarArreglo(array:any[],id:string,valor:string){
+    let data:data[] = [];
+     array.forEach((element, index) => {  
+      console.log(element)
+       let item = {
+         id : element[id],
+         valor: element[valor]
+        };
+         data.push(item) 
 
+         if(index == array.length -1){
+           return data;
+         }
+     });
+
+     return data
+ }
   async editaUsuario(usuario, roles){
-  let matriz =  await this.matrizAccesoService.syncGetMatrizAccesotoToPromise(); 
+    let matriz =  await this.matrizAccesoService.syncGetMatrizAccesotoToPromise();
+  this.matriz = await this.retornarArreglo(matriz,'iD_MATRIZ_ACCESO','nombre');
     this.isOpen = true;
         
     const modal = await this.modalCtrl.create({
@@ -153,7 +175,7 @@ mode:'ios',
 componentProps:{
 usuario,
 roles,
-matriz
+matriz:this.matriz
 }
 
     });

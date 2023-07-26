@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-devoluciones',
@@ -41,9 +43,18 @@ export class DevolucionesPage implements OnInit {
       valor : 'Deposito'
      } 
   ]
-  constructor() { }
+  readonly:boolean= true;
+  constructor(
+  public modalCtrl:ModalController  
+  ) { }
 
   ngOnInit() {
   }
+  cerrarModal(){
+    this.modalCtrl.dismiss();
+  }
 
+  actualizarDevolucion(fSobrante:NgForm){
+
+  }
 }
