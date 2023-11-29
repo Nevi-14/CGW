@@ -31,6 +31,7 @@ interface gastosSin {
 })
 export class LiquidacionSinAnticipoPage implements OnInit {
 @Input() gastos:GastoSinAnticipo[]
+asientoDiario: ONE_Asiento_Diario;
   fecha: Date = new Date();
   ano = this.fecha.getFullYear();
   mes = this.fecha.getMonth();
@@ -56,7 +57,8 @@ export class LiquidacionSinAnticipoPage implements OnInit {
     public router:Router,
     public estadosCuentaService:EstadosCuentaService,
     public gastosSinAnticipoService:GastosSinAnticipoService,
-    public notificacionesService:NotificacionesService
+    public notificacionesService:NotificacionesService,
+    public adelantoViaticosService:AdelantoViaticosService
     ) { }
 
 
@@ -64,55 +66,150 @@ export class LiquidacionSinAnticipoPage implements OnInit {
 
       this.modalCtrl.dismiss(true)
     }
- async  ngOnInit() {
+
+    incrementString(paquete: string, str: string): string {
+      let prefix = paquete; // get the first two letters
   
-  let consecutivo = this.fechaInicioMes.split('T')[0]+this.fechaFinMes.split('T')[0];
- 
- 
-      console.log(gastos,'gastos')
+      if (!str) {
+        return prefix + '00000001';
+      }
+      let numberPart = str.substring(2); // get the number part
+  
+      // Use regex to extract leading zeros and the numeric part
+      const regexResult = numberPart.match(/^0*(\d+)$/);
+  
+      if (regexResult) {
+        let number = parseInt(regexResult[1]); // convert the numeric part to a number
+        number++; // increment the number
+  
+        // Convert the incremented number back to a string and pad with leading zeros
+        let newNumberPart = number.toString().padStart(numberPart.length, '0');
+  
+        return prefix + newNumberPart;
+      } else {
+        // If the number part doesn't match the expected format, return an error or handle it as needed
+        return this.incrementString(paquete, str);
+      }
+    }
 
-      this.gastos.forEach((gasto, gastoIndex) =>{
+    async ngOnInit() {
+      let index = 0;
+      let paquete = 'CG';
+      let consecutivo =
+        await this.adelantoViaticosService.syncGetUltimoConsecutivo(
+          this.gastosSinAnticipoService.compania.nombre,
+          paquete
+        );
+        let usuario = await this.usuariosService.syncGetUsuariosExactusID();
+        let centroCosto = usuario[0].centrO_COSTO;
+      let numAsiento = this.incrementString(
+        paquete,
+        consecutivo ? consecutivo.asiento : null
+      );
+      let tipO_ASIENTO = 'CG';
+      let contabilidad = 'A';
+      let origen = 'CG';
+      let clasE_ASIENTO = 'N';
+      let gastoIndex = 0; // initialize gastoIndex to 0
+    
+      for (let gasto of this.gastos) {
+        gastoIndex++; // increment gastoIndex
+        index++;
         let gastoU = {
-          usuario:gasto.usuario,
-          totalColones:  gasto.moneda == '¢' ? +gasto.monto : 0,
+          usuario: gasto.usuario ? gasto.usuario : 'SIN USUARIO',
+          totalColones: gasto.moneda == '¢' ? +gasto.monto : 0,
           totalDolares: gasto.moneda == '$' ? +gasto.monto : 0,
-          gastos:[gasto]
-         }
-        let i = this.gastosSinAnticipo.findIndex( e => e.usuario == gasto.usuario);
-        if(i < 0){
-          this.gastosSinAnticipo.push(gastoU)
-        }else{
-          this.gastosSinAnticipo[i].totalColones  += gasto.monto;
-          this.gastosSinAnticipo[i].gastos.push(gasto)
-
+          gastos: [gasto]
+        };
+        let i = this.gastosSinAnticipo.findIndex((e) => e.usuario == gasto.usuario);
+        if (i < 0) {
+          this.gastosSinAnticipo.push(gastoU);
+        } else {
+          this.gastosSinAnticipo[i].totalColones += gasto.monto;
+          this.gastosSinAnticipo[i].gastos.push(gasto);
         }
-        let referencia = `Liquidación de viáticos ${gasto.usuario} ${format(new Date(this.fechaInicioMes), 'MM/dd/yyyy')} + ${format(new Date(this.fechaFinMes), 'MM/dd/yyyy')}`;
+        let referencia = `Liquidación de viáticos ${gasto.usuario} ${format(
+          new Date(this.fechaInicioMes),
+          'MM/dd/yyyy'
+        )} + ${format(new Date(this.fechaFinMes), 'MM/dd/yyyy')}`;
         this.total += gasto.monto;
         // DIARIO
-        this.diario.push(this.cierreContableService.generarDiario(gasto.usuario,consecutivo,gasto.iD_TIPO_GASTO,'1-01-02-002-007', referencia, true, gasto.monto, false,0))
-
-if(gastoIndex ==  this.gastos.length -1){
-  let referencia = `Liquidación de gastons sin Anticipo ${format(new Date(this.fechaInicioMes), 'MM/dd/yyyy')} + ${format(new Date(this.fechaFinMes), 'MM/dd/yyyy')}`;
-  this.postAsiento = this.cierreContableService.generarDiario(gasto.usuario,consecutivo,gasto.iD_TIPO_GASTO,'1-01-02-002-007', referencia, true, this.total, false,0)
- 
-}
-
-      })
-  
+        this.diario.push(
+          await this.cierreContableService.generarDiario(
+            paquete,
+            this.gastosSinAnticipoService.compania.nombre,
+            numAsiento,
+            gastoIndex, // use gastoIndex instead of gastoIndex++
+           gasto.centrO_COSTOS,
+            referencia,
+            false,
+            this.gastosSinAnticipoService.moneda,
+            gasto.monto,
+            true,
+            false
+          )
+        );
+        console.log('index', index);
     
-  }
-
+        if (index == this.gastos.length) {
+          this.postAsiento = await this.cierreContableService.generarDiario(
+            paquete,
+            this.gastosSinAnticipoService.compania.nombre,
+            numAsiento,
+            this.gastos.length +=1, // use gastoIndex instead of gastoIndex++
+            '00-00-00',
+            numAsiento,
+            false,
+            this.gastosSinAnticipoService.moneda,
+            this.total,
+            false,
+            true
+          );
+          this.diario.push(this.postAsiento);
+          this.asientoDiario = await this.cierreContableService.generarAsiento(
+            this.gastosSinAnticipoService.compania.nombre,
+            numAsiento,
+            numAsiento,
+            paquete,
+            tipO_ASIENTO,
+            contabilidad,
+            origen,
+            clasE_ASIENTO,
+            true,
+            this.gastosSinAnticipoService.moneda,
+            this.total,
+            true,
+            false,
+            `Liquidacion Anticipo`
+          );
+    
+          console.log('this.asientoDiario', this.asientoDiario);
+          console.log('this.postAsiento', this.postAsiento);
+          console.log('this.diario', this.diario);
+        }
+      }
+    }
   notificarUsuario(usuario){
 
   }
 
  async  liquidar(){
+let indexG = 0;
+  await this.procesoContableService.syncPostAsientoDiarioToPromise(
+    this.asientoDiario
+  );
+  console.log('gasto',this.gastos)
  // this.alertasService.presentaLoading('guardando cambios...')
+ indexG++;
 this.gastos.forEach(async (gasto, index) =>{
+ 
+  console.log('gasto', index)
+  console.log('gasto', this.gastos.length-1 )
   gasto.estatus = 'F';
- if(this.gastos.length-1  == index){
+ if(   indexG == index){
   await this.gastosSinAnticipoService.syncPutGastoSinAnticipoToPromise(gasto) 
-  this.gastosSinAnticipo.forEach(async (gastoSin, index) =>{
+  this.gastosSinAnticipo.forEach(async (gastoSin, index2) =>{
+ 
     let estadoCuenta:EstadosCuenta = {
       id : null,
       anticipo: false,
@@ -129,8 +226,8 @@ this.gastos.forEach(async (gasto, index) =>{
       observaciones:'observaciones'
    }
    await this.estadosCuentaService.syncPostEstadosCuentaToPromise(estadoCuenta);
-   if(this.gastosSinAnticipo.length -1 == index){
-    // if(this.diario){ await this.procesoContableService.syncPostDiarioToPromise(this.diario);}
+   if(this.gastosSinAnticipo.length-1 == index2){
+     if(this.diario){ await this.procesoContableService.syncPostDiarioToPromise(this.diario);}
       //await this.procesoContableService.syncPostAsientoDiarioToPromise(this.asientoDiarioSobrante);
       this.alertasService.loadingDissmiss();
       this.cerrarModal();

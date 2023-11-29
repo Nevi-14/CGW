@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { OneUsuariosModulosMatrizAccesoView } from '../models/OneUsuariosModulosMatrizAccesoView';
-import { UsuarioExactus, Usuarios } from '../models/usuarios';
+import { GetUsuarioExactus, UsuarioExactus, Usuarios } from '../models/usuarios';
+import { EmpleadoSoland, EmpleadoSolandVariant } from '../models/empleadoSofland';
  
 
 @Injectable({
@@ -11,6 +12,7 @@ import { UsuarioExactus, Usuarios } from '../models/usuarios';
 export class UsuariosService {
 usuario:Usuarios = null;
 usuarios:Usuarios[] = [];
+CorreoVerificacion:string = ''; 
 accesoModulos:OneUsuariosModulosMatrizAccesoView[]=[];
 moduloAcceso:OneUsuariosModulosMatrizAccesoView  = {
    id:null,
@@ -43,10 +45,10 @@ private getAPI(api:string){
 
 }
 
-private getUsuarioID(id){
+private getUsuario(correo){
 
   let URL = this.getAPI(environment.getUsuarioID);
-      URL = URL + id;
+      URL = URL + correo;
       console.log(URL)
       return this.http.get<Usuarios[]>(URL);
 }
@@ -55,11 +57,35 @@ private getUsuarios(){
   let URL = this.getAPI(environment.getUsuarios);
       return this.http.get<Usuarios[]>(URL);
 }
-private getUsuariosExactus(){
+private getUsuariosExactus(compania:string){
 
-  let URL = this.getAPI(environment.getusuariosExactus);
+  let URL = this.getAPI(environment.getusuariosSoflandCompania);
+      URL = URL + compania;
       return this.http.get<UsuarioExactus[]>(URL);
 }
+
+private getUsuariosExactusID(id:string){
+
+  let URL = this.getAPI(environment.getusuariosSoflandCompania);
+      URL = 'https://sde1.sderp.site/api-coris-control-viaticos/api/get/usuario/exactus' +'?id='+ id;
+      console.log(URL,'djdkkdd')
+      return this.http.get<GetUsuarioExactus[]>(URL);
+}
+
+private getUsuariosSofland(compania:string, departamento:string){
+
+  let URL = this.getAPI(environment.getUsuariosSofland);
+      URL = URL + compania + '&departamento=' + departamento;
+      console.log(URL,'getUsuariosSofland')
+     // let type:any = compania == 'COOK'? EmpleadoSolandVariant : EmpleadoSoland
+      return this.http.get<any[]>(URL);
+}
+
+
+syncGetUsuariosSofland(compania:string, departamento:string){
+  return this.getUsuariosSofland(compania,departamento).toPromise();
+}
+
 private getUsuarioMatrizAccesos(id:number){
 
   let URL = this.getAPI(environment.getMatrizAccesoUsuario);
@@ -112,19 +138,22 @@ private deleteUsuario(id:number){
 }
 
 
+async syncGetUsuariosExactusID(){
+  return this.getUsuariosExactusID(this.usuario.usuario).toPromise();
+}
+ 
+getUsuarioToPromise(correo){
 
-getUsuarioIdToPtomise(id){
-
-  return this.getUsuarioID(id).toPromise();
+  return this.getUsuario(correo).toPromise();
 }
 
 syncGetUsuariosToPromise(){
 
   return this.getUsuarios().toPromise();
 }
-syncGetUsuariosExactusToPromise(){
+syncGetUsuariosExactusToPromise(compania:string){
 
-  return this.getUsuariosExactus().toPromise();
+  return this.getUsuariosExactus(compania).toPromise();
 }
 
  

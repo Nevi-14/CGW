@@ -1,120 +1,81 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title class="ion-text-capitalize" class="page-title"><strong>Registrar Anticipos</strong></ion-title>
-    
-
+<ion-header mode="ios">
+  <ion-toolbar mode="md" >
+    <ion-button (click)="regresar()" fill="clear" slot="start"  size="medium">
+      <ion-icon color="dark" slot="icon-only" name="chevron-back-outline"></ion-icon>
+    </ion-button>
+ 
+    <ion-title>Registro Anticipo
+    </ion-title>
+ 
+ 
+   
   </ion-toolbar>
 </ion-header>
+ 
 <ion-content class="ion-padding">
-  <ion-grid  > 
+ 
+  <form id="form" (ngSubmit)="generarPost(form)"     #form="ngForm" > 
+
+  <ion-grid >
+  
     <ion-row  >
 
-
+ 
 
       <ion-col  >
         <ion-row>
           <ion-col size="3">
-
-            <ion-row>
-              <ion-col size="12">
-                <ion-label><strong>Fecha Transacción</strong> </ion-label>
-              </ion-col>
-              <ion-col size="12">
-                <ion-input (click)="fecha('fechaTransaccion')" readonly
-                  [value]="adelantoViatico.fechA_TRANSACCION  | date" type="text" placeholder="fecha"></ion-input>
-              </ion-col>
-            </ion-row>
+          
+               <ion-label class="label">Fecha Transaccion</ion-label>
+         <ion-input   name="fechA_TRANSACCION" [readonly]="true" class="input" (click)="fecha('fechaTransaccion')" ngModel="{{adelantoViatico.fechA_TRANSACCION  | date}}"></ion-input>
 
           </ion-col>
           <ion-col size="3">
-
-            <ion-row>
-              <ion-col size="12">
-                <ion-label><strong>Fecha Inicial</strong></ion-label>
-              </ion-col>
-              <ion-col size="12">
-                <ion-input (click)="fecha('fechaInicial')" readonly [value]="adelantoViatico.fechA_INICIAL  | date"
-                  type="text" placeholder="Fecha"></ion-input>
-              </ion-col>
-            </ion-row>
+      
+               
+                    
+            <ion-label class="label">Fecha Inicial</ion-label>
+            <ion-input    name="fechA_INICIAL" [readonly]="true" class="input" (click)="fecha('fechaInicial')" ngModel="{{adelantoViatico.fechA_INICIAL  | date}}"></ion-input>
 
 
           </ion-col>
           <ion-col size="3">
-            <ion-row>
-              <ion-col size="12">
-
-                <ion-label><strong>Fecha Final</strong></ion-label>
-              </ion-col>
-              <ion-col size="12">
-                <ion-input readonly [value]="adelantoViatico.fechA_FINAL  | date" type="text"
-                  placeholder="Fecha"></ion-input>
-              </ion-col>
-            </ion-row>
-
-
-
-          </ion-col>
-          <ion-col size="3">
-            <ion-row>
-              <ion-col size="12">
-                <ion-label style="display: flex;justify-content: flex-start;align-items: center;"><strong>Moneda </strong> <ion-badge style="margin-left: 0.5rem;" color="primary"
-                    mode="ios">{{adelantoViatico.moneda}}</ion-badge></ion-label>
-              </ion-col>
-              <ion-col size="12">
-
-                <ion-select [(ngModel)]="adelantoViatico.moneda" placeholder="Seleccionar">
-                  <ion-select-option value="₡">Colones</ion-select-option>
-                  <ion-select-option value="$">Dolares</ion-select-option>
-                </ion-select>
-              </ion-col>
-            </ion-row>
-          </ion-col>
-          <ion-col size="3">
-
-            <ion-row>
-              <ion-col size="12">
-                <ion-label><strong>Justificación</strong></ion-label>
-              </ion-col>
-              <ion-col size="12">
-                <ion-input   name="detalle" [(ngModel)]="adelantoViatico.detalle"
-                  type="text" placeholder="justificación"></ion-input>
-              </ion-col>
-            </ion-row>
+        
+       
+            <ion-label class="label">Fecha Final</ion-label>
+            <ion-input   name="fechA_FINAL" [readonly]="true" class="input"   ngModel="{{adelantoViatico.fechA_FINAL  | date}}"></ion-input>
 
 
 
 
           </ion-col>
           <ion-col size="3">
-            <ion-row>
-              <ion-col size="12">
-                <ion-label><strong>Compañia</strong></ion-label>
-              </ion-col>
-              <ion-col size="12">
-                <ion-select (ionChange)="compania($event)" [(ngModel)]="adelantoViatico.coD_COMPANIA"
-                  placeholder="Seleccionar">
-                  <ion-select-option [value]="compania.cia"
-                    *ngFor="let compania of clientes">{{compania.cia}}</ion-select-option>
-
-                </ion-select>
-              </ion-col>
-            </ion-row>
+            <ion-label  class="label">Moneda</ion-label>
+            <ion-select placeholder="seleccionar una opcion"  class=select  name="moneda"   [(ngModel)]="adelantoViatico.moneda" >
+              <ion-select-option value="₡">₡</ion-select-option>
+              <ion-select-option value=":'$',">$</ion-select-option>
+            </ion-select>
+            
           </ion-col>
           <ion-col size="3">
-            <ion-row>
-              <ion-col size="12">
-                <ion-label><strong># Transacción</strong></ion-label>
-              </ion-col>
-              <ion-col size="12">
-                <ion-input name="numero_transaccion" [(ngModel)]="adelantoViatico.numerO_TRANSACCION"
-                  type="text" placeholder="número transacción"></ion-input>
-              </ion-col>
-            </ion-row>
-
-
-
+            <ion-label class="label">Justificación </ion-label>
+            <ion-input   name="detalle"  class="input"  placeholder="justificacion"  [(ngModel)]="adelantoViatico.detalle"></ion-input>
           </ion-col>
+          <ion-col size="3">
+         
+            <ion-label  class="label">Compañia</ion-label>
+            <ion-select class=select  name="moneda"  name="coD_COMPANIA"    [(ngModel)]="adelantoViatico.coD_COMPANIA" placeholder="seleccionar una opcion" >
+              <ion-select-option *ngFor="let compania of companias" [value]="compania.valor">{{compania.valor}}</ion-select-option>
+         
+            </ion-select>
+  
+          </ion-col>
+          <ion-col size="3">
+            <ion-label class="label"># Transaccion </ion-label>
+            <ion-input   name="numerO_TRANSACCION"  class="input"  placeholder="# Trasaccion"  [(ngModel)]="adelantoViatico.numerO_TRANSACCION"></ion-input>
+          </ion-col>
+        
+         
         </ion-row>
 
 
@@ -123,82 +84,98 @@
 
 
     </ion-row>
-    <ion-row  >
-<ion-col size="12"  >
-<ion-toolbar>
-<ion-title>Colaboradores</ion-title>
- 
-<ion-searchbar placeholder="buscar nombre"   type="text"  [debounce]="250"  mode="ios" style="width: 30%;margin-top: 1rem;" slot="end"  (ionChange)="updateFilter($event)" ></ion-searchbar>
-<ion-fab-button slot="end" (click)="listaColaboradores()" color="dark" size="small" >
-<ion-icon name="add"></ion-icon>
-</ion-fab-button>
-</ion-toolbar>
-</ion-col>
-<ion-col *ngIf="adelantoViatico.monto > 0" size="12" style="display: flex;justify-content: flex-end;align-items: center;">
-  <ion-label  style="margin-right: 1rem; font-size:1rem;"> TOTAL : <strong>{{adelantoViatico.monto  | colones }}</strong></ion-label>
-  <ion-button (click)="generarPost()"   fill="solid" shape="round">
-  GENERAR ANTICIPO
-  </ion-button>
-</ion-col>
-      <ion-col size="12"  >
-      
+  </ion-grid>
+  
+  <ion-grid >
+    <ion-row>
+      <ion-col size="4">
+    <h3>Lista Usuarios</h3>
+      </ion-col>
+      <ion-col size="8" class="search-box">
+<ion-item  >
+  <ion-icon slot="start" name="search"></ion-icon>
+<ion-input (ionInput)="updateFilter($event)" type="text" placeholder="Buscar {{filtro.nombre}}"></ion-input>
+</ion-item>
+        <span class="fab-buttons">
+          <ion-button  color="dark"     (click)="listaColaboradores()"    >
+            <ion-icon slot="start" color="light" slot="start" name="person-add"></ion-icon>
+            <ion-label color="light">Usuarios</ion-label>
+               </ion-button>
+      <ion-button     type="submit"    >
+   <ion-icon slot="start" color="light" slot="start" name="save"></ion-icon>
+   <ion-label color="light">Crear Anticipo</ion-label>
+      </ion-button>
 
-          <ngx-datatable
-          class="material  light striped"
-          [limit]="8" 
-          [rows]="rows" 
-          [columns]="columns" 
-          [rowHeight]="70" 
-          [columnMode]="'force'" 
-          [sortType]="multi" 
-          [headerHeight]="50" 
-          [footerHeight]="50"
-   
-          >
+        </span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
- 
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>
+          <ion-checkbox (ionChange)="selectAll($event)"></ion-checkbox>
+        </th>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Monto</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
 
-          <ng-template  ngFor let-column [ngForOf]="columns" let-i="index"  >
-            <ngx-datatable-column *ngIf="column.id != 'opciones' && column.id != 'monto'" name="{{column.label}}" prop="{{column.id}}">
+      <tr *ngIf="rows.length ==0">
         
-            </ngx-datatable-column>
-          </ng-template>
+        <td colspan="5" class="ion-text-center">
+          No Data found
+        </td>
+      </tr>
+
+
+      <tr  *ngFor="let item of rows">
+        <td>
+          <ion-checkbox  value=""></ion-checkbox>
+        </td>
+        <td>{{item.usuario}}</td>
+        <td>{{item.nombre}}</td>
+        <td>
+
+          <ion-input    (ionChange)="updateValue($event)"
+           
+          type="number"
+          [(ngModel)]="item.monto"></ion-input>
+        </td>
+         
+        <td class="last-column">
+         
+          <ion-button fill="clear" (click)="borrarElemento(item)">
+            <ion-icon color="danger" slot="start" name="trash"></ion-icon>
+            <ion-label color="danger">Eliminar</ion-label>
+          </ion-button>
+        </td>
+      </tr>
+    </tbody>
+    
+    <tfoot>
+      <tr>
+        <td colspan="2" ></td>
+ 
+        <td  >
+<h5><strong>Total</strong></h5>
+        </td>
+        <td  >
+       <h5><strong>   {{adelantoViatico.monto | colones}}</strong></h5>
+        </td>
+        <td colspan="1">
+
 
           
-          <ngx-datatable-column name="monto" prop="monto">
-            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <span
-                title="Double click to edit"
-                (dblclick)="editing[rowIndex + '-monto'] = true"
-                *ngIf="!editing[rowIndex + '-monto']"
-              >
-                {{ value }}
-              </span>
-           <ion-input   (ionBlur)="updateValue($event, 'monto', rowIndex, row)"
-           *ngIf="editing[rowIndex + '-monto']"
-           type="number"
-           [value]="value"></ion-input>
-            </ng-template>
-          </ngx-datatable-column>
-
-
-          <ngx-datatable-column name="opciones"  prop="opciones">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
- 
-        <ion-button  (click)="borrarElemento(row)"   fill="clear"  >
-        <ion-icon color="danger" name="trash"></ion-icon>
-        </ion-button>
-            </ng-template>
-        </ngx-datatable-column>
-     
-          </ngx-datatable>
-       
-      </ion-col>
-
-
-    </ion-row>
-
-  </ion-grid>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</form>
 </ion-content>
 
-<app-pie-pagina></app-pie-pagina>
+ 

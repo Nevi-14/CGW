@@ -31,6 +31,14 @@ const routes: Routes = [
         loadChildren: () => import('../control-matriz-acceso/control-matriz-acceso.module').then( m => m.ControlMatrizAccesoPageModule)
       },
       {
+        path: 'aprobadores',
+        loadChildren: () => import('../aprobadores/aprobadores.module').then( m => m.AprobadoresPageModule)
+      },
+      {
+        path: 'solicitudes',
+        loadChildren: () => import('../solicitudes/solicitudes.module').then( m => m.SolicitudesPageModule)
+      },
+      {
         path: 'control-anticipos',
         loadChildren: () => import('../control-anticipos/control-anticipos.module').then( m => m.ControlAnticiposPageModule)
       },
@@ -53,8 +61,11 @@ const routes: Routes = [
       {
         path: 'liquidacion-gastos-sin-anticipo',
         loadChildren: () => import('../liquidacion-gastos-sin-anticipo/liquidacion-gastos-sin-anticipo.module').then( m => m.LiquidacionGastosSinAnticipoPageModule)
-      }
-    
+      },
+      {
+        path: 'liquidacion-anticipo',
+        loadChildren: () => import('../liquidacion-anticipo/liquidacion-anticipo.module').then( m => m.LiquidacionAnticipoPageModule)
+      },
     
     ]
   },

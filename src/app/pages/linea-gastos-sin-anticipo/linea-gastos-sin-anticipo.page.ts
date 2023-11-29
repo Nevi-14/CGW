@@ -74,7 +74,7 @@ export class LineaGastosSinAnticipoPage implements OnInit {
   async gastoDetalle(nuevoGasto) {
     const modal = await this.modalCtrl.create({
       component: EditarGastoSinAnticipoPage,
-      cssClass: 'alert-modal',
+      cssClass: 'medium-modal',
       mode: 'ios',
       componentProps:{
         nuevoGasto: nuevoGasto

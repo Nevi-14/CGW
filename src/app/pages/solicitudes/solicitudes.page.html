@@ -1,0 +1,113 @@
+<app-menu-button [mostrarUsuario]="true"></app-menu-button>
+ 
+<ion-content class="ion-padding">
+  <ion-grid >
+    <ion-row>
+      <ion-col size="4">
+    <h3>Control Solicitudes</h3>
+      </ion-col>
+      <ion-col size="8" class="search-box">
+<ion-item  >
+  <ion-icon slot="start" name="search"></ion-icon>
+<ion-input (ionInput)="updateFilter($event,filtro)" type="text" placeholder="Buscar {{filtro.nombre}}"></ion-input>
+</ion-item>
+        <span class="fab-buttons">
+          <ion-button color="dark"    *ngIf="usuariosService.moduloAcceso.r"    (click)="filtrarData()"    >
+            <ion-icon slot="start" color="light" slot="start" name="options"></ion-icon>
+            <ion-label color="light">Filtrar</ion-label>
+               </ion-button>
+          
+      <ion-button    *ngIf="usuariosService.moduloAcceso.c"    (click)="accionSolicitudes()"    >
+   <ion-icon slot="start" color="light" slot="start" name="add"></ion-icon>
+   <ion-label color="light">Acciones</ion-label>
+      </ion-button>
+      <ion-button color="secondary"    *ngIf="usuariosService.moduloAcceso.c"    (click)="descargarDatos()"    >
+        <ion-icon slot="start" color="light" slot="start" name="download"></ion-icon>
+        <ion-label color="light">Exportar</ion-label>
+           </ion-button>
+        </span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>
+          <ion-checkbox (ionChange)="selectAll($event)"></ion-checkbox>
+        </th>
+        <th>Anticipo</th>
+        <th>Compania</th>
+        <th>Usuario</th>
+        <th>Descripcion</th>
+        <th>Estatus</th>
+        <th>Moneda</th>
+        <th>Monto</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngIf="paginatedData.length ==0">
+        
+        <td colspan="9" class="ion-text-center">
+          No Data found
+        </td>
+      </tr>
+
+
+      <tr *ngFor="let item of paginatedData">
+        <td>
+          <ion-checkbox [(ngModel)]="item.seleccionado"></ion-checkbox>
+        </td>
+        <td>{{item.asiento}}</td>
+        <td>{{item.coD_COMPANIA}}</td>
+      
+        <td>{{ item.usuario }}</td>
+        <td>{{ item.descripcion }}</td>
+         
+        <td>
+          
+          <ion-badge color="{{item.estatus == 'A' ? 'success'  : item.estatus == 'R' ? 'danger' : item.estatus == 'F' ? 'dark' : 'warning'}}" mode="ios">
+
+            {{ item.estatus == 'A' ? 'Aprobado'  : item.estatus == 'R' ? 'Rechazado' :  item.estatus == 'F' ? 'Finalizado' : 'Pendiente' }}
+
+
+          </ion-badge>
+        </td>
+        <td>
+
+          <ion-badge color="primary" mode="ios">{{item.moneda}}</ion-badge>
+        </td>
+        <td>{{ item.montO_SOLICITADO }}</td>
+        <td class="last-column">
+          <ion-button fill="clear"   *ngIf="usuariosService.moduloAcceso.u"  (click)="editarElemento(item)">
+            <ion-icon color="warning" slot="start" name="create"></ion-icon>
+            <ion-label color="warning">Editar</ion-label>
+          </ion-button>
+      
+        </td>
+      </tr>
+    </tbody>
+    
+    <tfoot>
+      <tr>
+        <td colspan="9">
+          <div class="foot">
+            <ion-label>Total {{ paginatedData.length }} | {{data.length}}</ion-label>
+            <div class="tfoot">
+              <ion-button size="small" fill="clear" [disabled]="currentPage === 1" (click)="previousPage()" class="left">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+              </ion-button>
+              <ion-label>{{ currentPage }} of {{ totalPages }}</ion-label>
+              <ion-button size="small" fill="clear" [disabled]="currentPage === totalPages" (click)="nextPage()" class="right">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</ion-content>
+<app-pie-pagina></app-pie-pagina>
+ 

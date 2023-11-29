@@ -90,7 +90,7 @@ generatePDF( linea:EstadosCuenta, gastos:any[]){
       body: [
         [ { image: image,width: 100},
           [
-          { text: 'Grupo Coris'},
+          { text: 'Empresa xxxxx'},
           { text: 'Reporte Estado De  Cuenta'},
           { text: ''}
 

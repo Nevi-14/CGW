@@ -47,6 +47,7 @@ export class FiltroGastosSinAnticipoPage implements OnInit {
       valor : 'Todos'
      }
   ]
+  true = true;
   constructor(
     public modalCtrl: ModalController,
     public alertasService: AlertasService,   
@@ -100,7 +101,7 @@ export class FiltroGastosSinAnticipoPage implements OnInit {
         case 'valor1':
 
           if (new Date(this.formatoFecha).getDay() == 0) {
-            this.alertasService.message('Dione', 'Lo sentimos no se pueden utilizar fechas de corte.')
+            this.alertasService.message('D1', 'Lo sentimos no se pueden utilizar fechas de corte.')
             return
           }
           this.valor1 = new Date(this.formatoFecha);
@@ -117,7 +118,7 @@ export class FiltroGastosSinAnticipoPage implements OnInit {
   filtrarGastos(ngForm:NgForm){
     let data = ngForm.value;
     this.compania = data.compania;
-  if(!this.compania)  return this.alertasService.message('DIONE','Debes de seleccionar una compañia para continuar!..')
+  if(!this.compania)  return this.alertasService.message('D1','Debes de seleccionar una compañia para continuar!..')
     let filtro = {
       compania:data.compania,
       moneda:data.moneda,

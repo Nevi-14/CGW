@@ -59,13 +59,14 @@ postEmail:'post/enviar/correo',
 getMovDir:'get/movdir',
 postMovDir:'post/movdir',
 // ASIENTO DIARIO
-getAsientoDiario:'get/asiento-diario',
+getAsientoDiario:'get/asiento-diario?asiento=',
 postAsientoDiario:'post/asiento-diario',
+putAsientoDiario:'put/asiento-diario?id=',
 
 //  DIARIO
-getDiario:'get/diario',
+getDiario:'get/diario?asiento=',
 postDiario:'post/diario',
-getusuariosExactus:'get/usuarios/exactus',
+getusuariosSoflandCompania:'get/usuarios/compania?id=',
 getGastosAnticipos:'get/gastos/anticipo?id=',
 
 
@@ -111,7 +112,7 @@ ONE_LinGastoURL: 'put/gasto/linea/anticipo?id=',
 // USUARIO MATRIZ ACCESO
 getUsuarioMatrizAccesoURL:'get/usuario/matriz-acceso?id=',
 TipGastosURL: 'get/tipos/gastos',
-getUltimoConsecitvo:'get/ultimo-consecutivo/exactus',
+getUltimoConsecitvo:'get/ultimo/consecutivo?compania=',
 
 getGastosSinAnticipoURL:'get/lista/gastos/sin-anticipo',
 getGastosSinAnticipoURL2:'get/usuario/gastos/sin/anticipo/estado/rango/fecha?id=',
@@ -134,7 +135,40 @@ putNotificacion:'put/notificacion?id=',
  getGastosConAnticipoReferencia:'get/anticipo?referencia=',
  postGastosConAnticipos:'post/gasto/linea/anticipo',
  deleteGastosConAnticipos:'delete/gasto/linea/anticipo?id=',
+  // CUENTAS GASTOS
+  getCompamiaCuentaGastos:'get/compania/cuenta/gastos?id=',
+    // CUENTAS BANCOS
+    getCompamiaCuentaBancos:'get/compania/cuenta/bancos?id=',
+    getTipoCambo:'get/tipo/cambio?compania=',
+      // DEVOLUCIONES
+  getUsuarioExcedentes:'get/excedentes/usuario?id=',
+  getUsuarioExcedente:'get/excedentes/usuario?id=',
+  postExcedente:'post/excedente',
+  putExcedente:'put/excedente?id=',
+  deleteExcedente:'delete/excedente?id=',
+  getCentrosCostos:'get/centro/costos?compania=',
+  getDepartamentosSofland:'get/departamentos/sofland?compania=',
+  getUsuariosSofland:'get/usuarios/sofland?compania=',
+  getUsuarioCentroCosto:'get/usuario/centro/costo?id=',
+  postUsuarioCentroCosto:'post/usuario/centro/costo',
+  putUsuarioCentroCosto:'put/usuario/centro/costo?id=',
+deleteUsuarioCentroCosto:'delete/usuario/centro/costo?id=',
+deleteUsuarioCentroCostoUsuario:'delete/usuario/centro/costo?usuario=',
+getSolicitudes:'get/solicitudes',
+putSolicitud:'put/solicitud?id=',
 
+// aprobadores
+
+getAprobadores:'get/aprobadores',
+postAprobador:'post/aprobador',
+putAprobador:'put/aprobador?id=',
+deleteAprobador:'delete/aprobador?id=',
+
+anticipoCompaniaMonedaEstadoRangoFecha:'get/anticipo/compania/moneda/estado/rango/fecha?compania=',
+solitudesCompaniaMonedaEstadoRangoFecha:'get/solicitudes/compania/moneda/estado/rango/fecha?compania=',
+ 
+ 
+ 
 };
 
 /*

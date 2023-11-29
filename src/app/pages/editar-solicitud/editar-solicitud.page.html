@@ -1,0 +1,114 @@
+ 
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar mode="md">
+   <ion-button slot="start" (click)="regresar()" fill="clear">
+    <ion-icon  size="large" slot="icon-only" name="arrow-back"></ion-icon>
+   </ion-button>
+   <ion-title>Gestionar Solicitud</ion-title>
+ 
+  </ion-toolbar>
+  
+ </ion-header>
+ <ion-content class="ion-padding" *ngIf="solicitud">
+  
+   <form id="form" (ngSubmit)="actualziarGasto(fRegistroGasto)" #fRegistroGasto="ngForm">
+
+
+    <ion-grid >
+      <ion-row>
+        <ion-col size="6">
+          <app-select  [readonly]="readonly"  name="compania"  [data]="companias"  label="Compañia" ngModel="{{solicitud.coD_COMPANIA}}"></app-select>
+
+        </ion-col>
+        <ion-col size="6">
+          <app-select     name="estatus"  label="Estatus" [data]="[{id:'A',valor:'Aprobado'},{id:'R',valor:'Rechazado'},{id:'P',valor:'Pendiente'}]" ngModel="{{solicitud.estatus }}"></app-select>
+    
+        </ion-col>
+ 
+        <ion-col size="6">
+          <app-input [readonly]="readonly"    name="fechaInicio" type="text" label="Fecha Inico" ngModel="{{solicitud.fechA_INICIO | date}}"></app-input>
+          
+        </ion-col>
+
+        <ion-col size="6">
+          <app-input [readonly]="readonly"   name="fechaFin" type="text" label="Fecha Fin" ngModel="{{solicitud.fechA_FIN | date}}"></app-input>
+          
+        </ion-col>
+
+ 
+
+        <ion-col size="12">
+          <app-input   name="descripcion" type="text" label="Descripcion" ngModel="{{solicitud.descripcion}}"></app-input>
+ 
+          
+        </ion-col>
+
+        <ion-col size="6">
+          <app-select   [readonly]="readonly"   name="moneda"  label="Moneda" [data]="[{id:'₡',valor:'Colones'},{id:'$',valor:'Dolares'}]" ngModel="{{solicitud.moneda == '¢' ? '₡' : solicitud.moneda }}"></app-select>
+    
+        </ion-col>
+        <ion-col size="6">
+  
+          <app-input   [readonly]="readonly" name="montO_SOLICITADO" type="number" label="Monto" ngModel="{{solicitud.montO_SOLICITADO}}"></app-input>
+          
+        </ion-col>
+
+
+        <ion-col size="12">
+  
+          <app-input    name="montO_APROBADO" type="number" label="Monto Aprobado" ngModel="{{solicitud.montO_APROBADO}}"></app-input>
+          
+        </ion-col>
+
+        <ion-col size="12">
+  
+          <app-input     name="resolucion" type="text" label="Resolucion" ngModel="{{solicitud.resolucion}}"></app-input>
+          
+        </ion-col>
+
+        <ion-col size="12"  >
+
+          <app-button label="Gestionar Solicitud"></app-button>
+        </ion-col>
+
+        
+
+        
+      </ion-row>
+    </ion-grid>
+ 
+    
+ 
+ 
+     
+ 
+  
+    
+  
+ 
+    
+ 
+ 
+    
+ 
+  
+ 
+
+ 
+
+ 
+ 
+  
+ 
+ 
+ 
+    
+    
+     
+   </form>
+ 
+   
+ </ion-content>
+ 
+  
+  

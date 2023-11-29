@@ -1,16 +1,17 @@
-.height{
 
+ion-header ion-toolbar {
+  background-color:#fff;
+  color: #36acc6;
+  text-transform: uppercase;
+ 
+}
+.avatar{
     height: 200px;
     width:200px;
     margin: 0 auto;
    margin-bottom: 3rem;
 }
-
-ion-img {
-
-    width: 200px;
-  height: 200px;
-  }
+ 
   img {
 
     width: 200px;
@@ -19,3 +20,4 @@ ion-img {
   border-radius: 50%;
   object-fit: cover;
   }
+ 

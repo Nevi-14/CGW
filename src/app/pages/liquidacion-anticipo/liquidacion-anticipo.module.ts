@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, LowerCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -17,7 +17,8 @@ import { ComponentModule } from 'src/app/components/component.module';
     IonicModule,
     LiquidacionAnticipoPageRoutingModule,
     PipesModule,
-    ComponentModule
+    ComponentModule,
+    LowerCasePipe
   ],
   declarations: [LiquidacionAnticipoPage]
 })

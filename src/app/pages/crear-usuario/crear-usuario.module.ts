@@ -8,6 +8,7 @@ import { CrearUsuarioPageRoutingModule } from './crear-usuario-routing.module';
 
 import { CrearUsuarioPage } from './crear-usuario.page';
 import { ComponentModule } from 'src/app/components/component.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ComponentModule } from 'src/app/components/component.module';
     FormsModule,
     IonicModule,
     CrearUsuarioPageRoutingModule,
-    ComponentModule
+    ComponentModule,
+    PipesModule
   ],
   declarations: [CrearUsuarioPage]
 })

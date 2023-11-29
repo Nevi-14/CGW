@@ -1,0 +1,49 @@
+<ion-header mode="ios">
+  <ion-toolbar mode="md">
+    <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+     </ion-button>
+    <ion-title  >Excedentes</ion-title>
+  
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form id="form" (ngSubmit)="actualizarExcedente(fExcedente)"     #fExcedente="ngForm" class="ion-padding">
+  <ion-grid >
+    <ion-row>
+
+      <ion-col size="6" *ngIf="excedente">
+
+        <app-input name="monto" [readonly]="readonly" label="Monto Excedente" ngModel="{{excedente.monto | colones}}"></app-input>
+         
+      </ion-col>
+
+      <ion-col size="6">
+<app-select [readonly]="readonly" label="Metodo Devolucion" name="metodO_DEVOLUCION" [data]="metodoDevolucion" ngModel="{{excedente.metodO_DEVOLUCION}}"></app-select>
+      </ion-col>
+      <ion-col size="6">
+
+        <app-input name="telefono" [readonly]="readonly"  label="Telefono" ngModel="{{excedente.telefono}}"  ></app-input>
+   
+      </ion-col>
+      <ion-col size="6">
+
+        <app-input name="cuenta" [readonly]="readonly" label="Cuenta" ngModel="{{excedente.cuenta}}"  ></app-input>
+   
+      </ion-col>
+      <ion-col size="6">
+        <app-select [readonly]=" excedente.estatus == 'A' ? true : false" label="Estatus" name="estatus" [data]="estatus" ngModel="{{excedente.estatus}}"></app-select>
+             </ion-col>
+             <ion-col size="6">
+
+              <app-input name="observaciones"  label="Observaciones" ngModel="{{excedente.observaciones}}"  ></app-input>
+         
+            </ion-col>
+      
+    </ion-row>
+  </ion-grid>
+  
+<app-button *ngIf="excedente.estatus == 'RA' || excedente.estatus == 'P' || excedente.estatus == 'R'" style="position: fixed;bottom: 1rem;width:95%"  label="Actualizar" ></app-button>
+  </form>
+</ion-content>

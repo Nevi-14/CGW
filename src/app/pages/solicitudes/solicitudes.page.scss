@@ -1,0 +1,93 @@
+ion-grid, table {
+  width: 95%;
+  margin: 0 auto;
+}
+table {
+  box-shadow: 0 20px 30px 0 rgba(0,0,0,0.25);
+  border-collapse: collapse;
+  margin-top: 26px;
+ }
+th, td{
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  ion-checkbox{
+    margin-left: 8px;
+    margin-top: 8px;
+  }
+}
+ .search-box{
+  ion-item{
+    width: 400px;
+  }
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+ }  /* Define a class for the last column */
+ .last-column {
+   width: 300px;
+ }
+ /* Adjust the width of the last column in the table */
+ table.custom-table td.last-column {
+   width: 300px;
+   max-width: 300px; /* Optional, to ensure a fixed width */
+ }
+ .foot {
+  display: flex;
+  justify-content
+  :space-between;
+  align-items: center;
+ ion-label {
+  margin-right: 15px;
+ }
+}
+.tfoot{
+  display: flex;
+  align-items: center;
+}
+.left {
+  margin-right: 20px;
+}
+.right {
+  margin-left: 20px;
+}
+ion-fab{
+  position: absolute;
+  bottom: 200px;
+  right: 100px;
+}
+
+.label  {
+ 
+  z-index: 1;
+
+  background-color: var(--ion-color-dark);
+  padding: 9px;
+  border-radius: 15px;
+  color: white;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
+}
+
+.ion-avatar{
+  height: 2rem;
+  width: 2rem;
+}
+ion-fab-button{
+  --background:#5a55ca;
+  color: #fff;
+}
+
+.fab {
+  position: fixed;right: 2rem;bottom: 1rem;
+}
+.team-label {
+  position: absolute;top: 0.5rem;right: 4rem;min-width:120px;
+}
+.join-label {
+  position: absolute;top: 0.5rem;right: 4rem;min-width: 120px;
+  margin-bottom: 8px;
+}
+.stars {
+  display:block; margin-top: 0.5rem;margin-left: 1rem;
+}

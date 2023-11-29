@@ -1,71 +1,89 @@
- 
-ion-thumbnail {
-  width: 60px;
-  height: 60px;
-  margin-top: 1rem;
-  margin: 0 auto;
-  margin-bottom: 1rem;
+ion-menu {
+  transition: all 0.3s ease;
 }
-ion-avatar {
-  height: 35px;
-  width: 35px;
-  img {
-    height: 35px;
-    width: 35px;
-  }
-   
+.header{
+  height: 80px;
+  display: flex;
+  align-items: center;
 }
- 
-.split-pane-visible>.split-pane-side {
-  ion-label{
-    display: none;
-  }
-  min-width: 80px !important;
-  max-width: 80px !important;
+.split-pane-visible > .split-pane-side {
+  transform: translateX(0);
+  min-width: 100px !important;
+  max-width: 100px !important;
   border: none;
-  background-color: #222428;
-  transition: all 0.25s ease-in;
+  background-color: #070606;
 }
-.split-pane-visible>.expand-men1 {
-  min-width: 240px !important;
-  max-width: 240px !important;
-  transition: all 0.25s ease-out;
-  overflow: auto;
-}
-ion-menu ion-content {
-  --background: var(--ion-item-background, var(--ion-background-color, #222428));
-}
-:host {
-  ion-item {
-    &:hover {
-      --background-hover: red; 
 
-      ion-label {
-        color: #0095FA;
-        display: block;
-      }
-    }
-  }
+ion-item ion-label {
+  font-size: 0.9rem !important;
 }
+
+ion-toolbar {
+  background-color: #070606;
+  color: #fff;
+}
+
+h1 {
+  color: #fff;
+  margin-top: 3.2rem;
+  margin-bottom: 3.2rem;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.split-pane-visible > .expand-menu {
+  min-width: 260px !important;
+  max-width: 260px !important;
+}
+
 ion-item {
-  width: 100%;
   --background: transparent !important;
   color: #fff;
-  
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
+
+ion-list {
+  background-color: #070606;
+}
+
+ion-menu ion-content {
+  --background: var(--ion-item-background, var(--ion-background-color, #070606));
+}
+
+ion-menu.md ion-item.selected {
+  border-right: 8px solid #00C9C9;
+}
+
+ion-menu.md ion-item.selected ion-icon {
+  color: #00C9C9;
+}
+
 ion-menu.md ion-item ion-icon {
   color: #616e7e;
 }
- 
-ion-footer{
-  position: absolute;
-  bottom: 0;
-  ion-button{
-    margin-right: 1rem;
-  }
+
+ion-item:hover {
+  background-color: #f8f9fa;
+  color: #000;
 }
-ion-fab-button {
-  margin-bottom: 0.2rem;
-  width: 40px;
-height: 40px;
+.menu-item-selected {
+  background-color: #f8f9fa;
+  color: #000;
+  border-right: 8px solid #00C9C9;
+}
+
+ion-menu.md ion-item.selected ion-icon {
+  color: #00C9C9;
+}
+
+ion-menu.md ion-item ion-icon {
+  color: #616e7e;
+}
+
+ion-item:hover {
+  background-color: #f8f9fa;
+  color: #000;
 }

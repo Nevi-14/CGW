@@ -2,8 +2,9 @@ export class GastoSinAnticipo {
   constructor(
     public id:number,
     public compania:string,
-    public iD_TIPO_GASTO: number,
+    public iD_TIPO_GASTO: string,
     public modificadO_POR: string,
+    public centrO_COSTOS: string,
     public fecha: Date,
     public fechA_INICIAL: Date,
     public fechA_FINAL: Date,
@@ -21,6 +22,7 @@ export class GastoSinAnticipo {
     public porcentajeiva: number,
     public montoiva: number,
     public estatus:string,
-    public observaciones: string
+    public observaciones: string,
+    public seleccionado?:boolean
   ){}
 }

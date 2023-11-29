@@ -1,5 +1,5 @@
-<ion-header class="ion-no-border">
-    <ion-toolbar>
+<ion-header mode="ios">
+    <ion-toolbar mode="md">
       <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
@@ -23,17 +23,35 @@
        </ion-item>
    
     </ion-col>
-    <ion-col size="{{sobrante ? 6 : 12 }}">
-      <ion-item   lines="full" *ngIf="linea.utilizado > 0" mode="md">
+    <ion-col size="12" *ngIf="linea.restante > 0">
+      <ion-item   lines="full"   mode="md">
         <ion-label><strong>Monto Restante</strong> </ion-label>
         <ion-label slot="end">{{linea.restante | colones}}</ion-label>
        </ion-item>
         
     </ion-col>
-    <ion-col size="6">
-      <ion-item (click)="consultarSobrante()" lines="full" *ngIf="sobrante" button mode="md">
-        <ion-label><strong>Solicitud Sobrante <ion-badge color="primary" mode="ios">{{sobrante.estatus}}</ion-badge></strong> </ion-label>
+    <ion-col size="12" *ngIf="sobrante" >
+      <ion-item (click)="consultarSobrante()" lines="full"  button mode="md">
+    
+        <ion-fab-button [color]="sobrante.estatus == 'A' ? 'success' : 'warning'" slot="start" size="small"  >
+          <ion-icon [name]="sobrante.estatus == 'A' ? 'checkmark' : 'timer'"></ion-icon>
+        </ion-fab-button>
+
+
+        <ion-label><strong>Solicitud Sobrante </strong> </ion-label>
         <ion-label slot="end">{{linea.restante | colones}}</ion-label>
+       </ion-item>
+    </ion-col>
+    <ion-col size="12" *ngIf="excedente">
+      <ion-item (click)="consultarExcedente()" lines="full"   button mode="md">
+    
+        <ion-fab-button [color]="excedente.estatus == 'A' ? 'success' : 'warning'" slot="start" size="small"  >
+          <ion-icon [name]="excedente.estatus == 'A' ? 'checkmark' : 'timer'"></ion-icon>
+        </ion-fab-button>
+
+
+        <ion-label><strong>Solicitud Excedente </strong> </ion-label>
+        <ion-label slot="end">{{linea.excedente | colones}}</ion-label>
        </ion-item>
     </ion-col>
   </ion-row>
@@ -43,44 +61,28 @@
   
   <ion-content class="ion-padding">
  
-       
-     
-    <ngx-datatable 
-    class="material   striped"  
-    [limit]="8" 
-    [rows]="rows" 
-    [columns]="columns" 
-    [rowHeight]="70" 
-    [columnMode]="'force'" 
-    [sortType]="multi" 
-    [headerHeight]="50" 
-    [footerHeight]="50"
-    [ngStyle]="{'height': rows.length > 0 ? '100%' : 'auto' }"
-    >
-  
-  
-    <ng-template  ngFor let-column [ngForOf]="columns" let-i="index"  >
-      <ngx-datatable-column class="strong"   *ngIf="column.id != 'opciones'" name="{{column.label}}" prop="{{column.id}}">
-  
-      </ngx-datatable-column>
-    </ng-template>
-    <ngx-datatable-column name="opciones"  prop="opciones">
-      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-  <ion-button (click)="editarElemento(row)"  fill="clear"  >
-  <ion-icon color="warning"   name="eye"></ion-icon>
-  </ion-button>
-
-      </ng-template>
-  </ngx-datatable-column>
-  
-  </ngx-datatable>
-   
-  
-  
-  
+ 
+    <ion-list>
+      <ion-item *ngFor="let row of rows">
+        <ion-fab-button [color]="row.estatus == 'A' ? 'success' : 'warning'" slot="start" size="small"  >
+          <ion-icon [name]="row.estatus == 'A' ? 'checkmark' : 'timer'"></ion-icon>
+        </ion-fab-button>
+        <ion-label>{{ row.descripcion }}</ion-label>
+        <ion-note  >{{ row.monto  | colones }}</ion-note>
+        <ion-button slot="end"  (click)="editarElemento(row)" fill="clear">
+          <ion-icon color="warning" name="eye"></ion-icon>
+        </ion-button>
+ 
+      </ion-item>
+    </ion-list>
  
   </ion-content>
-  <ion-footer class="ion-no-border" *ngIf=" sobrante && sobrante.estatus =='A' && linea.estatus !='A' || linea.restante == 0 && linea.utilizado == linea.monto  &&  sobrante && sobrante.estatus !='A' ||  linea.restante == 0 && linea.utilizado == linea.monto  &&  !sobrante && this.linea.estatus !='A'" >
+  <ion-footer class="ion-no-border" *ngIf="sobrante && sobrante.estatus =='A' && linea.estatus !='A' 
+  || linea.restante == 0 && linea.utilizado == linea.monto  &&  sobrante && sobrante.estatus !='A' && !excedente
+   ||  linea.restante == 0 && linea.utilizado == linea.monto  &&  !sobrante && this.linea.estatus !='A' && !excedente
+   || excedente && excedente.estatus =='A' && linea.estatus !='A' 
+   
+   " >
     <ion-toolbar class="ion-padding">
       <app-button (click)="actualizarLineaAnticipo()"  label="Completar Linea Anticipo"></app-button>
        

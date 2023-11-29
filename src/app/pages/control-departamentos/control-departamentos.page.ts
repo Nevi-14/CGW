@@ -42,10 +42,10 @@ export class ControlDepartamentosPage implements OnInit {
     cargarDatos(){
 
       this.columns = [
-        { id: "id", label: "ID", size: 2},
-        { id: "nombre", label: "Nombre", size: 2 },
-        { id: "descripcion", label: "Descripcion", size: 6 },
-        { id: "opciones", label: "Opciones", size: 2 }
+        { id: "id", label: "ID"},
+        { id: "nombre", label: "Nombre"},
+        { id: "descripcion", label: "Descripcion"},
+        { id: "opciones", label: "Opciones" }
     ];
      this.departamentosService.syncGetDepartamentoToPromise()
         .then((res) => {
@@ -103,7 +103,7 @@ export class ControlDepartamentosPage implements OnInit {
     this.isOpen = true;
     const modal = await this.modalCtrl.create({
       component: CrearDepartamentoPage,
-      cssClass: 'alert-modal',
+      cssClass: 'medium-modal',
       mode:'ios'
     });
 
@@ -124,7 +124,7 @@ export class ControlDepartamentosPage implements OnInit {
     this.isOpen = true;
     const modal = await this.modalCtrl.create({
       component: EditarDepartamentoPage,
-      cssClass: 'alert-modal',
+      cssClass: 'medium-modal',
       mode:'ios',
       componentProps:{
         departamento
@@ -147,7 +147,7 @@ export class ControlDepartamentosPage implements OnInit {
 
   async borrarDepartamento(departamento:Departamentos){
     const alert = await this.alertCrl.create({
-      subHeader:'Dione',
+      subHeader:'D1',
       message:`¿Desea borrar el departamento ${departamento.nombre}?`,
       mode:'ios',
       buttons:[
@@ -169,11 +169,11 @@ export class ControlDepartamentosPage implements OnInit {
       this.cargarDatos();
     }, error =>{
       this.alertasService.loadingDissmiss();
-      this.alertasService.message('Dione','Lo sentimos algo salio mal...')
+      this.alertasService.message('D1','Lo sentimos algo salio mal...')
     })
   }, error =>{
     this.alertasService.loadingDissmiss();
-    this.alertasService.message('Dione','Lo sentimos algo salio mal...')
+    this.alertasService.message('D1','Lo sentimos algo salio mal...')
   })
           }
         }

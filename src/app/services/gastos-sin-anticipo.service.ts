@@ -72,7 +72,7 @@ export class GastosSinAnticipoService {
     console.log(JSON.stringify(gastoSinAnticipo));
     return this.http.put(URL, JSON.stringify(gastoSinAnticipo), options);
   }
-  getGastosSinAnticipoCompaniaMonedaEstadoRangoFecha(compania,moneda,estado,valor1,valor2){
+  private  getGastosSinAnticipoCompaniaMonedaEstadoRangoFecha(compania,moneda,estado,valor1,valor2){
     let URL = this.getIRPURL( environment.gastosSinAnticipoCompaniaMonedaEstadoRangoFecha, `` );
 
       URL = URL + compania + `&moneda=${moneda}`+ `&estado=${estado}`+ `&valor1=${valor1}`+ `&valor2=${valor2}`

@@ -1,0 +1,33 @@
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.2rem;
+  margin-bottom: 2rem;
+}
+h3 {
+  color: #939fab;
+  margin-bottom: 2rem;
+}
+form {
+  position: relative;
+  height: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  ion-thumbnail {
+    margin: 1rem  auto;
+    height: 150px;
+    width: 150px;
+  }
+  app-button {
+    display: block;
+  }
+}
+.footer-text {
+  text-align: center;
+  a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #5a55ca;
+  }
+}

@@ -1,0 +1,45 @@
+
+<ion-content class="ion-padding">
+
+
+  <form id="form" (ngSubmit)="obtenerCodigoDeSeguridad(fRecuperarContrasena)" #fRecuperarContrasena="ngForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-thumbnail>
+            <img  src="assets/forgot-password.svg" alt="">
+          </ion-thumbnail>
+        </ion-col>
+        <ion-col size="12">
+          <h2>Olvide mi contraseña,</h2>
+          <h3>Recuperación de acceso!..</h3>
+
+           
+        </ion-col>
+        <ion-col size="12">
+          <app-input [readonly]="verificarCodigo ? true : false" name="Correo" type="text" label='Correo'  ngModel="{{correo}}"    ></app-input>
+
+        </ion-col>
+        <ion-col size="12" *ngIf="verificarCodigo">
+          <app-input  name="codigo"  type="text"  label="Código" 
+    ngModel="{{codigo}}"></app-input>
+
+        </ion-col>
+
+        <ion-col size="12" *ngIf="!verificarCodigo">
+          <app-button label='Solicitar Código'></app-button>
+        </ion-col>
+        <ion-col size="12" *ngIf="verificarCodigo">
+          <app-button  label='Validar Código'   ></app-button>
+        </ion-col>
+ <ion-col size="12">
+  <p class="footer-text"> Página principal, <a routerLink="/inicio-sesion"> Regresar </a></p>
+ </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+  </form>
+
+</ion-content>
+ 

@@ -13,22 +13,21 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 export class InicioPage implements OnInit {
   public appPages = [
     { title: 'Inicio', url: '/inicio/detalle', icon: 'home' },
-    { title: 'Departamentos', url: '/inicio/control-departamentos', icon: 'business' },
+   // { title: 'Departamentos', url: '/inicio/control-departamentos', icon: 'business' },
     { title: 'Acceso', url: '/inicio/control-matriz-acceso', icon: 'shield' },
     { title: 'Usuarios', url: '/inicio/control-usuarios', icon: 'people' },
-
+    { title: 'Aprobadores', url: '/inicio/aprobadores', icon: 'prism' },
+    { title: 'Solicitudes', url: '/inicio/solicitudes', icon: 'file-tray-full' },
     { title: 'Gestión Anticipos', url: '/inicio/control-anticipos', icon: 'document-text' },
     //{ title: 'Viáticos', url: '/inicio/control-viaticos', icon: 'cash' },
     { title: 'Gastos Sin Anticipos', url: '/inicio/gastos-sin-anticipo', icon: 'wallet' },
     { title: 'Estados Cuenta', url: '/inicio/control-estados-cuenta', icon: 'card' },
-    { title: 'Mi Perfil', url: 'perfil', icon: 'person' },
     { title: 'Cerrar Sesión', url: 'salir', icon: 'exit' }
   ];
-
-  titulo = 'Inicio'
+  titulo = '';
   class: boolean = false;
   width: number;
-  url = '';
+  url = null;
   showMenu = false;
   large: boolean;
   small: boolean;
@@ -49,10 +48,8 @@ export class InicioPage implements OnInit {
     this.menuCtrl.swipeGesture(true)
   }
   ngOnInit() {
-
-    //console.log( this.userService.usuarioActual.Foto)
+this.url =  localStorage.getItem('currentUrl');
     this.width = this.plt.width();
-    this.toggleMenu()
   }
 
 
@@ -67,17 +64,30 @@ export class InicioPage implements OnInit {
   }
 
   // REMVOE MENU ON BIGGER SCREENS
-  menuAction(url) {
+  menuAction(url, titulo) {
     this.class = false;
     this.configuracionesService.menu = false;
+ 
     if (url == 'perfil') {
       this.perfil();
     } else if (url == 'salir') {
       this.cerrarSesion();
     } else {
+   
+    
+      this.url = url;
       this.router.navigateByUrl(url, { replaceUrl: true })
     }
+ if (url != '/inicio/detalle'  &&    url != 'perfil' && url != 'salir' ){
+  this.titulo = titulo;
+ }else {
+  this.titulo = '';
+ }
+    if( this.configuracionesService.menu){
 
+      this.configuracionesService.menu = false;
+      this.menuCtrl.toggle('myMenu');
+    }
   }
   openMenu() {
     if (!this.configuracionesService.menu) {
@@ -101,14 +111,14 @@ export class InicioPage implements OnInit {
     if (this.width > 768) {
       this.large = true;
       this.small = false;
-      //this.class = true;
-      // this.menuCtrl.toggle('myMenu');
+      this.class = true;
+       this.menuCtrl.toggle('myMenu');
       this.small = false;
     } else {
       this.class = false;
       this.large = false;
       this.small = true;
-      // this.menuCtrl.toggle('myMenu');
+       this.menuCtrl.toggle('myMenu');
 
 
 
@@ -117,13 +127,13 @@ export class InicioPage implements OnInit {
 
   }
 
-  toggle() {
-    this.class = true;
+  toggle(){
+    this.configuracionesService.menu = !this.configuracionesService.menu ;
     this.menuCtrl.toggle('myMenu');
-
-    this.configuracionesService.menu = !this.configuracionesService.menu;
-
-  }
+    console.log('true')
+  
+     
+     }
   // CHECKS SCREEN RESIZE LIVE
 
   @HostListener('window:resize', ['$event'])
@@ -141,7 +151,7 @@ export class InicioPage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: PerfilPage,
-      cssClass: 'alert-modal'
+      cssClass: 'medium-modal'
     });
 
     if (this.isOpen) {
@@ -164,8 +174,13 @@ export class InicioPage implements OnInit {
 
   }
   cerrarSesion() {
-
+      
     this.router.navigate(['/inicio-sesion']);
     localStorage.removeItem('usuario')
+    this.usuariosService.usuario = null;
+  }
+
+  descargarManual(){
+    window.open('https://drive.google.com/file/d/1wHNdaaLySt-wRia_5p17eMLFX1iIr8Om/view?usp=sharing','_blank')
   }
 }

@@ -1,3 +1,10 @@
-ion-toolbar{
-    --background:#fff;
-}
+
+ion-header ion-toolbar {
+    background-color:#fff;
+    color: #36acc6;
+    text-transform: uppercase;
+   ion-button ion-icon {
+    color: #36acc6;
+   }
+  }
+  

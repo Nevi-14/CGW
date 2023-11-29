@@ -1,87 +1,104 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
-      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar mode="md"  >
+    <ion-button (click)="cerrarModal()" fill="clear" slot="start">
+      <ion-icon size="large" slot="icon-only" name="arrow-back"></ion-icon>
     </ion-button>
-<ion-title>CREAR USUARIO</ion-title>
+    <ion-title>Crear Usuario {{codCompania ? codCompania : ''}} - {{usuario.departamento ? usuario.departamento : ''}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content class="ion-padding">
-  <form id="form" (ngSubmit)="crearUsuario(form)" #form="ngForm" class="ion-padding">
-<ion-grid >
-  <ion-row>
-    <ion-col size="12">
-      <ion-row>
- 
+  <form id="form" (ngSubmit)="crearUsuario(form)" #form="ngForm">
+    <ion-grid>
+      <ion-row *ngIf="!usuarioConfirmado">
         <ion-col size="12">
+          <ion-row class="ion-margin-bottom">
+            <ion-col size="6">
+              <app-select name="coD_COMPANIA" (ionChange)="compania(form)" label="Compañia" [data]="companias" ngModel="{{codCompania}}"></app-select>
+            </ion-col>
+            <ion-col size="6"  >
+              <app-select name="departamento" (ionChange)="departamento(form)" label="Departamento" [data]="departamentos" ngModel="{{usuario.departamento}}"></app-select>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-margin-bottom">
+            <ion-col size="6">
+              <h3>Usuarios</h3>
+            </ion-col>
+            <ion-col size="6" class="search-box">
+              <ion-item  mode="md" >
+                <ion-icon slot="start" name="search"></ion-icon>
+              <ion-input  (ionChange)="onSearchChange($event)" [debounce]="250" mode="ios" placeholder="Buscar"></ion-input>
+              </ion-item>
 
-          <app-select [multiple]="multiple"  name="roles" label="Roles" [data]="matriz" ngModel="{{roles}}"></app-select>
+            </ion-col>
+          </ion-row>
+          <ion-row>
       
-      
+            <ion-col size="12" >
+
+              <ion-list class="users-list"> 
+                <ion-radio-group (ionChange)="usuarioIonChange($event)" name="usuarios">
+                  <ion-item *ngFor="let usuario of usuarios | filtro: textoBuscar:'nombre'; ">
+
+        <ion-avatar  slot="start">
+          <img   src="../assets/imgs/user.svg" />
+        </ion-avatar>
+                    <ion-label>{{usuario.nombre}}</ion-label>
+                    <ion-radio [value]="usuario.identificacion"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+                <ion-item *ngIf="usuarios.length == 0" class="ion-margin-top">
+                  <ion-icon slot="start" color="danger" name="alert-circle-outline"></ion-icon>
+                  <ion-label>No hay datos que mostrar</ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
         </ion-col>
       </ion-row>
-          </ion-col>
-    <ion-col size="6">
-      <ion-row>
+      <ion-row *ngIf="usuarioConfirmado">
         <ion-col size="12">
-         <app-input   type="text"label="Nombre" name="nombre"  ngModel="{{usuario.nombre}}"></app-input>
+        <ion-item lines="none">
+          <ion-label><strong>Acceso Web</strong></ion-label>
+          <ion-toggle slot="end" [(ngModel)]="usuario.web"></ion-toggle>
+        </ion-item>
         </ion-col>
      
-      </ion-row>
-          </ion-col>
-          <ion-col size="6">
-            <ion-row>
-           
-              <ion-col size="12">
-                <app-input  type="text" label="Apellido" name="apellido" ngModel="{{usuario.apellido}}"> </app-input>
-              </ion-col>
-            </ion-row>
-                </ion-col>
-                
-          <ion-col size="12">
-            <ion-row>
-        
-              <ion-col size="12">
-                <app-input  type="text" label="Correo" name="correo" ngModel="{{usuario.correo}}"></app-input>
-              </ion-col>
- 
-            </ion-row>
-                </ion-col>
-
-                <ion-col size="6">
-                  <ion-row>
-            
-                    <ion-col size="12">
-                      <app-input label="Usuario" type="text"  name="usuario" ngModel="{{usuario.usuario}}"></app-input>
-                    </ion-col>
-                  </ion-row>
-                      </ion-col>
-                <ion-col size="6">
-                  <ion-row>
-                    
-                    <ion-col size="12">
-                      <app-input label="Contraseña" type="password" name="clave" ngModel="{{usuario.clave}}"></app-input>
-                    </ion-col>
+        <ion-col size="12" *ngIf="usuario.web">
+          <app-select [multiple]="multiple" name="roles" label="Roles" [data]="matriz" ngModel="{{roles}}"></app-select>
+        </ion-col>
+        <ion-col size="6">
+          <app-input [readonly]="true" label="Usuario" type="text" name="usuario" ngModel="{{usuario.usuario}}"></app-input>
+        </ion-col>
+        <ion-col size="6">
+          <app-input [readonly]="true"   type="text" label="Nombre" name="nombre" ngModel="{{usuario.nombre}}"></app-input>
+        </ion-col>
+        <ion-col size="6">
+          <app-input [readonly]="true" type="text" label="Apellido" name="apellido" ngModel="{{usuario.apellido}}"></app-input>
+        </ion-col>
+        <ion-col size="6">
+          <app-input [readonly]="true" label="Centor Costo" type="text" name="centrO_COSTO" ngModel="{{usuarioSofland.centrO_COSTO}}"></app-input>
+        </ion-col>
+        <ion-col size="6">
+          <app-input type="text" label="Telefono" name="telefono" ngModel="{{usuario.telefono}}"></app-input>
+        </ion-col>
        
-                  </ion-row>
-                      </ion-col>
-<ion-col size="12">
-  
-<app-button   label="Crear Usuario"></app-button>
-</ion-col>
-              
-  </ion-row>
-</ion-grid>
-    
-
- 
- 
-
-</form>
-
+        <ion-col size="6">
+          <app-input type="text" label="Correo" name="correo" ngModel="{{usuario.correo}}"></app-input>
+        </ion-col>
+       
+        <ion-col size="6">
+          <app-input label="Contraseña" type="password" name="clave" ngModel="{{usuario.clave}}"></app-input>
+        </ion-col>
+      </ion-row>
+     <ion-row>
+      <ion-col size="12">
+        <app-button label="{{usuarioConfirmado ?  'Crear Usuario' : 'Continuar'}}"></app-button>
+      </ion-col>
+     </ion-row>
+      
+     
+    </ion-grid>
+  </form>
 </ion-content>
-
- 
  

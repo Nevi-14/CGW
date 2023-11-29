@@ -12,7 +12,7 @@ export class  anticiposLineasView {
     public monto: number,
     public utilizado: number,
     public restante: number,
-    public excedentes :number,
+    public excedente :number,
     public estatus:string
      
     ){}

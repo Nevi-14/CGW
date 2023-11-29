@@ -1,37 +1,16 @@
- ion-toolbar{
-    --background:#fff;
- }
-ion-input, ion-select {
-    border-radius: 10px;
-    border: solid 1px rgba(218,218,218,1);
-    height: 2.5rem;
-    width: 100%;
-padding: 0.2rem;
-text-indent: 0.2cm;
-}
-ion-label{
-    font-size: 1rem;
+ion-toolbar {
+  --background:#fff;
+  ion-title {
     font-weight: 500;
-}
-.description {
-    height: 4rem;
-}
-.has-focus {
-    border: 2px solid #5b9bd1 !important;
   }
- 
-   ion-item{
-    border-radius: 10px;
-    --ion-item-background:  rgba(0, 0, 0, 0.09);
-    margin: 0.5rem;
-   }
-
-   ion-content{
-   // --background: #e7edfb;
-   }
-
-   ion-card{
-   // --background:rgba(0, 0, 0, 0.08);
-   //box-shadow: 1px 8px 8px 0px rgba(0, 0, 0, 0.05);
 }
- 
+.checkbox-column {
+  display: flex;
+  justify-content:flex-start;
+  align-items: center;
+  gap: 20px;
+ font-weight: 500;
+}
+ion-content ion-button {
+  margin-top: 2rem;
+}

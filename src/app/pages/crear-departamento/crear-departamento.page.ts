@@ -14,6 +14,8 @@ export class CrearDepartamentoPage implements OnInit {
 departamento :Departamentos ={
   id: null,
   nombre:null,
+  correo:null,
+  telefono:null,
   descripcion:null
 }
   constructor(
@@ -37,7 +39,7 @@ departamento :Departamentos ={
       this.modalCtrl.dismiss(true)
     }, error =>{
       this.alertasService.loadingDissmiss();
-      this.alertasService.message('Dione','Lo sentimos algo salio mal!..')
+      this.alertasService.message('D1','Lo sentimos algo salio mal!..')
     })
   }
 

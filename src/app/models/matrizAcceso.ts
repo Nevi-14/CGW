@@ -1,11 +1,8 @@
 export class MatrizAcceso {
     constructor(
         public id:string,
-        public iD_COMPANIA: number,
-        public iD_DEPARTAMENTO: number,
         public nombre: string,
         public estatus: boolean,
-        public aprobador: boolean,
         public c: boolean,
         public r: boolean,
         public u: boolean,

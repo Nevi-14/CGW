@@ -1,0 +1,160 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+* {
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
+  color: #616e7e;
+}
+// ion-header ion-toolbar {
+//   z-index: -999;
+//   h3 {
+//     margin-left: 5px;
+//     padding: 0 10px;
+//     display: inline-block;
+//     text-transform: uppercase;
+//     letter-spacing: .2rem;
+//     color: #616e7e;
+//     font-weight: bold;
+//   }
+//   .search-container {
+//     display: flex;
+//     justify-content: flex-end;
+//     align-items: center;
+//     margin-right: 3rem;
+//     ion-searchbar {
+//       width: 70%;
+//       margin-top: 1.6rem;
+//     }
+//   }
+ 
+// }
+  
+ion-modal.ui-modal {
+  border-radius: none;
+  &::part(content){
+    height: 100vh; 
+  }
+
+
+}
+
+ion-fab-button {
+  background-color: #36acc6;
+  border-radius: 50%;
+  color: #fff;
+ }
+ 
+ion-label {
+  line-height: 1.5;
+}
+ion-badge   {
+  color:#fff;
+}
+.ngx-datatable.material {
+  margin-top: 5px;
+max-height: 100%;
+  width: 100% !important;
+  .datatable-header {
+    .datatable-header-cell {
+      background-color:#36acc6;
+      font-size: 0.8rem;
+      height: 5rem;
+      width: 100%;
+      text-transform: uppercase;
+    span {
+      color: #fff!important;
+    }
+    }
+  }
+ 
+}
+ion-fab-button {
+--background: #36acc6;
+ion-icon{
+  color: #fff;
+}
+ 
+}
+.datatable-body-row {
+  font-size: 1rem;
+}
+.empty-row{
+  font-size: 1rem;
+}
+ion-modal.medium-modal {
+  --border-radius: 0px!important;
+  --backdrop-opacity: 0.8 !important;
+   align-items: start;
+   justify-content: center; 
+   &::part(content){ 
+     width: 50vw;
+     height: 100vh; 
+   }
+  }
+
+
+ion-modal.large-modal {
+
+  --backdrop-opacity: 0.8 !important;
+  align-items: center;
+  justify-content: center; 
+  &::part(content){
+    width: 70%;
+    height: 100%; 
+  }
+
+    
+ 
+}
+
+ 
+ion-modal.extra-large-modal {
+
+  --backdrop-opacity: 0.8 !important;
+  align-items: center;
+  justify-content: center; 
+  &::part(content){
+    width: 95%;
+    height: 95%; 
+  }
+
+    
+ 
+}
+
+ion-modal.full-screen-modal {
+
+  --backdrop-opacity: 0.8 !important;
+  align-items: center;
+  justify-content: center; 
+  &::part(content){
+    width: 100%;
+    height: 100%; 
+  }
+
+    
+ 
+}

@@ -12,7 +12,10 @@ import { SobrantesService } from 'src/app/models/sobrantes.service';
 import { PdfService } from 'src/app/services/pdf.service';
 import { GastosSinAnticipoService } from '../../services/gastos-sin-anticipo.service';
 import { GastosConAnticipoService } from 'src/app/services/gastos-con-anticipo.service';
-
+interface filtros {
+  nombre:any,
+  filtro:any, 
+ }
 @Component({
   selector: 'app-control-estados-cuenta',
   templateUrl: './control-estados-cuenta.page.html',
@@ -26,8 +29,28 @@ export class ControlEstadosCuentaPage implements OnInit {
   url = 'http://mercaderistas.di-apps.co.cr/api/get/estados/cuenta/archivo/?ID='
   @ViewChild(DatatableComponent) table: DatatableComponent;
   public columns: any[]=[];
-  public rows: any[]=[];
+  public data: any[]=[];
   temp = [];
+  pageSize =6;
+  currentPage = 1;
+  filtro:filtros = {nombre:'Usuario',filtro:'usuario'}
+  filtros:any = [
+    {
+      label:'Usuario',
+      type:'radio',
+      value:{nombre:'Usuario',filtro:'usuario'}
+    },
+    {
+      label:'Nombre',
+      type:'radio',
+      value:{nombre:'Nombre',filtro:'nombre'}
+    },
+    {
+      label:'Apellido',
+      type:'radio',
+      value:{nombre:'Apellido',filtro:'apellido'}
+    },
+  ]
   constructor(
   public modalCtrl: ModalController,
   public alertasService: AlertasService,
@@ -61,27 +84,33 @@ export class ControlEstadosCuentaPage implements OnInit {
     this.temp = [...res];
 
   // push our inital complete list
-  this.rows = res;
+  this.data = res;
   });
   }
 editarElemento(row) {
   console.log(row,'editarElemento');
-  let i = this.rows.findIndex( e => e.id == row.id);
+  let i = this.data.findIndex( e => e.id == row.id);
   if(i >= 0){
-    console.log('elemento',this.rows[i])
+    console.log('elemento',this.data[i])
     this.descargarEstadoDeCuenta(row)
   }
 }
 borrarElemento(row) {
-  let i = this.rows.findIndex( e => e.id == row.id);
+  let i = this.data.findIndex( e => e.id == row.id);
   if(i >= 0){
-    console.log('elemento',this.rows[i])
+    console.log('elemento',this.data[i])
   }
 
   console.log(row,'borrarElemento');
 }
 
+  // DATATABLE
 
+  // TOTAL PAGINAS
+
+  get totalPages(): number {
+    return Math.ceil(this.data.length / this.pageSize);
+  }
  updateFilter(event) {
   const val = event.target.value.toLowerCase();
 
@@ -92,8 +121,8 @@ borrarElemento(row) {
     return d.usuario.toLowerCase().indexOf(val) !== -1 || !val;
   });
 
-  // update the rows
-  this.rows = temp;
+  // update the data
+  this.data = temp;
   // Whenever the filter changes, always go back to the first page
   this.table.offset = 0;
 
@@ -110,7 +139,9 @@ this.alertasService.message('APP', 'Lo sentimos algo salio mal..')
 
     })
   }
+  filtrarData(){
 
+  }
   enviarCorreo(estado:EstadosCuenta){
  //this.correoService.enviarCorreo(estado)
   }
@@ -124,7 +155,7 @@ this.alertasService.message('APP', 'Lo sentimos algo salio mal..')
     
           const modal = await this.modalCtrl.create({
      component:EstadoCuentaPage,
-     cssClass:'alert-modal'
+     cssClass:'medium-modal'
           });
     
     if(this.isOpen){
@@ -173,4 +204,45 @@ this.alertasService.message('APP', 'Lo sentimos algo salio mal..')
       }
   
     }
+
+
+    // PAGINATED DATA
+get paginatedData(): any[] {
+  const startIndex = (this.currentPage - 1) * this.pageSize;
+  return this.data.slice(startIndex, startIndex + this.pageSize);
+}
+
+// NEXT PAGE
+nextPage() {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+  }
+}
+
+// PREVIOUS PAGE
+previousPage() {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+  }
+}
+ 
+
+  // SELECCIONAR TODO
+  selectAll(event) {
+    if (event.detail.checked) {
+      this.data.forEach((item) => {
+        item.seleccionado = true;
+      });
+    } else {
+      this.data.forEach((item) => {
+        item.seleccionado = false;
+      });
+    }
+  }
+
+   descargarDatos(){
+    
+   }
+
+
 }

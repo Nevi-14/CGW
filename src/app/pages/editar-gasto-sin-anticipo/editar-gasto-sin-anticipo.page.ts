@@ -8,6 +8,7 @@ import { AlertasService } from 'src/app/services/alertas.service';
 import { GastosSinAnticipoService } from 'src/app/services/gastos-sin-anticipo.service';
 import { NotificacionesService } from 'src/app/services/notificaciones.service';
 import { TiposGastosService } from 'src/app/services/tipos-gastos.service';
+import { VisorArchivosPage } from '../visor-archivos/visor-archivos.page';
 
 @Component({
   selector: 'app-editar-gasto-sin-anticipo',
@@ -38,6 +39,8 @@ export class EditarGastoSinAnticipoPage implements OnInit {
       valor : 'Rechazado'
      }
   ]
+  isOpen = false;
+  true = true;
   constructor(
  public tiposGastosService:TiposGastosService,
  public gastosSinAnticipoService:GastosSinAnticipoService ,
@@ -47,12 +50,12 @@ export class EditarGastoSinAnticipoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    let i = this.tiposGastosService.tiposGastos.findIndex(e => e.id == this.nuevoGasto.iD_TIPO_GASTO);
+    let i = this.tiposGastosService.tiposGastos.findIndex(e => e.tipo == this.nuevoGasto.iD_TIPO_GASTO);
    if(i >=0) this.tipoGasto= this.tiposGastosService.tiposGastos[i];
    console.log(this.tipoGasto)
     console.log(this.nuevoGasto)
 
-   
+    console.log( this.tiposGastosService.tiposGastos)
   
     console.log(this.nuevoGasto, 'gastooo')
   }
@@ -76,13 +79,38 @@ export class EditarGastoSinAnticipoPage implements OnInit {
         this.nuevoGasto.estatus = this.nuevoGasto.estatus
       }
       await   this.gastosSinAnticipoService.syncPutGastoSinAnticipoToPromise(this.nuevoGasto);
-      this.alertasService.message('DIONE','Gasto Actualizado!..')
+      this.alertasService.message('D1','Gasto Actualizado!..')
     }, error =>{
       this.alertasService.loadingDissmiss();
-      this.alertasService.message('DIONE','Lo sentimos algo salio mal!..')
+      this.alertasService.message('D1','Lo sentimos algo salio mal!..')
     })
   }
+  async mostrarArchivo(file: string) {
 
+
+    this.isOpen = true;
+  
+    const modal = await this.modalCtrl.create({
+      component: VisorArchivosPage,
+      cssClass: 'medium-modal',
+      mode: 'ios',
+      componentProps: {
+        file
+      }
+    });
+  
+    if (this.isOpen) {
+  
+      modal.present();
+      const { data } = await modal.onWillDismiss();
+      this.isOpen = false;
+      if (data != undefined) {
+  
+  
+      }
+  
+    }
+  }
   notificarUsuario(){
 
     let notificacion:Notificaciones = {

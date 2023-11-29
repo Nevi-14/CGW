@@ -1,34 +1,44 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar mode="md"  >
     <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
-      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      <ion-icon size="large" slot="icon-only" name="arrow-back"></ion-icon>
     </ion-button>
-<ion-title>EDITAR USUARIO</ion-title>
+<ion-title>Editar Usuario</ion-title>
+<ion-label style="margin-right: 20px;" slot="end"><strong>Estatus</strong></ion-label>
+<ion-toggle style="margin-right: 20px;" slot="end" size="medium" mode="ios" [(ngModel)]="usuario.estatus"></ion-toggle>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content class="ion-padding">
-  <form id="form" (ngSubmit)="editarUsuario(form)" #form="ngForm" class="ion-padding">
+  <form id="form" (ngSubmit)="editarUsuario(form)" #form="ngForm">
 <ion-grid >
   <ion-row>
     <ion-col size="12">
       <ion-row>
  
-        <ion-col size="12">
+        <ion-col size="6">
 
           <app-select [multiple]="multiple"  name="roles" label="Roles" [data]="matriz"  [ngModel]="roles"></app-select>
       
       
         </ion-col>
+        <ion-col size="6">
+             
+          <app-input   type="text"label="Departamento" name="departamento"  ngModel="{{usuario.departamento}}"></app-input>
+        </ion-col>
       </ion-row>
           </ion-col>
+        
+         
+      
     <ion-col size="6">
       <ion-row>
+
         <ion-col size="12">
          <app-input   type="text"label="Nombre" name="nombre"  ngModel="{{usuario.nombre}}"></app-input>
         </ion-col>
-     
+        
       </ion-row>
           </ion-col>
           <ion-col size="6">
@@ -40,7 +50,7 @@
             </ion-row>
                 </ion-col>
                 
-          <ion-col size="12">
+          <ion-col size="6">
             <ion-row>
         
               <ion-col size="12">
@@ -49,7 +59,9 @@
  
             </ion-row>
                 </ion-col>
-
+                <ion-col size="6">
+                  <app-input type="text" label="Telefono" name="telefono" ngModel="{{usuario.telefono}}"></app-input>
+                </ion-col>
                 <ion-col size="6">
                   <ion-row>
             

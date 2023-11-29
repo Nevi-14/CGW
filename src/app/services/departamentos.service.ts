@@ -26,7 +26,15 @@ export class DepartamentosService {
     console.log('URL', URL)
     return this.http.get<Departamentos[]>(URL);
   }
-  
+  private getDepartamentosSofland(compania:string){
+    let URL = this.getAPI(environment.getDepartamentosSofland);
+        URL = URL + compania;
+    console.log('URL', URL)
+    return this.http.get<any[]>(URL);
+  }
+  syncGetDepartamentosSofland(compania:string){
+    return this.getDepartamentosSofland(compania).toPromise();
+  }
   private postDepartamento(departamento:Departamentos){
     const URL = this.getAPI(environment.postDepartamento);
     const options = {

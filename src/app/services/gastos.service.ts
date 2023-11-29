@@ -128,14 +128,14 @@ console.log('URL', URL)
     console.log('resp', resp)
    
   if(resp.length == 0){
-    this.alertasService.message('DIONE','Lo sentimos no se encontrarón resultados!.')
+    this.alertasService.message('D1','Lo sentimos no se encontrarón resultados!.')
     return     this.alertasService.loadingDissmiss();
   }
  
   this.rellenarArregloGastos(resp);
    }, error =>{
     this.alertasService.loadingDissmiss();
-    this.alertasService.message('SD1', 'Lo sentimos algo salio mal..')
+    this.alertasService.message('D1', 'Lo sentimos algo salio mal..')
    })
   }
 
@@ -151,14 +151,14 @@ console.log('URL', URL)
     console.log('resp', resp)
    
   if(resp.length == 0){
-    this.alertasService.message('DIONE','Lo sentimos no se encontrarón resultados!.')
+    this.alertasService.message('D1','Lo sentimos no se encontrarón resultados!.')
     return     this.alertasService.loadingDissmiss();
   }
  
   this.rellenarArregloGastos(resp);
    }, error =>{
     this.alertasService.loadingDissmiss();
-    this.alertasService.message('SD1', 'Lo sentimos algo salio mal..')
+    this.alertasService.message('D1', 'Lo sentimos algo salio mal..')
    })
   }
 

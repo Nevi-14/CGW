@@ -1,73 +1,142 @@
-ion-title{
-    font-weight: bold;
-    font-size: 18px;
-    margin-left: 1rem;
-    text-transform: uppercase;
- } 
- ion-card{
-    min-height: 50vh;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 0px;
-   
-    }
- ion-button ion-icon{
-    color: #000;
-}
-.list ion-item{
---padding:0;
-padding:0;
---padding-bottom:0.5rem;
-
-}
-ion-grid, ion-row, ion-col{
-    margin: 0;
-    padding: 0;
-}
-ion-col ion-label{
-    font-size: 14px;
- 
-}
-
-.bottom-button {
-    --padding-top:0.7rem;
-    --padding-bottom:0.7rem;
-    margin-top: 2rem;
-}
-ion-avatar{
-    height: 3rem;
-    width: 3rem;
+/* Add modern styling for ion-content */
+ion-content {
+  //  --ion-background-color: #f8f8f8;
+    --ion-text-color: #000;
   }
-
-  #bar-chart-container {
-    height: 100%; 
+  
+   ion-title {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+   }
+  /* Update left menu styles */
+  ion-segment {
+   // background-color: #2c3e50;
+    color: #ecf0f1;
+    border-radius: 10px;
+  }
+ 
+  
+  /* Update button styles */
+  ion-button {
+    --border-radius: 8px;
+    --background: #3498db;
+    --color: #fff;
+  }
+  
+  ion-button[fill="clear"] {
+    --background: transparent;
+    --color: #3498db;
+    --border-width: 2px;
+    --border-color: #3498db;
+  } 
+  
+  ion-grid, table {
+   // width: 95%;
+    margin: 0 auto;
+   // background: #fff;
+    box-shadow: none;
+  }
+  
+  .regular-table {
+   // border: 1px solid #ddd;
+    margin-bottom: 20px;
+  }
+  table {
+    border-collapse: collapse;
+    margin-top: 26px;
+   // margin-bottom: 26px;
     width: 100%;
+   }
+   .table {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.25);
+   }
+  th, td{
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    ion-checkbox{
+      margin-left: 8px;
+      margin-top: 8px;
+    }
   }
- 
-.custom-title{
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
+   .search-box{
+    ion-item{
+      width: 400px;
+    }
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+   }  /* Define a class for the last column */
+   .last-column {
+     width: 300px;
+   }
+   /* Adjust the width of the last column in the table */
+   table.custom-table td.last-column {
+     width: 300px;
+     max-width: 300px; /* Optional, to ensure a fixed width */
+   }
+   .foot {
+    display: flex;
+    justify-content
+    :space-between;
+    align-items: center;
+   ion-label {
+    margin-right: 15px;
+   }
+  }
+  .tfoot{
+    display: flex;
+    align-items: center;
+  }
+  .left {
+    margin-right: 20px;
+  }
+  .right {
+    margin-left: 20px;
+  }
+  
+  ion-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+
+
+/* Estilos de la tarjeta de información */
+.info-card {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px auto;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  background: #fff;
+  padding: 15px; /* Ajusta el relleno según sea necesario */
 }
-.subcustom-title{
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-top: 0.5rem;
- 
-}
- 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) { }
 
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) { }
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) { }
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) { 
-
- 
+.info-table {
+  margin-bottom: 20px;
+  width: 100%;
+  border-collapse: collapse;
 }
 
+.info-table th {
+  background-color: #2a2a2a;
+  color: #fff;
+  text-align: left;
+  padding: 12px;
+}
+
+.info-table td {
+  padding: 10px;
+  color: #666;
+}
+
+.info-table tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
  

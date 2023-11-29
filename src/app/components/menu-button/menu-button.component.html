@@ -1,0 +1,50 @@
+<ion-header  class="{{!mostrarUsuario ? 'ion-no-border' : ''}}" mode="ios">
+  <ion-toolbar  >
+    <ion-button
+      slot="start"
+      contentId="main-content"
+      (click)="toggle()"
+      fill="clear"
+    >
+  
+      <ion-icon
+        color="dark"
+        [name]="!this.configuracionesService.menu ? 'menu' : 'close-outline'"
+        size="large"
+      ></ion-icon>
+    </ion-button>
+    <span *ngIf="mostrarUsuario" slot="end" (click)="perfil()">
+      <ion-avatar style="height: 2.5rem; width: 2.5rem">
+        <img src="assets/imgs/user.svg" />
+      </ion-avatar>
+      <ion-label
+        >{{ usuariosService.usuario.nombre }}
+        {{ usuariosService.usuario.apellido }}</ion-label
+      >
+    </span>
+    <span  *ngIf="mostrarUsuario" slot="end" style="position: relative;" id="hover-trigger">
+      <ion-button expand="block" fill="clear" shape="round">
+        <ion-icon style="font-size: 28px;" name="notifications-outline"></ion-icon>
+      </ion-button>
+      <ion-badge style="position: absolute;top: 5px;right: 5px;" color="danger" mode="ios">{{alertas}}</ion-badge>
+    </span>
+    <ion-popover mode="ios" trigger="hover-trigger" triggerAction="hover">
+      <ng-template>
+        <ion-content class="ion-padding">
+          <ion-list>
+            <ion-item
+              *ngFor="let alerta of alertasArray"
+             
+            >
+            <ion-icon slot="start" color="danger" name="alert-circle"></ion-icon>
+              <ion-label>
+                {{ alerta.titulo }}
+
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+  </ion-toolbar>
+</ion-header>

@@ -22,8 +22,9 @@ export class NotificacionesService {
     console.log(URL);
     return URL;
   }
-  private getNotificacionesUsuario(id: string) {
+  private getNotificacionesUsuario(id: any) {
     let URL = this.getIRPURL(environment.getNotificacionesUsuario, id);
+        URL = URL + `&estatus=P`;
     console.log('URL', URL)
     return this.http.get<Notificaciones[]>(URL);
 
@@ -54,7 +55,7 @@ export class NotificacionesService {
     return this.http.put(URL, JSON.stringify(notificacion), options);
   }
 
-syncGetNotificacionesUsuarioToPromise(id:string){
+syncGetNotificacionesUsuarioToPromise(id:any){
 
   return this.getNotificacionesUsuario(id).toPromise();
 }

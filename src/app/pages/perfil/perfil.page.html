@@ -1,9 +1,8 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-button (click)="cerrarModal()"  fill="clear" slot="start">
-      <ion-icon color="dark" size="large" name="arrow-back-outline"></ion-icon>
-    </ion-button>
+  <ion-toolbar color="any">
     <ion-title>Perfil Usuario</ion-title>
+ 
+ 
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +11,7 @@
   <ion-list>
 
 <ion-list-header>
-  <ion-avatar  class="height">
+  <ion-avatar  class="avatar">
     <img src="assets/imgs/user.svg" />
   </ion-avatar>
  
@@ -39,3 +38,10 @@
   </ion-list>
 </ion-content>
  
+
+ <ion-footer      class="ion-no-border ion-padding"  >
+  <ion-toolbar>
+    <app-button  (click)="cerrarModal()"   label="CERRAR PERFIL"></app-button>
+ 
+  </ion-toolbar>
+ </ion-footer>

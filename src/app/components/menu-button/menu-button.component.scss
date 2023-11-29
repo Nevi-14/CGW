@@ -1,0 +1,24 @@
+ion-toolbar {
+  height: 80px;
+  --background: #fff;
+  padding-left: 15px;
+  padding-right: 50px;
+  display: flex;
+  align-items: center;
+  span {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  ion-avatar {
+    margin-right: 15px;
+  }
+  ion-label {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+
+ion-item {
+  cursor: pointer;
+}

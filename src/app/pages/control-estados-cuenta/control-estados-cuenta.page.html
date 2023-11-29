@@ -1,53 +1,89 @@
-
-<ion-header class="ion-no-border">
-  <ion-toolbar  >
-    <ion-title class="ion-text-capitalize" class="page-title">Estados De Cuenta</ion-title>
-    <ion-searchbar   (ionChange)="updateFilter($event)"   slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar usuario"  type="text"   [debounce]="250"  ></ion-searchbar>
+<app-menu-button [mostrarUsuario]="true"></app-menu-button>
  
-    <ion-fab-button  size="small"  (click)="cargarDatos()" class="margin-right" slot="end" color="dark"  >
-      <ion-icon name="refresh"></ion-icon>
-    </ion-fab-button>
-  </ion-toolbar>
-</ion-header>
-
-
 <ion-content class="ion-padding">
-  <ion-grid  style="height: 100%;">
-    <ion-row style="height: 100%;">
-      <ion-col size="12" style="height: 100%;">
-        <ngx-datatable 
-        class="material  light striped"
-        [limit]="8" 
-        [rows]="rows" 
-        [rowHeight]="50" 
-        [columnMode]="'force'" 
-        [sortType]="multi" 
-        [headerHeight]="50" 
-        [footerHeight]="50"
-        style="height: 100%;"
-        [columns]="columns" 
-        [scrollbarV]="true"
-        
-        >
-      
-      
-        <ng-template  ngFor let-column [ngForOf]="columns" let-i="index"  >
-          <ngx-datatable-column *ngIf="column.id != 'opciones'" name="{{column.label}}" prop="{{column.id}}">
-      
-          </ngx-datatable-column>
-        </ng-template>
-        <ngx-datatable-column name="opciones"  prop="opciones">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <ion-button (click)="editarElemento(row)"  fill="clear"  >
-      <ion-icon color="warning"   name="document"></ion-icon>
-      </ion-button>
- 
-          </ng-template>
-      </ngx-datatable-column>
-      </ngx-datatable>
+  <ion-grid >
+    <ion-row>
+      <ion-col size="4">
+    <h3>Estados De Cuenta</h3>
       </ion-col>
-   
+      <ion-col size="8" class="search-box">
+<ion-item  >
+  <ion-icon slot="start" name="search"></ion-icon>
+<ion-input (ionInput)="updateFilter($event)" type="text" placeholder="Buscar {{filtro.nombre}}"></ion-input>
+</ion-item>
+        <span class="fab-buttons">
+          <ion-button color="dark"    *ngIf="usuariosService.moduloAcceso.r"    (click)="filtrarData()"    >
+            <ion-icon slot="start" color="light" slot="start" name="options"></ion-icon>
+            <ion-label color="light">Filtrar</ion-label>
+               </ion-button>
+ 
+      <ion-button color="secondary"    *ngIf="usuariosService.moduloAcceso.c"    (click)="descargarDatos()"    >
+        <ion-icon slot="start" color="light" slot="start" name="download"></ion-icon>
+        <ion-label color="light">Exportar</ion-label>
+           </ion-button>
+        </span>
+      </ion-col>
     </ion-row>
   </ion-grid>
-  </ion-content>
-  <app-pie-pagina></app-pie-pagina>
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>
+          <ion-checkbox (ionChange)="selectAll($event)"></ion-checkbox>
+        </th>
+        <th>Referencia</th>
+        <th>Usuario</th>
+        <th>Fecha</th>
+        <th>Monto</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngIf="paginatedData.length ==0">
+        
+        <td colspan="6" class="ion-text-center">
+          No Data found
+        </td>
+      </tr>
+
+
+      <tr *ngFor="let item of paginatedData">
+        <td>
+          <ion-checkbox [(ngModel)]="item.seleccionado"></ion-checkbox>
+        </td>
+        <td>{{ item.referencia }}</td>
+        <td>{{ item.usuario}}</td>
+        <td>{{ item.fecha  | date }}</td>
+        <td>{{ item.monto | colones }}</td>
+        <td class="last-column">
+          <ion-button color="warning" size="small"  *ngIf="usuariosService.moduloAcceso.c"   (click)="descargarEstadoDeCuenta(item)">
+            <ion-icon  slot="start"   name="document-outline"></ion-icon>
+            <ion-label  >PDF</ion-label>
+          </ion-button>
+   
+        </td>
+      </tr>
+    </tbody>
+    
+    <tfoot>
+      <tr>
+        <td colspan="6">
+          <div class="foot">
+            <ion-label>Total {{ paginatedData.length }} | {{data.length}}</ion-label>
+            <div class="tfoot">
+              <ion-button size="small" fill="clear" [disabled]="currentPage === 1" (click)="previousPage()" class="left">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+              </ion-button>
+              <ion-label>{{ currentPage }} of {{ totalPages }}</ion-label>
+              <ion-button size="small" fill="clear" [disabled]="currentPage === totalPages" (click)="nextPage()" class="right">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</ion-content>
+<app-pie-pagina></app-pie-pagina>

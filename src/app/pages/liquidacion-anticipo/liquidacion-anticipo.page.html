@@ -1,205 +1,125 @@
-<ion-header class="ion-no-border" >
-  <ion-toolbar>
-    <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
-     <ion-icon slot="icon-only" size="large" name="arrow-back"></ion-icon>
+<ion-header mode="ios">
+  <ion-toolbar mode="md" >
+    <ion-button (click)="regresar()" fill="clear" slot="start"  size="medium">
+      <ion-icon color="dark" slot="icon-only" name="chevron-back-outline"></ion-icon>
     </ion-button>
-    <h5 style="margin-right: 1rem;" slot="end"><strong>CIERRE CONTABLE</strong></h5>
+ 
+    <ion-title>Liquidacion Anticipo # {{adelantosService.adelantoViatico.numerO_TRANSACCION}} | {{ adelantosService.adelantoViatico.coD_COMPANIA}} 
+    </ion-title>
+ 
+ 
+   
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
 
-
+  <ion-toolbar   >
+    <ion-title style="margin-left: 20px;">Desgloce Anticipo</ion-title>
+ <ion-item slot="end" style="width: 180px;margin: 20px;" >
+  <ion-label style="margin-right: 20px" ><strong>Fuente</strong></ion-label>
+  <ion-select mode="ios" (ionChange)="fuenteChange($event)"   value="CG"  placeholder="">
+    <ion-select-option value="CB">CB</ion-select-option>
+    <ion-select-option value="CG">CG</ion-select-option>
+  </ion-select>
+ </ion-item>
+ <ion-label slot="end"  style="margin-right: 20px">Todos</ion-label>
+ <ion-checkbox slot="end"  (ionChange)="todos($event)" style="margin-right: 40px"></ion-checkbox>
   </ion-toolbar>
 
-</ion-header>
-<ion-content>
-  <ion-list>
-    <h5 style="margin-left: 1rem;"><strong>LIQUIDACIONES LINEAS</strong></h5>
-      <ion-item>
-     <ion-grid >
-      <ion-row>
-        <ion-col ><strong># Asiento</strong></ion-col>
-        <ion-col ><strong>CeCosto</strong></ion-col>
-        <ion-col><strong>CuConta</strong></ion-col>
-        <ion-col ><strong>Desc</strong></ion-col>
-        <ion-col ><strong>Deb Total</strong></ion-col>
-        <ion-col ><strong>Cred Local</strong></ion-col>
-        <ion-col ><strong>Referencia</strong></ion-col>
-      </ion-row>
-     </ion-grid>
-      </ion-item>
-      <ion-item *ngFor="let diario of diario">
-        <ion-grid >
-         <ion-row style="font-size: 14px;" class="ion-text-left">
-           <ion-col >
-            {{diario.asiento}}
-  
-           </ion-col>
-           <ion-col >
-            {{diario.centrO_COSTO   }}
-           </ion-col>
-           <ion-col >
-            {{diario.cuentA_CONTABLE   }}
-           </ion-col>
-           <ion-col >
-            {{diario.descripcion   }}
-           </ion-col>
-           <ion-col >
-            {{diario.debitO_LOCAL  | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}
-           </ion-col>
-           <ion-col >
-            {{diario.creditO_LOCAL  | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}
-           </ion-col>
-           <ion-col >
-            {{diario.referencia}}
-           </ion-col>
-         </ion-row>
-        </ion-grid>
-         </ion-item>
-         
-     </ion-list>
-     <ion-list *ngIf="this.adelantosService.adelantoViatico.restante >0">
-      <h5 style="margin-left: 1rem;"><strong>SOBRANTES LINEAS</strong></h5>
-        <ion-item>
-       <ion-grid >
-        <ion-row>
-          <ion-col ><strong># Asiento</strong></ion-col>
-          <ion-col ><strong>CeCosto</strong></ion-col>
-          <ion-col><strong>CuConta</strong></ion-col>
-          <ion-col ><strong>Desc</strong></ion-col>
-          <ion-col ><strong>Deb Total</strong></ion-col>
-          <ion-col ><strong>Cred Local</strong></ion-col>
-          <ion-col ><strong>Referencia</strong></ion-col>
-        </ion-row>
-       </ion-grid>
-        </ion-item>
-        <ion-item *ngFor="let diario of diarioSobrante">
-          <ion-grid >
-           <ion-row style="font-size: 14px;" class="ion-text-left">
-             <ion-col >
-              {{diario.asiento}}
-    
-             </ion-col>
-             <ion-col >
-              {{diario.centrO_COSTO   }}
-             </ion-col>
-             <ion-col >
-              {{diario.cuentA_CONTABLE   }}
-             </ion-col>
-             <ion-col >
-              {{diario.descripcion   }}
-             </ion-col>
-             <ion-col >
-              {{diario.debitO_LOCAL  | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}
-             </ion-col>
-             <ion-col >
-              {{diario.creditO_LOCAL  | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}
-             </ion-col>
-             <ion-col >
-              {{diario.referencia}}
-             </ion-col>
-           </ion-row>
-          </ion-grid>
-           </ion-item>
-           
-       </ion-list>
+ 
 
-       <ion-list *ngIf="postAsiento">
  
-        <h5 style="margin-left: 1rem;"><strong>LIQUIDACIÓN ANTICIPO</strong></h5>
-      <ion-item>
-     <ion-grid >
-      <ion-row>
-        <ion-col ><strong># Asiento</strong></ion-col>
-        <ion-col ><strong>CeCosto</strong></ion-col>
-        <ion-col><strong>CuConta</strong></ion-col>
-        <ion-col ><strong>Desc</strong></ion-col>
-        <ion-col ><strong>Deb Total</strong></ion-col>
-        <ion-col ><strong>Cred Local</strong></ion-col>
-        <ion-col ><strong>Referencia</strong></ion-col>
-      </ion-row>
-     </ion-grid>
-      </ion-item>
-      <ion-item  >
-        <ion-grid >
-         <ion-row style="font-size: 14px;" class="ion-text-left">
-           <ion-col >
-            {{postAsiento.asiento}}
-  
-           </ion-col>
-           <ion-col >
-            {{postAsiento.centrO_COSTO   }}
-           </ion-col>
-           <ion-col >
-            {{postAsiento.cuentA_CONTABLE   }}
-           </ion-col>
-           <ion-col >
-            {{postAsiento.descripcion   }}
-           </ion-col>
-           <ion-col >
-            {{postAsiento.debitO_LOCAL  | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}
-           </ion-col>
-           <ion-col >
-            {{postAsiento.creditO_LOCAL  | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}
-           </ion-col>
-           <ion-col >
-            {{postAsiento.referencia}}
-           </ion-col>
-         </ion-row>
-        </ion-grid>
-         </ion-item>
-         
-    
-       </ion-list>
-       <ion-list *ngIf="postSobrante">
+  <table class="customers">
+    <thead>
+      <tr>
+        <th>Centro de Costo</th>
+        <th>Cuenta Contable</th>
+        <th>Fuente</th>
+        <th>Referencia</th>
+        <th>Debito</th>
+        <th>Credito</th>
+        <th></th>
+        <!-- Agregar más columnas según sea necesario -->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aquí puedes usar *ngFor para iterar sobre los datos y llenar las filas -->
+      <tr *ngFor="let diario of paginatedData">
+        <td>
+<ion-button   fill="clear"  >
+  <a >{{diario.centrO_COSTO   }}</a>
+</ion-button>
+
+        </td>
+        <td>  
  
- <h5 style="margin-left: 1rem;"><strong>SOBRANTE ANTICIPO</strong></h5>
-          <ion-item>
-         <ion-grid >
-          <ion-row>
-            <ion-col ><strong># Asiento</strong></ion-col>
-            <ion-col ><strong>CeCosto</strong></ion-col>
-            <ion-col><strong>CuConta</strong></ion-col>
-            <ion-col ><strong>Desc</strong></ion-col>
-            <ion-col ><strong>Deb Total</strong></ion-col>
-            <ion-col ><strong>Cred Local</strong></ion-col>
-            <ion-col ><strong>Referencia</strong></ion-col>
-          </ion-row>
-         </ion-grid>
-          </ion-item>
-          <ion-item  >
-            <ion-grid >
-             <ion-row style="font-size: 14px;" class="ion-text-left">
-               <ion-col >
-                {{postSobrante.asiento}}
-      
-               </ion-col>
-               <ion-col >
-                {{postSobrante.centrO_COSTO   }}
-               </ion-col>
-               <ion-col >
-                {{postSobrante.cuentA_CONTABLE   }}
-               </ion-col>
-               <ion-col >
-                {{postSobrante.descripcion   }}
-               </ion-col>
-               <ion-col >
-                {{postSobrante.debitO_LOCAL  | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}
-               </ion-col>
-               <ion-col >
-                {{postSobrante.creditO_LOCAL  | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}
-               </ion-col>
-               <ion-col >
-                {{postSobrante.referencia}}
-               </ion-col>
-             </ion-row>
-            </ion-grid>
-             </ion-item>
-             
+          <ion-button   fill="clear"  >
+            <a >{{diario.cuentA_CONTABLE   }}</a>
+          </ion-button>
         
-           </ion-list>
+        </td>
+        <td>{{diario.fuente   }}</td>
+        <td>{{diario.referencia  | lowercase  }}</td>
+        <td>     {{ diario.debitO_LOCAL   | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }} </td>
+        <td>    {{ diario.creditO_LOCAL   | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</td>
+        <!-- Agregar más celdas según sea necesario -->
+        <td></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7">
+          <div class="foot">
+            <ion-label>Total {{ data.length }}</ion-label>
+            <div class="tfoot">
+              <!-- Your existing code for pagination goes here -->
+              <ion-button size="small" fill="clear" [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1" class="left">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+              </ion-button>
+              <ion-label>{{ currentPage }} of {{ totalPages }}</ion-label>
+              <ion-button size="small" fill="clear" [disabled]="currentPage === totalPages" (click)="currentPage = currentPage + 1" class="right">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+    <tfoot>
+      <tr>
+        <td colspan="4"><strong>Totales</strong></td>
+        <td colspan="1"><strong>Total Débitos</strong></td>
+        <td colspan="1"> <strong>Total Créditos</strong></td>
+        <td colspan="1"><strong>Saldos</strong></td>
+         
+        <!-- Agregar más celdas según sea necesario -->
+      </tr>
+      <tr>
+        <td colspan="4"><strong></strong></td>
+        <td colspan="1"><strong>{{ adelantosService.adelantoViatico.monto | colones : 2 : '.' : ',' : adelantosService.adelantoViatico.moneda }}</strong></td>
+        <td colspan="1"> <strong>{{ adelantosService.adelantoViatico.monto | colones : 2 : '.' : ',' : adelantosService.adelantoViatico.moneda }}</strong></td>
+        <td colspan="1"><strong>{{ 0  | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</strong></td>
+      </tr>
+    </tfoot>
+    <tfoot *ngIf="adelantosService.adelantoViatico.estatus != 'F'">
+      <tr>
+        <td colspan="4"><strong>   </strong></td>
+        <td colspan="3">
+          <ion-button (click)="liquidar()"   expand="block" fill="solid" color="success" shape="round">
+            Liquidar Anticipo
+          </ion-button>
+        </td>
+
+        <!-- Agregar más celdas según sea necesario -->
+      </tr>
+    </tfoot>
+  </table>
+
+
+
+
+
+ 
         
 </ion-content>
-<ion-footer      class="ion-no-border ion-padding"  *ngIf="this.adelantosService.adelantoViatico.estatus != 'F'">
-  <ion-toolbar>
-    <app-button  (click)="liquidar()"   label="Liquidar Anticipo"></app-button>
  
-  </ion-toolbar>
- </ion-footer>

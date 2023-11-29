@@ -3,6 +3,7 @@ export class Modulos {
         public id:number,
         public nombre: string,
         public ruta: string,
-        public icono:string
+        public icono:string,
+        public seleccionado:boolean
     ){}
 }

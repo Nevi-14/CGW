@@ -8,7 +8,6 @@ import { ControlUsuariosPageRoutingModule } from './control-usuarios-routing.mod
 
 import { ControlUsuariosPage } from './control-usuarios.page';
 import { ComponentModule } from 'src/app/components/component.module';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   imports: [
@@ -16,8 +15,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     FormsModule,
     IonicModule,
     ControlUsuariosPageRoutingModule,
-    ComponentModule,
-    NgxDatatableModule
+    ComponentModule
   ],
   declarations: [ControlUsuariosPage]
 })

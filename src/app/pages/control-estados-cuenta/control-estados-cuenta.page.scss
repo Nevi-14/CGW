@@ -1,8 +1,55 @@
-ion-title{
-    font-weight: bold;
-    font-size: 18px;
-    margin-left: 1rem;
-    text-transform: uppercase;
- } 
-
- 
+ion-grid, table {
+    width: 95%;
+    margin: 0 auto;
+  }
+  table {
+    box-shadow: 0 20px 30px 0 rgba(0,0,0,0.25);
+    border-collapse: collapse;
+    margin-top: 26px;
+   }
+  th, td{
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    ion-checkbox{
+      margin-left: 8px;
+      margin-top: 8px;
+    }
+  }
+   .search-box{
+    ion-item{
+      width: 400px;
+    }
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+   }  /* Define a class for the last column */
+   .last-column {
+     width: 300px;
+   }
+   /* Adjust the width of the last column in the table */
+   table.custom-table td.last-column {
+     width: 300px;
+     max-width: 300px; /* Optional, to ensure a fixed width */
+   }
+   .foot {
+    display: flex;
+    justify-content
+    :space-between;
+    align-items: center;
+   ion-label {
+    margin-right: 15px;
+   }
+  }
+  .tfoot{
+    display: flex;
+    align-items: center;
+  }
+  .left {
+    margin-right: 20px;
+  }
+  .right {
+    margin-left: 20px;
+  }
+  

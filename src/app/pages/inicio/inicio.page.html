@@ -1,53 +1,67 @@
+
+
+
 <ion-app>
-  <ion-split-pane contentId="main-split">
-    <ion-menu  [ngClass]="configuracionesService.menu   ? 'expand-menu' :'menu-hide'"
-      contentId="main-content" type="overlay" menuId="myMenu">
+  <ion-split-pane contentId="main-split"   >
+    <ion-menu    [ngClass]="configuracionesService.menu   ? 'expand-menu' :'menu-hide'"  contentId="main-content"  type="overlay"   menuId="myMenu">
       <ion-header class="ion-no-border">
-        <ion-toolbar color="dark" >
-          <ion-thumbnail>
-            <img src="assets/imgs/Dione.svg" />
-          </ion-thumbnail>
+        <ion-toolbar   color="any" class="ion-text-center header">
+          <h1 >D1</h1>
+          <ion-button *ngIf="small"   (click)="toggle()"  slot="end"  fill="clear" >
+            <ion-icon color="danger" name="close" size="large"></ion-icon>
+          </ion-button>
+      
+         
+      
         </ion-toolbar>
       </ion-header>
-      <ion-content class="no-scroll">
-       
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-
-            <ng-template [ngIf]="revisarAcceso(p.url) || p.url == '/inicio/detalle' || p.url == 'perfil' || p.url == 'salir'">
-              <ion-item  (click)="menuAction(p.url)" button lines="{{configuracionesService.menu ? '' : 'none'}}">
-                <ion-fab-button   color="dark">
-                  <ion-icon [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-                </ion-fab-button>
-    
-                <ion-label *ngIf="configuracionesService.menu">{{ p.title }}</ion-label>
-              </ion-item>
-            </ng-template>
-
+            <ion-content>
             
+             
+              <ion-list id="inbox-list" lines="none">
+                
+          
+                <ion-menu-toggle    auto-hide="false" *ngFor="let p of appPages; let i = index">
+                  <ng-template [ngIf]="revisarAcceso(p.url) || p.url == '/inicio/detalle' || p.url == 'perfil' || p.url == 'salir'">
+      
+                  <ion-item button (click)="menuAction(p.url,p.title)"    style="margin-top:0.5rem" [routerLink]="p.url" routerDirection="root" routerLinkActive="active-item"  lines="none" detail="false" [routerLinkActive]="p.url == 'perfil' || p.url == 'salir' ? '': 'selected'">
+                    <ion-icon [ngStyle]="{'margin': !configuracionesService.menu ? '0 auto' : ''}" slot="{{configuracionesService.menu ? 'start':''}}" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+                    <ion-label *ngIf="configuracionesService.menu">{{ p.title }}</ion-label>
+                  </ion-item>
+                </ng-template>
+                </ion-menu-toggle>
+          
+              </ion-list>
+              
          
-          </ion-menu-toggle>
+            </ion-content>
+          </ion-menu>
+      
+
   
 
-      
+    <div id="main-split" >
     
-
-
+      <ion-content id="main-content"> 
+     
+       <ion-router-outlet  >
+   
+      
+   
+       </ion-router-outlet>
       </ion-content>
+      
+       </div>
 
-    </ion-menu>
-
-
-    <div id="main-split" (mouseover)="closeMenu()">
-
-      <ion-router-outlet id="main-content">
-
-
-
-      </ion-router-outlet>
-
-
-    </div>
 
   </ion-split-pane>
 
 </ion-app>
+
+
+
+
+
+
+
+

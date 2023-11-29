@@ -1,0 +1,42 @@
+
+<ion-content class="ion-padding">
+
+
+  <form id="form" (ngSubmit)="cambiarContrasena(fCambiarContrasena)" #fCambiarContrasena="ngForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-thumbnail>
+            <img  src="assets/reset-password.svg" alt="">
+          </ion-thumbnail>
+        </ion-col>
+        <ion-col size="12">
+          <h2>Cambiar contraseña,</h2>
+          <h3>Deseo cambiar mi contraseña!.</h3>
+
+
+        </ion-col>
+        <ion-col size="12">
+          <app-input  name="Contrasena" type="password" label="Contraseña"  ngModel="{{Contrasena}}"    ></app-input>
+
+        </ion-col>
+        <ion-col size="12">
+            <app-input  name="ConfirmarContrasena" type="password" label="Confirmar Contrasena"  ngModel="{{ConfirmarContrasena}}"    ></app-input>
+  
+          </ion-col>
+        <ion-col size="12">
+          <app-button label="Cambiar contraseña"></app-button>
+        </ion-col>
+<ion-col size="12">
+  <p *ngIf="!usuariosService.usuario" class="footer-text">Página principal, <a routerLink="/inicio-sesion">Regresar</a></p>
+  <p *ngIf="usuariosService.usuario" class="footer-text">Página principal, <a routerLink="/inicio/detalle">Regresar</a></p>
+</ion-col>
+ 
+      </ion-row>
+    </ion-grid>
+
+
+  </form>
+
+</ion-content>
+ 

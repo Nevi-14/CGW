@@ -1,5 +1,5 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
+<ion-header mode="ios">
+  <ion-toolbar mode="md">
     <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
       <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
      </ion-button>
@@ -40,14 +40,7 @@
               <app-input name="observaciones"  label="Observaciones" ngModel="{{sobrante.observaciones}}"  ></app-input>
          
             </ion-col>
-            <ion-col size="12"  style="display: flex;justify-content: space-between;align-items: center;">
-              <app-input [readonly]="readonly"   [ngStyle]="{'width': sobrante.estatus == 'RA' || sobrante.estatus == 'P' ? '90%' : '100%'}" name="adjunto" style="display: block;margin-top: 1rem;" [readonly]="readonly" label="Adjunto" ngModel="{{file ? file.name : ''}}"></app-input>
-              <ion-fab-button *ngIf="sobrante.estatus == 'RA' || sobrante.estatus == 'P'" size="small">
-                <ion-icon name="add"></ion-icon>
-              </ion-fab-button>
-         
-            </ion-col>
-  
+      
     </ion-row>
   </ion-grid>
   

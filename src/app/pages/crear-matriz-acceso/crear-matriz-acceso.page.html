@@ -1,86 +1,123 @@
-
-
-
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-button (click)="cerrarModal()"  fill="clear" slot="start">
-      <ion-icon color="dark" size="large" name="arrow-back-outline"></ion-icon>
+<ion-header mode="ios">
+  <ion-toolbar mode="md">
+    <ion-title >Crear Role</ion-title>
+    <ion-button (click)="cerrarModal()" fill="clear" slot="end">
+      <ion-icon color="dark" size="large" name="close-outline"></ion-icon>
     </ion-button>
-<ion-title>CREAR ROL ACCESO</ion-title>
- 
-</ion-toolbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-
-   
- 
-  <form id="form" (ngSubmit)="crearRolAcceso(fAcceso)" #fAcceso="ngForm" >
-<ion-grid >
-  <ion-row>
-    <ion-col size="6">
-      <app-input    name="id" type="text" label="ID Role" ngModel="{{acceso.id}}"></app-input>
- 
-   
-    </ion-col>
-    <ion-col size="6">
-      <app-input    name="nombre" type="text" label="Nombre" ngModel="{{acceso.nombre}}"></app-input>
-      
- 
-    </ion-col>
-    <ion-col size="6">
-      <app-select name="compania" label="Compañia" [data]="companias" ngModel="{{acceso.iD_COMPANIA}}"></app-select>
- 
-    </ion-col>
-    <ion-col size="6">
+  <form  (ngSubmit)="crearRolAcceso()" [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12" size-md="6">
+                <ion-label class="label">Role Id</ion-label>
+                <ion-input
                 
-      <app-select name="departamento" label="Departamento" [data]="departamentos" ngModel="{{acceso.iD_DEPARTAMENTO}}"></app-select>
- 
-    </ion-col>
-    <ion-col size="12">
-      <app-select [multiple]="multiple" name="modulos" label="Modulos" [data]="modulos" ngModel="{{crearModulos}}"></app-select>
- 
-    </ion-col>
-    <ion-col size="12" style="display: flex;justify-content: flex-end;align-items: center;margin-bottom: 1rem;">
-      <ion-label   style="margin-right: 0.5rem;"><strong>Aprobador</strong></ion-label>
-<ion-toggle   name="aprobador" [(ngModel)]="acceso.aprobador"></ion-toggle>
-    </ion-col>
-    <ion-col size="3">
-      Lectura
-    </ion-col>
-    <ion-col size="3">
-      Creación
-    </ion-col>
-    <ion-col size="3">
-      Modificar
-    </ion-col>
-    <ion-col size="3">
-      Borrar
-    </ion-col>
-  <ion-col size="3">
-  <ion-toggle  [disabled]="true" name="r" [(ngModel)]="acceso.r"></ion-toggle>
-  </ion-col>
-  <ion-col size="3">
-  <ion-toggle name="c" [(ngModel)]="acceso.c" ></ion-toggle>
-  </ion-col>
-  <ion-col size="3">
-  <ion-toggle name="u" [(ngModel)]="acceso.u"></ion-toggle>
-  </ion-col>
-  <ion-col size="3">
-  <ion-toggle name="d" [(ngModel)]="acceso.d"></ion-toggle>
-  </ion-col>
-
-  </ion-row>
-</ion-grid>
-<app-button    label="Crear Role Acceso"></app-button>
+                formControlName="rol"
+                name="role"
+                  class="input"
+                  type="text"
+                  placeholder="Role"
+                  [(ngModel)]="acceso.id"
+                ></ion-input>
+                <ion-text color="danger" *ngIf="(form.get('rol').dirty || form.get('rol').touched) && form.get('rol').errors"  >
+                  El role id es obligatorio.
+                </ion-text>
+              </ion-col>
+              <ion-col size="12" size-md="6">
+                <ion-label    class="label">Nombre</ion-label>
+                <ion-input
+                name="nombre"
+                formControlName="nombre"
+                  class="input"
+                  type="text"
+                  placeholder="Nombre"
+                  [(ngModel)]="acceso.nombre"
+                ></ion-input>
+                <ion-text color="danger" *ngIf="(form.get('nombre').dirty || form.get('nombre').touched) && form.get('nombre').errors"  >
+                  El nombre es obligatorio.
+                </ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+<ion-col size="12">
+<h5>Asignar Permisos</h5>
+</ion-col>
+        <ion-col size="12">
+     
+          <ion-item lines="none">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6"  class="checkbox-column">
+                  <ion-checkbox
+                  size="small"
+                    [disabled]="true"
+                    name="r"
+                    [checked]="acceso.r"
+                  ></ion-checkbox>
+                  <ion-label> Lectura </ion-label>
+          
+                </ion-col>
+                <ion-col size="6"   class="checkbox-column">
+                  <ion-checkbox size="small" name="c" [(ngModel)]="acceso.c"></ion-checkbox>
+                  <ion-label>Creación</ion-label>
+             
+                </ion-col>
+                <ion-col size="6"   class="checkbox-column">
+                  <ion-checkbox   size="small" name="u" [(ngModel)]="acceso.u"></ion-checkbox>
+                  <ion-label>Modificar</ion-label>
+            
+                </ion-col>
+                <ion-col size="6"  class="checkbox-column">
+                  <ion-checkbox  size="small"  name="d" [(ngModel)]="acceso.d"></ion-checkbox>
+                  <ion-label>Borrar</ion-label>
+                
+                </ion-col>
+              </ion-row>
+              <ion-row> </ion-row>
+            </ion-grid>
+          </ion-item>
+    
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+            <h5>Asignar Modulos</h5>
+                </ion-col>
+              <ng-template ngFor let-modulo [ngForOf]="modulos">
+                <ion-col
+                  *ngIf="modulo.nombre != 'Departamentos'"
+                  size="12"
+                  size-sm="6"
+                >
+                  <ion-item>
+                    <ion-icon
+     [color]="modulo.seleccionado ? 'primary' : 'medium'"
+                      slot="start"
+                      size="icon-only"
+                      [name]="modulo.icono"
+                    ></ion-icon>
+                    <ion-label>{{ modulo.nombre }}</ion-label>
+                    <ion-toggle size="small" [(ngModel)]="modulo.seleccionado"></ion-toggle>
+                  </ion-item>
+                </ion-col>
+              </ng-template>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+      <ion-col size="12">
+        <ion-button type="submit" [disabled]="form.invalid"    expand="block"  >
+          Crear Role Acceso
+          </ion-button>
+      </ion-col>
+      </ion-row>
+    </ion-grid>
   </form>
-
-
-
- 
-
 </ion-content>
 
  
-
-

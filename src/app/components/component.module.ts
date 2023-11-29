@@ -12,6 +12,7 @@ import { InputComponent } from './input/input.component';
 import { ButtonComponent } from './button/button.component';
 import { IconButtonComponent } from './icon-button/icon-button.component';
 import { SelectComponent } from './select/select.component';
+import { MenuButtonComponent } from './menu-button/menu-button.component';
 
 
 
@@ -25,7 +26,8 @@ import { SelectComponent } from './select/select.component';
     InputComponent,
     ButtonComponent,
     IconButtonComponent,
-    SelectComponent
+    SelectComponent,
+    MenuButtonComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +44,8 @@ import { SelectComponent } from './select/select.component';
     InputComponent,
     ButtonComponent,
     IconButtonComponent,
-    SelectComponent
+    SelectComponent,
+    MenuButtonComponent
   ]
 })
 export class ComponentModule { }

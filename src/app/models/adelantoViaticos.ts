@@ -16,8 +16,11 @@ export class  adelantoViaticos{
       public monto: number,
       public utilizado: number,
       public restante: number,
+      public excedente: number,
       public observaciones:string,
       public lineas: number,
+      public asiento:string,
+      public asientO_CIERRE:string,
       public ultimA_FECHA_MODIFICACION: Date
      
     ){}
@@ -40,6 +43,7 @@ export class LineaAnticipo {
       public usuario:string,
       public monto: number,
       public utilizado: number,
-      public restante: number
+      public restante: number,
+      public excedente: number
     ){}
   }

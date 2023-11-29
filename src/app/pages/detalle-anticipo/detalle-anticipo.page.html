@@ -1,209 +1,242 @@
-<ion-content  class="ion-padding">
- <ion-grid style="height: 100%;">
-  <ion-row style="height: 100%;">
+
+<ion-header mode="ios">
+  <ion-toolbar mode="md" >
+    <ion-button (click)="regresar()" fill="clear" slot="start"  size="medium">
+      <ion-icon color="dark" slot="icon-only" name="chevron-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title>Detalle Anticipo # {{adelantosService.adelantoViatico.numerO_TRANSACCION}} | {{ adelantosService.adelantoViatico.coD_COMPANIA}} 
+    </ion-title>
  
-    
-    <ion-col size="6" style="height:100%;">
-<ion-row  >
-  <ion-col size="12"    >
-    <ion-list  lines="none">
-    
+    <ion-button *ngIf="adelantosService.adelantoViatico.estatus != 'F'" (click)="actualizarEstadoAnticipo()"  color="warning" expand="block" mode="md"  slot="end" shape="round" style="margin-right: 20px;">
+      Guardar Cambios
+    </ion-button>
+   
+  </ion-toolbar>
+</ion-header>
  
+<ion-content class="ion-padding">
+  <form id="form" #form="ngForm">
+  
+    <ion-grid>
+      <!-- Row 1 -->
+      <ion-row>
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Estatus</ion-label>
+          <ion-select (ionChange)="estadoAnticipo($event)"  [(ngModel)]="adelantosService.adelantoViatico.estatus"  class="select">
+            <ion-select-option *ngIf="adelantosService.adelantoViatico.estatus == 'P'" value="P">Pendiente</ion-select-option>
+            <ion-select-option *ngIf="adelantosService.adelantoViatico.estatus != 'A' && adelantosService.adelantoViatico.estatus != 'F'" value="RA">Requiere Aprobacion</ion-select-option>
+            <ion-select-option  *ngIf="adelantosService.adelantoViatico.estatus == 'RA' && usuarioAprobador || adelantosService.adelantoViatico.estatus == 'A' && usuarioAprobador" value="A">Aprobado</ion-select-option>
+            <ion-select-option    *ngIf="adelantosService.adelantoViatico.estatus == 'RA'  && usuarioAprobador  || adelantosService.adelantoViatico.estatus == 'R' && usuarioAprobador " value="R">Rechazado</ion-select-option>
+            <ion-select-option *ngIf="adelantosService.adelantoViatico.estatus == 'F'" value="F">Finalizado</ion-select-option>
+          </ion-select>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Fecha Transacción</ion-label>
+          <ion-input readonly class="input" value="{{ adelantosService.adelantoViatico.fechA_TRANSACCION | date }}"></ion-input>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Fecha Inicial</ion-label>
+          <ion-input readonly class="input" value="{{ adelantosService.adelantoViatico.fechA_INICIAL | date }}"></ion-input>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Fecha Final</ion-label>
+          <ion-input  readonly class="input" value="{{ adelantosService.adelantoViatico.fechA_FINAL | date }}"></ion-input>
+        </ion-col>
+      </ion-row>
+  
+      <!-- Row 2 -->
+      <ion-row>
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Justificación</ion-label>
+          <ion-input readonly class="input" value="{{ adelantosService.adelantoViatico.detalle }}"></ion-input>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Asiento Apertura</ion-label>
+          <ion-input readonly class="input" value="{{ adelantosService.adelantoViatico.asiento }}"></ion-input>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Asiento Cierre</ion-label>
+          <ion-input readonly class="input" value="{{ adelantosService.adelantoViatico.asientO_CIERRE }}"></ion-input>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Moneda</ion-label>
+          <ion-input readonly class="input" value="{{ adelantosService.adelantoViatico.moneda }}"></ion-input>
+        </ion-col>
+      </ion-row>
+  
+      <!-- Row 3 -->
+      <ion-row>
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Monto Dispensado</ion-label>
+          <ion-input readonly class="input" value="{{ adelantosService.adelantoViatico.monto | colones : 2 : '.' : ',' : adelantosService.adelantoViatico.moneda }}"></ion-input>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Utilizado</ion-label>
+          <ion-input readonly class="input" value="{{ adelantosService.adelantoViatico.utilizado | colones : 2 : '.' : ',' : adelantosService.adelantoViatico.moneda }}"></ion-input>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Restante</ion-label>
+          <ion-input readonly class="input" value="{{ adelantosService.adelantoViatico.restante | colones : 2 : '.' : ',' : adelantosService.adelantoViatico.moneda }}"></ion-input>
+        </ion-col>
+  
+        <ion-col size="12" size-md="3">
+          <ion-label class="label">Excedente</ion-label>
+          <ion-input readonly class="input" value="{{ adelantosService.adelantoViatico.excedente | colones : 2 : '.' : ',' : adelantosService.adelantoViatico.moneda }}"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     <ion-grid >
       <ion-row>
-      <ion-col size="12">
-        <ion-toolbar>
-      <h4 style="margin-left: 1rem;"><strong>DETALLE ANTICIPO</strong></h4>
-           
- 
-         </ion-toolbar>
-      </ion-col>
-  <ion-col size="12">
-    <ion-item>
-
-      <ion-label class="custom-title">  
-        Fecha
-        <p class="subcustom-title">{{adelantosService.adelantoViatico.fechA_INICIAL | date }} / {{adelantosService.adelantoViatico.fechA_FINAL | date}}  </p>
-       </ion-label>
+        <ion-col size="3">
+          <ion-list>
     
-    
-     
-    </ion-item>
-  </ion-col>
-
-        <ion-col size="6">
-<ion-item>
-
-  <ion-label class="custom-title">  
-    Anticipo
-    <p class="subcustom-title"># {{adelantosService.adelantoViatico.numerO_TRANSACCION}} </p>
-   </ion-label>
-
- 
-</ion-item>
+            <ion-item (click)="segmentChanged('P')" color="{{segment === 'P' ? 'primary' : ''}}">
+              <ion-icon slot="start" size="large" [color]="segment === 'P' ? 'light' : ''" name="time"></ion-icon>
+              <ion-label>Pendientes</ion-label>
+              <ion-badge slot="end" [color]="segment === 'P' ? 'secondary' : 'primary'">{{p}}</ion-badge>
+            </ion-item>
+            <ion-item (click)="segmentChanged('RA')" color="{{segment === 'RA' ? 'warning' : ''}}">
+              <ion-icon slot="start" size="large" [color]="segment === 'RA' ? 'light' : ''" name="alert-circle-outline"></ion-icon>
+              <ion-label>Requieren Aprobación</ion-label>
+              <ion-badge slot="end" [color]="segment === 'RA' ? 'secondary' : 'primary'">{{ra}}</ion-badge>
+            </ion-item>
+            <ion-item (click)="segmentChanged('A')" color="{{segment === 'A' ? 'success' : ''}}">
+              <ion-icon slot="start" size="large" [color]="segment === 'A' ? 'light' : ''" name="checkmark-circle-outline"></ion-icon>
+              <ion-label>Aprobadas</ion-label>
+              <ion-badge slot="end" [color]="segment === 'A' ? 'secondary' : 'primary'">{{a}}</ion-badge>
+            </ion-item>
+            <ion-item (click)="segmentChanged('R')" color="{{segment === 'R' ? 'danger' : ''}}">
+              <ion-icon slot="start" size="large" [color]="segment === 'R' ? 'light' : ''" name="close-circle-outline"></ion-icon>
+              <ion-label>Rechazadas</ion-label>
+              <ion-badge slot="end" [color]="segment === 'R' ? 'secondary' : 'primary'">{{r}}</ion-badge>
+            </ion-item>
+          </ion-list>
         </ion-col>
-        <ion-col size="6">
-          <ion-item>
-
-            <ion-label class="custom-title">  
-              Compañia
-              <p class="subcustom-title">{{adelantosService.adelantoViatico.coD_COMPANIA}} </p>
-             </ion-label>
-          
- 
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item>
-            <ion-label class="custom-title">  
-              Cantidad Usuarios
-              <p class="subcustom-title">{{totalLineas.length}}</p>
-             </ion-label>
-          
+        <ion-col size="9">
 
 
-           
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-         <ion-item>
-          <ion-label class="custom-title">  
-            Pendientes
-            <p class="subcustom-title">{{lineasPendientes}}</p>
-           </ion-label>
-        
-
- 
-         </ion-item>
-        </ion-col>
-        <ion-col size="6">
-       <ion-item>
-
-        <ion-label class="custom-title">  
-          Dispensado
-          <p class="subcustom-title">{{adelantosService.adelantoViatico.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</p>
-         </ion-label>
-      
-
- 
-          
-       </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item>
-            <ion-label class="custom-title">  
-              Consumido
-              <p class="subcustom-title">{{adelantosService.adelantoViatico.utilizado | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</p>
-             </ion-label>
-          
-
-
-            
-          </ion-item>
-           </ion-col>
-    
-      </ion-row>
-      <ion-row  > 
-        <ion-col size="12"  >
-          <ion-toolbar>
-   
-            <h4 style="margin-left: 1rem;"><strong>Estadísticas</strong></h4>
-           
-            <ion-button (click)="mostrarEstadisiticas()"  fill="clear"  slot="end">
-             <ion-icon slot="icon-only" size="large" color="primary" name="arrow-forward"></ion-icon>
-            </ion-button>
-           </ion-toolbar>
-          
-        </ion-col>
-        <ion-col size="12">
-          <canvas  id="barCanvas"    #barCanvas style="position: relative; height:100%;max-height: 35vh;min-height: 35vh; width:100%"></canvas>
-        </ion-col>
-      </ion-row>
-     </ion-grid>
-
-
-     
-    </ion-list>
-  </ion-col>
-
- 
-</ion-row>
-
-      
-    </ion-col>
- 
-    <ion-col size="6" style="height:100%;">
-
-     <ion-grid >
-      <ion-row>
-        
-        <ion-col size="12">
-          <ion-segment [(ngModel)]="segment" (ionChange)="segmentChanged($event)" class="ion-padding">
-            <ion-segment-button value="P">
-         
-            <span style="position: relative;"> 
-              <ion-icon size="large" color="primary" name="time"></ion-icon>
-              <ion-badge  style="position: absolute;top:0;right: -2rem;"  color="primary" mode="ios">{{p}}</ion-badge>
-            </span>
-            <ion-label  style="margin-top: 0.5rem;"><strong>Pendientes</strong></ion-label>
+          <ion-row>
+            <ion-col size="12">
+              <ion-row>
+  
        
-            </ion-segment-button>
-            <ion-segment-button value="RA">
-              <span style="position: relative;"> 
-              <ion-icon  size="large" color="warning" name="alert-circle-outline"></ion-icon>
-              <ion-badge style="position: absolute;top:0;right: -2rem;" color="primary" mode="ios">{{ra}}</ion-badge>
-            </span>
-              <ion-label   style="margin-top: 0.5rem;"><strong>Requieren Aprobación</strong></ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="A">
-              <span style="position: relative;"> 
-              <ion-icon size="large" color="success"  name="checkmark-circle-outline"></ion-icon>
-              <ion-badge  style="position: absolute;top:0;right: -2rem;" color="primary" mode="ios">{{a}}</ion-badge>
-            </span>
-              <ion-label   style="margin-top: 0.5rem;"><strong>Aprobadas</strong></ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="R">
-              <span style="position: relative;"> 
-              <ion-icon  size="large" color="danger" name="close-circle-outline"></ion-icon>
-              <ion-badge  style="position: absolute;top:0;right: -2rem;"  color="primary" mode="ios">{{r}}</ion-badge>
-            </span>
-              <ion-label  style="margin-top: 0.5rem;" ><strong>Rechazadas</strong></ion-label>
-            </ion-segment-button>
-          </ion-segment>
-        </ion-col>
-        <ion-col size="12">
-<ion-list>
-  <ion-item *ngIf="lineas.length == 0" >
-    <ion-avatar slot="start" style="height: 2rem;width: 2rem;">
-      <img src="assets/warning.svg" />
-    </ion-avatar>
-    <ion-label class="ion-text-uppercase"><strong>No hay datos que mostrar!..</strong></ion-label>
-
-  </ion-item>
-  <ion-item *ngFor="let linea of lineas" button (click)="lineaGastos(linea)" detail>
-    <ion-avatar slot="start">
-      <img src="assets/imgs/user.svg" />
-    </ion-avatar>
-    <ion-label>{{linea.usuario}}</ion-label>
-<ion-label> <strong>Dispensado :</strong> {{linea.monto | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-label>
-<ion-label> <strong>Utilizado :</strong> {{linea.utilizado | colones : 2 : '.' : ',' :  adelantosService.adelantoViatico.moneda }}</ion-label>
- 
-  </ion-item>
-</ion-list>
- 
-        </ion-col>
-        <ion-col size="12" style="padding: 1rem;">
+       
+                <ion-col size="12" class="search-box">
+          <ion-item  >
+            <ion-icon slot="start" name="search"></ion-icon>
+          <ion-input (ionInput)="updateFilter($event,filtro)" type="text" placeholder="Buscar {{filtro.nombre}}"></ion-input>
+          </ion-item>
+                  <span class="fab-buttons">
+                    <ion-button  color="dark"  (click)="mostrarEstadisiticas()"      >
+                      <ion-icon slot="start" color="light" slot="start" name="pie-chart"></ion-icon>
+                      <ion-label color="light">Estadisticas</ion-label>
+                         </ion-button>
+                          
+                         <ion-button  color="secondary"  (click)="createTxtFileFromArray()"        >
+                          <ion-icon slot="start" color="light" slot="start" name="cloud-download-outline"></ion-icon>
+                          <ion-label color="light">Txt</ion-label>
+                             </ion-button>
+                             <ion-button      (click)="liquidacionAnticipo()"   color="success"   type="submit"    >
+                              <ion-icon slot="start" color="light" slot="start" name="checkmark"></ion-icon>
+                              <ion-label color="light">{{adelantosService.adelantoViatico.estatus == 'F' ?  'Detalle' : 'Liquidar Anticipo'}}</ion-label>
+                                 </ion-button>
+           
           
-          <app-button  (click)="liquidacionAnticipo()"   label=" {{adelantosService.adelantoViatico.estatus == 'F' ?  'Mostrar Detalle Anticipo' : 'Liquidar Anticipo'}}"></app-button>
+                  </span>
+                </ion-col>
+           
+              </ion-row>
+
+              <ion-row>
+                <ion-col size="12">
+
+                  <table class="custom-table table">
+                    <thead>
+                      <tr>
+                        <th>
+                          <ion-checkbox (ionChange)="selectAll($event)"></ion-checkbox>
+                        </th>
+                        <th>Usuario</th>
+                        <th>Monto</th>
+                        <th>Estatus</th>
+                        <th>Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Your existing code for table rows goes here -->
+              
+                      <tr *ngIf="paginatedData.length ==0">
+                      
+                        <td colspan="5" class="ion-text-center">
+                          No Data found
+                        </td>
+                      </tr>
+                
+                
+                      <tr  *ngFor="let item of paginatedData">
+                        <td>
+                          <ion-checkbox  value=""></ion-checkbox>
+                        </td>
+                        <td>{{item.usuario}}</td>
+                        <td>
+                
+                          {{item.monto    | colones : 2 : '.' : ',' :   adelantosService.adelantoViatico.moneda }}
+                        </td>
+                        <td>  <ion-badge slot="end" color="{{getBadgeColor(item.estatus)}}">{{
+                          
+                          item.estatus  == 'P' ? 'Pendiente' : item.estatus  == 'A' ? 'Aprobado' : item.estatus  == 'R' ? 'Rechazado' : item.estatus  == 'RA' ? 'Requiere Aprobación' : ''
+                        
+                        }}</ion-badge></td>
+                        <td class="last-column">
+                         
+                          <ion-button fill="clear" (click)="lineaGastos(item)" >
+                            <ion-icon color="warning" slot="start" name="eye"></ion-icon>
+                            <ion-label color="warning">Detalle</ion-label>
+                          </ion-button>
+                        </td>
+                      </tr>
+              
+              
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="5">
+                          <div class="foot">
+                            <ion-label>Total {{ data.length }}</ion-label>
+                            <div class="tfoot">
+                              <!-- Your existing code for pagination goes here -->
+                              <ion-button size="small" fill="clear" [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1" class="left">
+                                <ion-icon name="chevron-back-outline"></ion-icon>
+                              </ion-button>
+                              <ion-label>{{ currentPage }} of {{ totalPages }}</ion-label>
+                              <ion-button size="small" fill="clear" [disabled]="currentPage === totalPages" (click)="currentPage = currentPage + 1" class="right">
+                                <ion-icon name="chevron-forward-outline"></ion-icon>
+                              </ion-button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </ion-col>
+                
+              </ion-row>
+            </ion-col>
+          </ion-row>
+           <!-- Modernized table with updated styles -->
+  
         </ion-col>
+      
       </ion-row>
-     </ion-grid>
- 
- 
-    </ion-col>
-  
-  </ion-row>
- </ion-grid>
-  
-  </ion-content>
-  <app-pie-pagina></app-pie-pagina>
+    </ion-grid>
+    
+  </form>
+</ion-content>

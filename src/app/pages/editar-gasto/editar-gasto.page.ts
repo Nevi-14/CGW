@@ -18,7 +18,7 @@ import { VisorArchivosPage } from '../visor-archivos/visor-archivos.page';
   templateUrl: './editar-gasto.page.html',
   styleUrls: ['./editar-gasto.page.scss'],
 })
-export class EditarGastoPage implements OnInit {
+export class EditarGastoPage  {
   @Input() nuevoGasto: GastoConAnticipo
   @Input()  linea:LineaGasto
   tipoGasto: TiposGastos
@@ -26,7 +26,7 @@ export class EditarGastoPage implements OnInit {
   restanteAnterior = 0;
   motivoRechazo  = null;
   isOpen: boolean = false;
- 
+ true = true;
   estatus = [
     {
      id: 'P',
@@ -62,18 +62,22 @@ export class EditarGastoPage implements OnInit {
     public gastosAnticiposService:GastosAnticiposService
   ) { }
 
-  async ngOnInit() {
+   ionViewWillEnter() {
+ 
     if(this.nuevoGasto.estatus == 'RA'){
       this.estatus.splice(0,1)
     }
     this.montoAnterior = this.nuevoGasto.monto;
-    let i = this.tiposGastosService.tiposGastos.findIndex(e => e.id == this.nuevoGasto.iD_TIPO_GASTO);
+    let i = this.tiposGastosService.tiposGastos.findIndex(e => e.tipo == this.nuevoGasto.iD_TIPO_GASTO);
    if(i >=0) this.tipoGasto= this.tiposGastosService.tiposGastos[i];
    console.log(this.tipoGasto)
     console.log(this.nuevoGasto)
-
+    console.log(this.tipoGasto,  'this.tipoGasto')
+    console.log(this.nuevoGasto,  'this.nuevoGasto')
    
   }
+
+  
   estadoGasto(ngForm:NgForm){
     console.log(ngForm,'formulario')
    if(ngForm.value.estatus == 'R')this.notificacion(ngForm);
@@ -96,10 +100,10 @@ export class EditarGastoPage implements OnInit {
         this.linea.estatus = this.nuevoGasto.estatus
       }
       await   this.gastosAnticiposService.syncPuLineatGastoToPromise(this.linea);
-      this.alertasService.message('DIONE','Gasto Actualizado!..')
+      this.alertasService.message('D1','Gasto Actualizado!..')
     }, error =>{
       this.alertasService.loadingDissmiss();
-      this.alertasService.message('DIONE','Lo sentimos algo salio mal!..')
+      this.alertasService.message('D1','Lo sentimos algo salio mal!..')
     })
   }
 
@@ -109,7 +113,7 @@ export class EditarGastoPage implements OnInit {
 
 async notificacion(ngForm:NgForm) {
     const alert = await this.alertCtrl.create({
-      header: 'DIONE',
+      header: 'D1',
       subHeader:'Por favor detallar el motivo de rechazo de la solicitud!',
       mode:'ios',
       buttons:  [
@@ -186,7 +190,7 @@ console.log('resp usuario notificado', resp)
 
     const modal = await this.modalctrl.create({
       component: VisorArchivosPage,
-      cssClass: 'alert-modal',
+      cssClass: 'medium-modal',
       mode: 'ios',
       componentProps: {
         file

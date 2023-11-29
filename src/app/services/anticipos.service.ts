@@ -50,6 +50,28 @@ export class AnticiposService {
     console.log(JSON.stringify(anticipo));
     return this.http.put(URL, JSON.stringify(anticipo), options);
   }
+
+  private  anticipoCompaniaMonedaEstadoRangoFecha(compania,moneda,estado,valor1,valor2){
+    let URL = this.getIRPURL( environment.anticipoCompaniaMonedaEstadoRangoFecha, `` );
+
+      URL = URL + compania + `&moneda=${moneda}`+ `&estado=${estado}`+ `&valor1=${valor1}`+ `&valor2=${valor2}`
+      console.log(URL,'url')
+    const options = {
+      headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+      }
+    };
+ 
+    return this.http.get<Anticipos[]>(URL);
+ 
+  }
+
+  syncAnticipoCompaniaMonedaEstadoRangoFechaToPromise(compania,moneda,estado,valor1,valor2){
+
+    return this.anticipoCompaniaMonedaEstadoRangoFecha(compania,moneda,estado,valor1,valor2).toPromise();
+  }
   putAnticipoLinea(anticipo: LineaAnticipo) {
     let URL = this.getIRPURL(environment.putLineaAnticipo, ``);
     URL = URL + anticipo.id;
@@ -113,7 +135,7 @@ export class AnticiposService {
   syncGetVistaAnticipoLineas(id:string,referencia:string){
     return this.getVistaAnticipoLineasAnticipo(id,referencia).toPromise()
   }
-  syncGetUsuarioAnticipoBYId(id: number) {
+  syncGetUsuarioAnticipoBYId(id: any) {
     return this.getUsuarioAnticipoID(id).toPromise();
   }
   syncGetLineaUsuarioAnticipoBYId(id: number) {

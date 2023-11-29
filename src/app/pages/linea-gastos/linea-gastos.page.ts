@@ -13,6 +13,9 @@ import { NotificacionesService } from 'src/app/services/notificaciones.service';
 import { Notificaciones } from 'src/app/models/notificaciones';
 import { EditarGastoPage } from '../editar-gasto/editar-gasto.page';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { Excedentes } from 'src/app/models/excedentes';
+import { ExcedentesService } from 'src/app/services/excedentes.service';
+import { ExcedentePage } from '../excedente/excedente.page';
 
 @Component({
   selector: 'app-linea-gastos',
@@ -25,6 +28,7 @@ gastos:LineaGasto[]=[]
 observaciones = null;
 isOpen:boolean = false;
 sobrante:Sobrantes = null;
+excedente:Excedentes = null;
 @ViewChild(DatatableComponent) table: DatatableComponent;
 public columns: any;
 public rows: any[]=[];
@@ -40,7 +44,8 @@ public gastosAnticiposService:GastosAnticiposService,
 public sobrantesService:SobrantesService,
 public changeDetector:ChangeDetectorRef,
 public notificacionesService:NotificacionesService,
-public alertCtrl:AlertController
+public alertCtrl:AlertController,
+public excedentesService:ExcedentesService
 
   ) {   }
 
@@ -60,7 +65,9 @@ public alertCtrl:AlertController
     this.lineasAnticiposService.syncGetGastosLineasToPromise(this.linea.id).then(async (resp) =>{
 
       this.gastos = resp;
-      let sobrante = await  this.sobrantesService.syncGetSobranteAnticipoUsuarioToPromise( this.linea.usuario,this.adelantosService.adelantoViatico.numerO_TRANSACCION)
+      let sobrante = await  this.sobrantesService.syncGetSobranteAnticipoUsuarioToPromise( this.linea.usuario,this.adelantosService.adelantoViatico.numerO_TRANSACCION);
+      let exedente = await this.excedentesService.syncGetExcedenteUsuarioToPromise(this.linea.usuario,this.adelantosService.adelantoViatico.numerO_TRANSACCION);
+          this.excedente = exedente[0];
       this.sobrante = sobrante[0]
       console.log(this.sobrante,'sobrante')
       this.columns = [
@@ -91,13 +98,30 @@ public alertCtrl:AlertController
     }
   }
   async consultarSobrante() {
-    if(this.temp.length != this.rows.filter( e => e.estatus == 'A').length) return this.alertasService.message('Dione','Lo sentimos!, debes de aprobar todos los gastos antes de proceder!..')
+    if(this.temp.length != this.rows.filter( e => e.estatus == 'A').length) return this.alertasService.message('D1','Lo sentimos!, debes de aprobar todos los gastos antes de proceder!..')
     const modal = await this.modalCtrl.create({
       component: SobrantesPage,
-      cssClass: 'alert-modal',
+      cssClass: 'medium-modal',
       mode: 'ios',
       componentProps:{
         sobrante: this.sobrante
+      }
+    })
+
+    modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data != undefined) {
+ 
+    }
+  }
+  async consultarExcedente() {
+    if(this.temp.length != this.rows.filter( e => e.estatus == 'A').length) return this.alertasService.message('D1','Lo sentimos!, debes de aprobar todos los gastos antes de proceder!..')
+    const modal = await this.modalCtrl.create({
+      component: ExcedentePage,
+      cssClass: 'medium-modal',
+      mode: 'ios',
+      componentProps:{
+        excedente: this.excedente
       }
     })
 
@@ -111,7 +135,7 @@ public alertCtrl:AlertController
   async gastoDetalle(nuevoGasto) {
     const modal = await this.modalCtrl.create({
       component: EditarGastoPage,
-      cssClass: 'alert-modal',
+      cssClass: 'medium-modal',
       mode: 'ios',
       componentProps:{
         nuevoGasto: nuevoGasto,
@@ -151,9 +175,9 @@ public alertCtrl:AlertController
 
   async actualizarLineaAnticipo() {
     if( this.sobrante && this.sobrante.estatus != 'A') return  this.alertasService.message('SD1', 'Lo sentimos, debes de aprobar el sobrante antes de proceder!..');
-    if(this.temp.length != this.rows.filter( e => e.estatus == 'A').length) return this.alertasService.message('Dione','Lo sentimos!, debes de aprobar todos los gastos antes de proceder!..')
+    if(this.temp.length != this.rows.filter( e => e.estatus == 'A').length) return this.alertasService.message('D1','Lo sentimos!, debes de aprobar todos los gastos antes de proceder!..')
     const alert = await this.alertCtrl.create({
-      header: 'DIONE',
+      header: 'D1',
       subHeader:'¿Desea completar la linea anticipo?',
       mode:'ios',
       buttons: [
@@ -186,10 +210,10 @@ public alertCtrl:AlertController
     this.linea.estatus = "A";
     this.lineasAnticiposService.syncPutLineaAnticipoToPromise(this.linea).then((resp:LineaAnticipo) =>{
       this.alertasService.loadingDissmiss();
-   this.alertasService.message('DIONE','Linea Anticipo Completada!..')
+   this.alertasService.message('D1','Linea Anticipo Completada!..')
     }, error =>{
       this.alertasService.loadingDissmiss();
-      this.alertasService.message('DIONE','Lo sentimos algo salio mal!..')
+      this.alertasService.message('D1','Lo sentimos algo salio mal!..')
     })
 
     

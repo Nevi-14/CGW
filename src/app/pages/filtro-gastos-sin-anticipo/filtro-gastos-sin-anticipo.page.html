@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar color="any">
     <ion-button (click)="cerrarModal()"   fill="clear"  slot="start">
       <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
     </ion-button>
@@ -13,20 +13,41 @@
  
   <form id="form" (ngSubmit)="filtrarGastos(ngForm)" #ngForm="ngForm">
 
-    <app-input name="valor1" readonly="true" label="Fecha Inicial" (click)="fecha('valor1')" ngModel="{{valor1  | date}}">
-    </app-input>
-  
-      <app-input name="valor2" readonly="true" label="Fecha Final" (click)="fecha('valor2')" ngModel="{{valor2  | date}}">
-      </app-input>
+  <ion-grid >
+    <ion-row>
+      <ion-col size="12">
+        <app-input name="valor1" [readonly]="true" label="Fecha Inicial" (click)="fecha('valor1')" ngModel="{{valor1  | date}}">
+        </app-input>
+      
+ 
+      </ion-col>
+      <ion-col size="12">
+        <app-input name="valor2" [readonly]="true" label="Fecha Final" (click)="fecha('valor2')" ngModel="{{valor2  | date}}">
+        </app-input>
+           
+      </ion-col>
+      <ion-col size="12">
         <app-select name="compania" label="Compañia" [data]="companias" ngModel="{{compania}}">
         </app-select>
+        
+      </ion-col>
+      <ion-col size="12">
         <app-select name="estatus" label="Estatus" [data]="estatuses" ngModel="{{estatus}}">
         </app-select>
-          <app-select name="moneda" label="Moneda" [data]="monedas" ngModel="{{moneda}}">
-          </app-select>
-
-    <app-button style="position: absolute;bottom:0rem;width:90%"  label="Filtrar Gastos"></app-button>
+          
+      </ion-col>
+      <ion-col size="12">
+        <app-select name="moneda" label="Moneda" [data]="monedas" ngModel="{{moneda}}">
+        </app-select>
  
+
+      </ion-col>
+      <ion-col size="12">
+        
+  <app-button   label="Filtrar Gastos"></app-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   </form>
 

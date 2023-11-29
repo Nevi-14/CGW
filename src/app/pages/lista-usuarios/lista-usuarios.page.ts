@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { UsuarioExactus } from 'src/app/models/usuarios';
 import { AlertasService } from 'src/app/services/alertas.service';
@@ -10,6 +10,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
   styleUrls: ['./lista-usuarios.page.scss'],
 })
 export class ListaUsuariosPage implements OnInit {
+  @Input() Cod_Compania: string;
   listaUsuarios: UsuarioExactus[] = []
   usuarios: UsuarioExactus[] = []
   usuariosAnticipo=[]
@@ -25,9 +26,9 @@ public alertCtrl:AlertController
 
   ngOnInit() {
     this.alertasService.presentaLoading('Cargando datos...');
-    this.usuariosService.syncGetUsuariosExactusToPromise().then(resp => {
+    this.usuariosService.syncGetUsuariosExactusToPromise(this.Cod_Compania).then(resp => {
       this.alertasService.loadingDissmiss();
-     // this.listaUsuarios = resp;
+      this.listaUsuarios = resp;
       this.usuarios = resp;
     }, error => {
       this.alertasService.loadingDissmiss();
@@ -63,7 +64,7 @@ public alertCtrl:AlertController
 
   async filtroUsuarios() {
     const alert = await this.alertCtrl.create({
-      header: 'DIONE',
+      header: 'D1',
       subHeader:'Filtrar Lista de Usuarios',
       buttons: [
         {
@@ -79,12 +80,13 @@ public alertCtrl:AlertController
           handler: (data) => {
             switch(data){
               case true: 
-              this.usuarios = this.usuarios.filter( e => e.seleccionado == true);
+
+              this.usuarios = this.listaUsuarios.filter( e => e.seleccionado == true);
               break;
 
               case false :
-                this.usuarios = this.listaUsuarios;
-                this.usuarios = this.usuarios.filter( e => e.seleccionado != true);
+              
+                this.usuarios = this.listaUsuarios.filter( e => e.seleccionado != true);
               break;
               case null :
                 this.usuarios = this.listaUsuarios;

@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import {  LineaAnticipo, adelantoViaticos, anticipo } from '../models/adelantoViaticos';
 import { Consecutivo } from '../models/consecutivo';
+import { ONE_Asiento_Diario } from '../models/procesoContable';
+import { TipoCambio } from '../models/tipoCambio';
+import { Solicitudes } from '../models/solicitudes';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,9 @@ import { Consecutivo } from '../models/consecutivo';
 export class AdelantoViaticosService {
   lineasAnticipo:LineaAnticipo[]=[]
   adelantoVaticos: anticipo[] = [];
-  adelantoViatico :adelantoViaticos
+  adelantoViatico :adelantoViaticos;
+  solicitudes:any[]=[]
+  solicitudesActualizar: Solicitudes[]=[];
   constructor(
     public http: HttpClient
 
@@ -38,13 +43,20 @@ export class AdelantoViaticosService {
     console.log('URL', URL)
     return this.http.get<adelantoViaticos[]>(URL);
   }
-  private getConsecutivo() {
+  private getUltimoConsecutivo(compania:string,tipo:string) {
 
     let URL = this.getAPI(environment.getUltimoConsecitvo);
+        URL = URL + compania + '&tipo=' + tipo;
     console.log('URL', URL)
-    return this.http.get<Consecutivo[]>(URL);
+    return this.http.get<ONE_Asiento_Diario>(URL);
   }
+  private GetTipoCambio(compania:string,tipo:string) {
 
+    let URL = this.getAPI(environment.getTipoCambo);
+    URL = URL + compania + '&tipo=' + tipo;
+    console.log('URL', URL)
+    return this.http.get<TipoCambio>(URL);
+  }
   private getGastosAnticipo(id:number) {
 
     let URL = this.getAPI(environment.getGastosAnticipos);
@@ -84,9 +96,11 @@ export class AdelantoViaticosService {
     return this.getAdelantoViaticosBYID(id).toPromise();
   }
 
-  
-  syncGetConsecutivo(){
-    return this.getConsecutivo().toPromise();
+  syncGetUltimoConsecutivo(compania:string,tipo:string){
+    return this.getUltimoConsecutivo(compania,tipo).toPromise();
+  }
+  syncGetTipoCambio(compania:string,tipo:string){
+    return this.GetTipoCambio(compania,tipo).toPromise();
   }
 
   syncGetGastosAnticipo(id) {

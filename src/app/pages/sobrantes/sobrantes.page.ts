@@ -90,12 +90,12 @@ public modalCtrl:ModalController
     this.alertasService.loadingDissmiss();
     console.log('resp', resp)
     this.modalCtrl.dismiss();
-    this.alertasService.message('DIONE', 'Sobrante actualizado!..')
+    this.alertasService.message('D1', 'Sobrante actualizado!..')
 
   }, error =>{
     this.alertasService.loadingDissmiss();
     console.log('error', error)
-    this.alertasService.message('DIONE', 'Sobrante actualizado!..')
+    this.alertasService.message('D1', 'Sobrante actualizado!..')
   })
 }
 

@@ -8,12 +8,18 @@ import { AlertasService } from 'src/app/services/alertas.service';
 import { TiposGastosService } from 'src/app/services/tipos-gastos.service';
 import { LineaGastosSinAnticipoPage } from '../linea-gastos-sin-anticipo/linea-gastos-sin-anticipo.page';
 import { LiquidacionSinAnticipoPage } from '../liquidacion-sin-anticipo/liquidacion-sin-anticipo.page';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 interface usuariosGastos {
 usuario :string,
 pendientes:number,
 utilizado:number,
 gastos:GastoSinAnticipo[]  
 } 
+interface filtros {
+  nombre:any,
+  filtro:any, 
+ }
+ 
 @Component({
   selector: 'app-liquidacion-gastos-sin-anticipo',
   templateUrl: './liquidacion-gastos-sin-anticipo.page.html',
@@ -34,15 +40,40 @@ export class LiquidacionGastosSinAnticipoPage implements OnInit {
   segment = 'P';
   identificador = null;
   utilizado = 0;
+  data:any[] = [];
+  rows = [];
+  temp:any[] = [];
+  pageSize = 3;
+  currentPage = 1;
+  filtro:filtros = {nombre:'Usuario',filtro:'usuario'}
   constructor(
 public gastosSinanticipoService:GastosSinAnticipoService,
 public graficosService:GraficosService,
 public modalCtrl:ModalController,
 public alertasService:AlertasService,
 public tiposGastosSerivce:TiposGastosService,
-public cd:ChangeDetectorRef
+public cd:ChangeDetectorRef,
+public usuariosService:UsuariosService
 
   ) { }
+
+  getBadgeColor(estatus: string) {
+    switch (estatus) {
+      case 'P':
+        return 'primary';
+      case 'RA':
+        return 'warning';
+      case 'A':
+        return 'success';
+      case 'R':
+        return 'danger';
+      default:
+        return 'primary';
+    }
+  }
+
+  
+
 
   ngOnInit() {
     console.log('gastos', this.gastosSinanticipoService.gastos)
@@ -58,7 +89,7 @@ public cd:ChangeDetectorRef
 
     const modal = await this.modalCtrl.create({
       component: EstadisticasPage,
-      cssClass: 'alert-modal',
+      cssClass: 'medium-modal',
       mode: 'ios'
     });
 
@@ -74,9 +105,9 @@ public cd:ChangeDetectorRef
 
     }
   }
-  segmentChanged($event:any) {
-    console.log('event', $event)
-    this.cargarGastos($event.detail.value)
+  segmentChanged(data:any) {
+    this.segment = data;
+    this.cargarGastos(this.segment)
     //this.linaAnticiposService.s
   }
   async lineaGastos(usuario: usuariosGastos) {
@@ -86,7 +117,7 @@ console.log(usuario,'gastoooooooos')
 
     const modal = await this.modalCtrl.create({
       component: LineaGastosSinAnticipoPage,
-      cssClass: 'alert-modal',
+      cssClass: 'medium-modal',
       mode: 'ios',
       componentProps: {
         gastosSinAnticipo:usuario
@@ -105,143 +136,113 @@ console.log(usuario,'gastoooooooos')
 
     }
   }
- async  cargarGastos(estado) {
-  this.utilizado = 0;
-  this.gastos = [];
-
-            
-  this.p = 0;
-  this.ra = 0;
-  this.a = 0;
-  this.r = 0;
-
- 
- 
-  this.gastosSinanticipoService.gastos.forEach( (gasto, index) =>{
-    switch (gasto.estatus) {
-      case 'P':
-        this.p += 1;
-        break;
-      case 'RA':
-        this.ra += 1;
-        break;
-      case 'A':
-        this.a += 1;
-        break;
-      case 'R':
-        this.r += 1;
-        break;
-    }
-    this.utilizado  += gasto.monto
-if(gasto.estatus == estado){
- 
-  let gastoUsuario = {
-  usuario :gasto.usuario,
-  pendientes:0,
-  utilizado:0,
-  gastos:[gasto] 
-      }
-  let i = this.gastos.findIndex(e => e.usuario == gasto.usuario);
-  if(i < 0){
-  if(  gasto.estatus == 'P' || gasto.estatus == 'RA' || gasto.estatus == 'R'){
-  gastoUsuario.pendientes = 1;
-  }
-  gastoUsuario.utilizado += gasto.monto
-  this.gastos.push(gastoUsuario)
-  }
+  cargarGastos(estado) {
+    this.utilizado = 0;
+    this.gastos = [];
+    this.p = 0;
+    this.ra = 0;
+    this.a = 0;
+    this.r = 0;
+    this.data = [];
+    this.temp = [];
   
-  if(i >=0){
-  if(   gasto.estatus == 'P' || gasto.estatus == 'RA' || gasto.estatus == 'R'){
-    this.gastos[i].pendientes = 1;
-  }
-  gastoUsuario.utilizado += gasto.monto
-  this.gastos[i].gastos.push(gasto)
-  }
-  
-  if( this.gastosSinanticipoService.gastos.length -1  == index){
-  console.log('gastos3', this.gastos)
- 
-   let gastos = this.gastos
-  this.lineasPendientes = this.gastos.filter(e => e.pendientes > 0).length;
- 
-
-
-
-  this.graficosService.labels = [];
-  this.graficosService.data = [];
-  //this.alertasService.presentaLoading('Cargando datos...')
-  this.tiposGastosSerivce.getgastosToPromise().then((resp) => {
-  
-    this.tiposGastosSerivce.tiposGastos = resp;
-    resp.forEach(async (tipo, index) => {
-      this.graficosService.labels.push(tipo.descripcion)
-      this.graficosService.data.push(0)
-      if (index == resp.length - 1) {
-   this.gastos = gastos;
-   
-
-    this.gastos.forEach(async (usuario, index) => {
-
-      usuario.gastos.forEach(async (gasto, indexGasto) =>{
-
-        let tipoGasto =   this.tiposGastosSerivce.tiposGastos.findIndex( e => e.id ==  gasto.iD_TIPO_GASTO);
-        let iD_TIPO_GASTO = null;
-        if(tipoGasto >=0){
-          iD_TIPO_GASTO = this.tiposGastosSerivce.tiposGastos[tipoGasto].descripcion;
-        }
-         console.log('gasto',gasto)
-          let i = this.graficosService.labels.findIndex(e => e == iD_TIPO_GASTO);
-          if (i >= 0) {
-            this.graficosService.data[i] += 1;
+    this.gastosSinanticipoService.gastos.forEach((gasto, index) => {
+      this.utilizado += gasto.monto;
+      switch (gasto.estatus) {
+        case 'P':
+          this.p += 1;
+          if(gasto.estatus == this.segment){
+           this.data.push(gasto)
           }
-       
-        if (indexGasto == usuario.gastos.length - 1) {
-        
-          await this.alertasService.loadingDissmiss();
-          this.graficosService.cargarGRaficos();
+          break;
+        case 'RA':
+          this.ra += 1;
+          if(gasto.estatus == this.segment){
+            this.data.push(gasto)
+           }
+          break;
+        case 'A':
+          this.a += 1;
+          if(gasto.estatus == this.segment){
+            this.data.push(gasto)
+           }
+          break;
+        case 'R':
+          this.r += 1;
+          if(gasto.estatus == this.segment){
+            this.data.push(gasto)
+           }
+          break;
+      }
+  
+      if (gasto.estatus == estado) {
+        let gastoUsuario = {
+          usuario: gasto.usuario,
+          pendientes: 0,
+          utilizado: 0,
+          gastos: [gasto]
         }
-
-      })
-
-      if(index == this.gastos.length -1){
-    
-        await this.alertasService.loadingDissmiss();
+  
+        let i = this.gastos.findIndex(e => e.usuario == gasto.usuario);
+        if (i < 0) {
+          this.gastos.push(gastoUsuario);
+          if (gasto.estatus == 'P' || gasto.estatus == 'RA' || gasto.estatus == 'R') {
+            gastoUsuario.pendientes = 1;
+          }
+          gastoUsuario.utilizado += gasto.monto;
+        }
+  
+        if (i >= 0) {
+          if (gasto.estatus == 'P' || gasto.estatus == 'RA' || gasto.estatus == 'R') {
+            this.gastos[i].pendientes = 1;
+          }
+          this.gastos[i].utilizado += gasto.monto;
+          this.gastos[i].gastos.push(gasto);
+        }
+  
+        // Resto de tu código...
+        this.cargarGraficos();
       }
+    });
+  }
+  cargarGraficos() {
+    this.temp = [...this.data];
+    this.graficosService.labels = [];
+    this.graficosService.data = [];
+    this.tiposGastosSerivce.getgastosToPromise().then((resp) => {
+      this.tiposGastosSerivce.tiposGastos = resp;
+      resp.forEach(async (tipo, index) => {
+        if (tipo.descripcion) { // Verifica que la descripción no esté vacía
+          // Solo agrega la etiqueta si hay al menos un gasto de este tipo y no se ha agregado aún
+          if (this.gastos.some(usuario => usuario.gastos.some(gasto => gasto.iD_TIPO_GASTO == tipo.tipo)) && !this.graficosService.labels.includes(tipo.descripcion)) {
+            this.graficosService.labels.push(tipo.descripcion);
+            this.graficosService.data.push(0);
+          }
+        }
+        if (index == resp.length - 1) {
+          this.gastos.forEach(async (usuario, index) => {
+            usuario.gastos.forEach(async (gasto, indexGasto) => {
+              let tipoGasto = this.tiposGastosSerivce.tiposGastos.findIndex(e => e.tipo == gasto.iD_TIPO_GASTO);
+              let iD_TIPO_GASTO = null;
+              if (tipoGasto >= 0) {
+                iD_TIPO_GASTO = this.tiposGastosSerivce.tiposGastos[tipoGasto].descripcion;
+              }
+              let i = this.graficosService.labels.findIndex(e => e == iD_TIPO_GASTO);
+              if (i >= 0) {
+                this.graficosService.data[i] += 1;
+              }
+              if (indexGasto == usuario.gastos.length - 1) {
+                await this.alertasService.loadingDissmiss();
+                this.graficosService.cargarGRaficos();
+              }
+            })
+            if (index == this.gastos.length - 1) {
+              await this.alertasService.loadingDissmiss();
+            }
+          })
+        }
       })
-      }
     })
-
-
-  })
-
-
-  }
-}
-
-if(this.gastosSinanticipoService.gastos.length -1 == index){
-  this.lineasPendientes = this.gastos.filter(e => e.pendientes > 0).length;
-  if( this.lineasPendientes == 0){
-    this.segment = 'RA'
-    this.cd.detectChanges();
-   this.cargarGastos('RA')
-  }
-}
-  })
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
- 
   }
 
   async liquidacionAnticipo() {
@@ -282,4 +283,63 @@ if(this.gastosSinanticipoService.gastos.length -1 == index){
   
  
   }
+
+  get totalPages(): number {
+    return Math.ceil(this.data.length / this.pageSize);
+  }
+
+  async createTxtFileFromArray() {
+    let array = [];
+    let promises = this.totalLineas.map(async (linea) => {
+      let usuario = await this.usuariosService.getUsuarioToPromise(linea.usuario);
+      let data = `..,${usuario[0].nombre}  ${usuario[0].apellido},..,${linea.monto},PAGO DE VIATICOS DEL ..).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} AL  ${new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })},CODIGO 150`;
+      array.push(data);
+    });
+  }
+  
+  updateFilter(event, filtro: filtros) {
+    const val = event.target.value.toLowerCase();
+    // filter our data
+    const temp = this.temp.filter(function (d) {
+      return d[filtro.filtro].toLowerCase().indexOf(val) !== -1 || !val;
+    });
+    // update the data
+    this.data = temp;
+    // Whenever the filter changes, always go back to the first page
+    // this.table.offset = 0;
+  }
+      // PAGINATED DATA
+      get paginatedData(): any[] {
+        const startIndex = (this.currentPage - 1) * this.pageSize;
+        return this.data.slice(startIndex, startIndex + this.pageSize);
+      }
+      
+      // NEXT PAGE
+      nextPage() {
+        if (this.currentPage < this.totalPages) {
+          this.currentPage++;
+        }
+      }
+      
+      // PREVIOUS PAGE
+      previousPage() {
+        if (this.currentPage > 1) {
+          this.currentPage--;
+        }
+      }
+       
+      
+        // SELECCIONAR TODO
+        selectAll(event) {
+          if (event.detail.checked) {
+            this.data.forEach((item) => {
+              item.seleccionado = true;
+            });
+          } else {
+            this.data.forEach((item) => {
+              item.seleccionado = false;
+            });
+          }
+        }
+
 }

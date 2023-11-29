@@ -1,60 +1,102 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title class="ion-text-capitalize" class="page-title">Control Anticipos</ion-title>
-    <ion-searchbar   (ionChange)="updateFilter($event)"   slot="end" style="width:30%;margin-top: 1rem;" mode="ios" placeholder="buscar anticipo"  type="text"   [debounce]="250"  ></ion-searchbar>
+<app-menu-button [mostrarUsuario]="true"></app-menu-button>
  
-    <ion-fab-button *ngIf="usuariosService.moduloAcceso.c"  size="small"  class="margin-right" (click)="adelantoViaticos()" slot="end" color="dark"  >
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
- 
-    <ion-fab-button  size="small"  (click)="cargarDatos()" class="margin-right" slot="end" color="dark"  >
-      <ion-icon name="refresh"></ion-icon>
-    </ion-fab-button>
-  </ion-toolbar>
- 
-</ion-header>
-
- 
-
 <ion-content class="ion-padding">
-  <ion-grid  style="height: 100%;">
-    <ion-row style="height: 100%;">
-      <ion-col size="12" style="height: 100%;">
-        <ngx-datatable 
-        class="material  light striped"
-        [limit]="8" 
-        [rows]="rows" 
-        [rowHeight]="50" 
-        [columnMode]="'force'" 
-        [sortType]="multi" 
-        [headerHeight]="50" 
-        [footerHeight]="50"
-        style="height: 100%;"
-        [columns]="columns" 
-        [scrollbarV]="true"
-        
-        >
-      
-      
-        <ng-template  ngFor let-column [ngForOf]="columns" let-i="index"  >
-          <ngx-datatable-column *ngIf="column.id != 'opciones'" name="{{column.label}}" prop="{{column.id}}">
-      
-          </ngx-datatable-column>
-        </ng-template>
-        <ngx-datatable-column name="opciones"  prop="opciones">
-          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-      <ion-button (click)="editarElemento(row)"  fill="clear"  >
-      <ion-icon color="warning"   name="create"></ion-icon>
-      </ion-button>
-      <ion-button  (click)="borrarElemento(row)"   fill="clear"  >
-      <ion-icon color="danger" name="trash"></ion-icon>
-      </ion-button>
-          </ng-template>
-      </ngx-datatable-column>
-      </ngx-datatable>
+  <ion-grid >
+    <ion-row>
+      <ion-col size="4">
+    <h3>Control Anticipos</h3>
       </ion-col>
-   
+      <ion-col size="8" class="search-box">
+<ion-item  >
+  <ion-icon slot="start" name="search"></ion-icon>
+<ion-input (ionInput)="updateFilter($event,filtro)" type="text" placeholder="Buscar {{filtro.nombre}}"></ion-input>
+</ion-item>
+        <span class="fab-buttons">
+          <ion-button color="dark"    *ngIf="usuariosService.moduloAcceso.r"    (click)="filtrarData()"    >
+            <ion-icon slot="start" color="light" slot="start" name="options"></ion-icon>
+            <ion-label color="light">Filtrar</ion-label>
+               </ion-button>
+      <ion-button    *ngIf="usuariosService.moduloAcceso.c"    (click)="accionSolicitudes()"    >
+   <ion-icon slot="start" color="light" slot="start" name="add"></ion-icon>
+   <ion-label color="light">Acciones</ion-label>
+      </ion-button>
+      <ion-button color="secondary"    *ngIf="usuariosService.moduloAcceso.c"    (click)="descargarDatos()"    >
+        <ion-icon slot="start" color="light" slot="start" name="download"></ion-icon>
+        <ion-label color="light">Exportar</ion-label>
+           </ion-button>
+        </span>
+      </ion-col>
     </ion-row>
   </ion-grid>
-  </ion-content>
-  <app-pie-pagina></app-pie-pagina>
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>
+          <ion-checkbox (ionChange)="selectAll($event)"></ion-checkbox>
+        </th>
+        <th>Compania</th>
+        <th>Detalle</th>
+        <th>Estatus</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Asiento Apertura</th>
+        <th>Asiento Cierre</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngIf="paginatedData.length ==0">
+        
+        <td colspan="9" class="ion-text-center">
+          No Data found
+        </td>
+      </tr>
+
+
+      <tr *ngFor="let item of paginatedData">
+        <td>
+          <ion-checkbox [(ngModel)]="item.seleccionado"></ion-checkbox>
+        </td>
+        <td>{{ item.coD_COMPANIA   }}</td>
+        <td>{{item.detalle}}</td>
+        <td>  <ion-badge color="{{item.estatus == 'F' ? 'success' : item.estatus == 'RA' ? 'warning' : item.estatus == 'R'? 'danger' :   'secondary' }}" mode="ios">{{item.estatus == 'F' ? 'Finalizado' : item.estatus == 'RA' ? 'Requiere Aprobacion' : item.estatus == 'R'? 'Rechazado' :  item.estatus == 'A'? 'Aprobado' :   'Pendiente' }}</ion-badge></td>
+        <td>{{ item.fechA_INICIAL | date }}</td>
+        <td>{{ item.fechA_INICIAL | date }}</td>
+
+        <td>{{ item.asiento  }}</td>
+        <td>{{ item.asientO_CIERRE   }}</td>
+        <td class="last-column">
+          <ion-button fill="clear"  *ngIf="usuariosService.moduloAcceso.u"  (click)="editarElemento(item)">
+            <ion-icon color="warning" slot="start" name="create"></ion-icon>
+            <ion-label color="warning">Editar</ion-label>
+          </ion-button>
+          <ion-button fill="clear"  *ngIf="usuariosService.moduloAcceso.d"   (click)="borrarElemento(item)">
+            <ion-icon color="danger" slot="start" name="trash"></ion-icon>
+            <ion-label color="danger">Eliminar</ion-label>
+          </ion-button>
+        </td>
+      </tr>
+    </tbody>
+    
+    <tfoot>
+      <tr>
+        <td colspan="9">
+          <div class="foot">
+            <ion-label>Total {{ paginatedData.length }} | {{data.length}}</ion-label>
+            <div class="tfoot">
+              <ion-button size="small" fill="clear" [disabled]="currentPage === 1" (click)="previousPage()" class="left">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+              </ion-button>
+              <ion-label>{{ currentPage }} of {{ totalPages }}</ion-label>
+              <ion-button size="small" fill="clear" [disabled]="currentPage === totalPages" (click)="nextPage()" class="right">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</ion-content>
+<app-pie-pagina></app-pie-pagina>

@@ -33,7 +33,7 @@ constructor(
       this.modalCtrl.dismiss(true)
     }, error =>{
       this.alertasService.loadingDissmiss();
-      this.alertasService.message('Dione','Lo sentimos algo salio mal!..')
+      this.alertasService.message('D1','Lo sentimos algo salio mal!..')
     })
   }
 }

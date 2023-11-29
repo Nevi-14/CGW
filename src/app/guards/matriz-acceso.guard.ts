@@ -33,12 +33,14 @@ export class MatrizAccesoGuard implements CanActivate {
     )
         .subscribe((event:any) => {
             let url = event.urlAfterRedirects ;
-            console.log(url)
+            localStorage.setItem('currentUrl',url)
+        
+            if(!this.usuariosService.usuario) return false;
             this.usuariosService.syncGetUsuarioMatrizAccesosToPromise(this.usuariosService.usuario.id).then( accesos =>{
 console.log(this.currentUrl, 'current module')
 this.usuariosService.accesoModulos  = [];
 this.usuariosService.accesoModulos = accesos;
-if(this.currentUrl == '/inicio-sesion' || this.currentUrl == '/inicio/detalle' || this.currentUrl == '/inicio/liquidacion-gastos-sin-anticipo') return true
+if(this.currentUrl == '/inicio-sesion' || this.currentUrl == '/inicio/detalle' || this.currentUrl == '/inicio/liquidacion-gastos-sin-anticipo' || this.currentUrl == '/inicio/liquidacion-anticipo' ) return true
 
 
 let indexControlAnticipos = accesos.findIndex(e => e.ruta == '/inicio/control-anticipos')
@@ -57,11 +59,11 @@ let index = accesos.findIndex( e => e.ruta == this.currentUrl);
             //  this.router.navigateByUrl(this.previousUrl)
                 return true;
               }else {
-                this.alertasService.message('Dione', `Acceso denegado - contacte al administrador para el  acceso al modulo.`)
+                this.alertasService.message('D1', `Acceso denegado - contacte al administrador para el  acceso al modulo.`)
                 this.router.navigateByUrl(this.previousUrl)
               }
             }, error =>{
-              this.alertasService.message('DiOne','Error cargando permisos');
+              this.alertasService.message('D1','Error cargando permisos');
             })
      
          // this.alertasService.message('Allowed URL',this.currentUrl)

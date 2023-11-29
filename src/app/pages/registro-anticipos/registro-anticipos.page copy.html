@@ -1,0 +1,170 @@
+<app-menu-button [mostrarUsuario]="true"></app-menu-button>
+ 
+<ion-content class="ion-padding">
+ 
+  <form id="form" (ngSubmit)="generarPost(form)"     #form="ngForm" > 
+
+  <ion-grid >
+    <ion-row>
+      <ion-col size="12">
+    <h3>Registro Anticipo</h3>
+      </ion-col>
+ 
+    </ion-row>
+    <ion-row  >
+
+ 
+
+      <ion-col  >
+        <ion-row>
+          <ion-col size="3">
+
+            <app-input name="fechA_TRANSACCION" [readonly]="true" label="Fecha Transacción" (click)="fecha('fechaTransaccion')" ngModel="{{adelantoViatico.fechA_TRANSACCION  | date}}"></app-input>
+               
+
+          </ion-col>
+          <ion-col size="3">
+            <app-input  name="fechA_INICIAL" [readonly]="true" label="Fecha Inicial" (click)="fecha('fechaInicial')" ngModel="{{adelantoViatico.fechA_INICIAL  | date}}"></app-input>
+               
+           
+
+
+          </ion-col>
+          <ion-col size="3">
+            <app-input name="fechA_FINAL"  [readonly]="true" label="Fecha Final"   ngModel="{{adelantoViatico.fechA_FINAL  | date}}"></app-input>
+               
+       
+
+
+
+          </ion-col>
+          <ion-col size="3">
+            <app-select   name="moneda"  label="Moneda" [data]="[{id:'₡',valor:'Colones'},{id:'$',valor:'Dolares'}]" ngModel="{{adelantoViatico.moneda}}"></app-select>
+    
+          </ion-col>
+          <ion-col size="3">
+            <app-input name="detalle" label="Justificación" ngModel="{{adelantoViatico.detalle}}"></app-input>
+       
+
+
+
+
+          </ion-col>
+          <ion-col size="3">
+            <app-select name="coD_COMPANIA" (ionChange)="compania(form)"  label="Compañia" [data]="companias" ngModel="{{adelantoViatico.coD_COMPANIA}}"></app-select>
+    
+  
+          </ion-col>
+
+          <ion-col size="3" *ngIf="centros.length > 0">
+            <app-input (click)="centrosCostos()" readonly name="centroCosto"  label="Centro Costo"  ngModel="{{centroCosto ? centroCosto.centrO_COSTO1 : ''}}"></app-input>
+    
+  
+          </ion-col>
+          <ion-col size="3">
+            <app-input name="numerO_TRANSACCION" label="# Transacción" ngModel="{{adelantoViatico.numerO_TRANSACCION}}"></app-input>
+       
+      
+
+
+
+          </ion-col>
+        </ion-row>
+
+
+      </ion-col>
+
+
+
+    </ion-row>
+  </ion-grid>
+  
+  <ion-grid >
+    <ion-row>
+      <ion-col size="4">
+    <h3>Lista Usuarios</h3>
+      </ion-col>
+      <ion-col size="8" class="search-box">
+<ion-item  >
+  <ion-icon slot="start" name="search"></ion-icon>
+<ion-input (ionInput)="updateFilter($event,filtro)" type="text" placeholder="Buscar {{filtro.nombre}}"></ion-input>
+</ion-item>
+        <span class="fab-buttons">
+          <ion-button  color="dark"     (click)="listaColaboradores()"    >
+            <ion-icon slot="start" color="light" slot="start" name="person-add"></ion-icon>
+            <ion-label color="light">Usuarios</ion-label>
+               </ion-button>
+      <ion-button     type="submit"    >
+   <ion-icon slot="start" color="light" slot="start" name="add"></ion-icon>
+   <ion-label color="light">Agregar</ion-label>
+      </ion-button>
+
+        </span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>
+          <ion-checkbox (ionChange)="selectAll($event)"></ion-checkbox>
+        </th>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Monto</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngIf="rows.length ==0">
+        
+        <td colspan="5" class="ion-text-center">
+          No Data found
+        </td>
+      </tr>
+
+
+      <tr  *ngFor="let item of rows">
+        <td>
+          <ion-checkbox  value=""></ion-checkbox>
+        </td>
+        <td>{{item.usuario}}</td>
+        <td>{{item.nombre}}</td>
+        <td>
+
+          <ion-input    (ionChange)="updateValue($event, 'monto', item)"
+           
+          type="number"
+          [(ngModel)]="item.monto"></ion-input>
+        </td>
+         
+        <td class="last-column">
+         
+          <ion-button fill="clear" (click)="borrarElemento(item)">
+            <ion-icon color="danger" slot="start" name="trash"></ion-icon>
+            <ion-label color="danger">Eliminar</ion-label>
+          </ion-button>
+        </td>
+      </tr>
+    </tbody>
+    
+    <tfoot>
+      <tr>
+        <td colspan="2" ></td>
+ 
+        <td  >
+<h5><strong>Total</strong></h5>
+        </td>
+        <td  >
+       <h5><strong>   {{adelantoViatico.monto | colones}}</strong></h5>
+        </td>
+        <td colspan="1"></td>
+      </tr>
+    </tfoot>
+  </table>
+</form>
+</ion-content>
+
+<app-pie-pagina></app-pie-pagina>

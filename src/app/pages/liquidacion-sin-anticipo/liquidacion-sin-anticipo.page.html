@@ -76,7 +76,7 @@
 
    </ion-list>
        <ion-list *ngIf="postAsiento">
- 
+         
         <h5 style="margin-left: 1rem;"><strong>LIQUIDACIÓN GASTOS SIN ANTICIPO</strong></h5>
       <ion-item>
      <ion-grid >
@@ -84,7 +84,6 @@
         <ion-col ><strong># Asiento</strong></ion-col>
         <ion-col ><strong>CeCosto</strong></ion-col>
         <ion-col><strong>CuConta</strong></ion-col>
-        <ion-col ><strong>Desc</strong></ion-col>
         <ion-col ><strong>Deb Total</strong></ion-col>
         <ion-col ><strong>Cred Local</strong></ion-col>
         <ion-col ><strong>Referencia</strong></ion-col>
@@ -103,9 +102,6 @@
            </ion-col>
            <ion-col >
             {{postAsiento.cuentA_CONTABLE   }}
-           </ion-col>
-           <ion-col >
-            {{postAsiento.descripcion   }}
            </ion-col>
            <ion-col >
             {{postAsiento.debitO_LOCAL  | colones : 2 : '.' : ',' :  '' }}

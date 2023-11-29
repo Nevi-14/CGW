@@ -1,4 +1,27 @@
-ion-avatar{
-    height: 14rem;
-    width: 14rem;
-}
+ .grid {
+ position: absolute;
+ top: 40%;
+ left:50%;
+ transform: translate(-50%, -50%);
+ width: 90%;
+ }
+  .company-information {
+  
+    img {
+      height: 220px;
+      width: 220px;
+    }
+  }
+  h3 {
+    font-size: 24px;
+  }
+ .module-header h3 {
+  
+    margin-bottom: 3rem;
+     
+  }
+ ion-item {
+  ion-label, ion-item ion-icon {
+    font-size: 20px;
+  }
+ }

@@ -57,7 +57,12 @@ export class LineaGastoView {
     public estatus:string,
     public usuario: string,
     public utilizado:number,
-    public restante:number
+    public restante:number,
+    public centrO_COSTOS:string,
+    public porcentajeiva:number,
+    public montoiva:number,
+    public montO_ANTICIPO:number,
+    public excedente:number
   ){}
 
   

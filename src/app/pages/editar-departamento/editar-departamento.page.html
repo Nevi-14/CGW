@@ -15,7 +15,16 @@
   <form id="form" (ngSubmit)="editarDepartamento(fLogin)" #fLogin="ngForm" >
     <app-input    name="nombre" type="text" label="Nombre" ngModel="{{departamento.nombre}}"></app-input>
     <app-input    name="descripcion" type="text" label="Descripción" ngModel="{{departamento.descripcion}}"></app-input>
-    
+    <ion-col size="12">
+      <app-input    name="Correo" type="text" label="Correo" ngModel="{{departamento.correo}}"></app-input>
+   
+  
+    </ion-col>
+    <ion-col size="12">
+      <app-input    name="Telefono" type="text" label="Telefono" ngModel="{{departamento.telefono}}"></app-input>
+   
+  
+    </ion-col>
 
 
  

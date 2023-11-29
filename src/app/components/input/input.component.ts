@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
+import { IonInput } from '@ionic/angular';
 // https://angular.io/api/forms/ControlValueAccessor
 @Component({
   selector: 'app-input',
@@ -14,26 +15,48 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms
   ]
 })
 export class InputComponent  implements ControlValueAccessor{
-  @Input() name: any = '';
-  @Input() ngModel:any = '';
-  @Input() readonly:any= false;
-  @Input() label: string = '';
-  @Input() type = 'text'; // set default type be text
+  @ViewChild('input') myInput: IonInput;
+  @Input() label: string;
+  @Input() name: string;
+  @Input() ngModel: any;
+  @Input() type: string = 'text';
+  @Input() readonly: boolean = false;
+  @Input() required: boolean = false;
+  @Input() minLength: number;
+  @Input() maxLength: number;
+  @Input() pattern: string;
   showPass:boolean = true;
+  focused: boolean = false;
+  showError: boolean = false;
+  error: string;
 public onChange!: Function;
   constructor(){
 
   }
-
-  focused: boolean; 
-
+ 
   onBlur(event: any) {
-
-    const value = event.target.value;
-
-    if (!value) {
-      this.focused = false;
+ 
+    this.focused = false;
+    this.showError = false;
+    this.error = '';
+    this.ngModel = event.target.value;
+    if(event.target.value.length > 0){
+      this.focused = true;
     }
+    if (this.required && !this.ngModel) {
+      this.showError = true;
+      this.error = 'This field is required';
+    } else if (this.minLength && this.ngModel.length < this.minLength) {
+      this.showError = true;
+      this.error = `This field must be at least ${this.minLength} characters long`;
+    } else if (this.maxLength && this.ngModel.length > this.maxLength) {
+      this.showError = true;
+      this.error = `This field must be no more than ${this.maxLength} characters long`;
+    } else if (this.pattern && !new RegExp(this.pattern).test(this.ngModel)) {
+      this.showError = true;
+      this.error = 'This field is invalid';
+    }
+   
   }
 
   changeText($event:any):void{

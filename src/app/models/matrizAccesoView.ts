@@ -1,5 +1,6 @@
 export class MatrizAccesoView {
     constructor(
+        public id: number,
         public iD_MATRIZ_ACCESO:string,
         public iD_COMPANIA: number,
         public nombrE_COMPANIA: string,
@@ -13,5 +14,6 @@ export class MatrizAccesoView {
         public r: boolean,
         public u: boolean,
         public d: boolean,
+        public seleccionado: boolean,
     ){}
 }

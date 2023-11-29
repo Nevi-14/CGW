@@ -2,9 +2,13 @@ export class Usuarios {
     constructor(
         public id: number,
         public usuario: string,
+        public web:boolean,// new
+        public aprobador:boolean,// new
         public nombre: string,
+        public departamento: string, // new
         public clave: string,
         public correo: string,
+        public telefono: string,
         public estatus: boolean,
         public apellido: string,
         public fecha: Date,
@@ -19,6 +23,18 @@ constructor(
     public cia: string,
     public seleccionado: boolean,
     public monto: number
+){}
+}
+
+
+export class GetUsuarioExactus {
+constructor(
+    public   usuario: string,
+    public  nombre: string,
+    public clave: string,
+    public cia: string,
+    public seleccionado: boolean,
+    public centrO_COSTO: string
 ){}
 }
 

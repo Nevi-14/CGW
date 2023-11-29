@@ -66,10 +66,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/lista-usuarios/lista-usuarios.module').then( m => m.ListaUsuariosPageModule)
   },
   {
-    path: 'liquidacion-anticipo',
-    loadChildren: () => import('./pages/liquidacion-anticipo/liquidacion-anticipo.module').then( m => m.LiquidacionAnticipoPageModule)
-  },
-  {
     path: 'sobrantes',
     loadChildren: () => import('./pages/sobrantes/sobrantes.module').then( m => m.SobrantesPageModule)
   },
@@ -84,7 +80,8 @@ const routes: Routes = [
   {
     path: 'editar-gasto',
     loadChildren: () => import('./pages/editar-gasto/editar-gasto.module').then( m => m.EditarGastoPageModule)
-  },  {
+  },
+  {
     path: 'devoluciones',
     loadChildren: () => import('./pages/devoluciones/devoluciones.module').then( m => m.DevolucionesPageModule)
   },
@@ -103,27 +100,40 @@ const routes: Routes = [
   {
     path: 'visor-archivos',
     loadChildren: () => import('./pages/visor-archivos/visor-archivos.module').then( m => m.VisorArchivosPageModule)
+  },
+  {
+    path: 'recuperar-contrasena',
+    loadChildren: () => import('./pages/recuperar-contrasena/recuperar-contrasena.module').then( m => m.RecuperarContrasenaPageModule)
+  },
+  {
+    path: 'cambiar-contrasena',
+    loadChildren: () => import('./pages/cambiar-contrasena/cambiar-contrasena.module').then( m => m.CambiarContrasenaPageModule)
+  },
+  {
+    path: 'excedente',
+    loadChildren: () => import('./pages/excedente/excedente.module').then( m => m.ExcedentePageModule)
+  },
+  {
+    path: 'centro-costos',
+    loadChildren: () => import('./pages/centro-costos/centro-costos.module').then( m => m.CentroCostosPageModule)
+  },   {
+    path: 'editar-solicitud',
+    loadChildren: () => import('./pages/editar-solicitud/editar-solicitud.module').then( m => m.EditarSolicitudPageModule)
+  },
+  {
+    path: 'crear-aprobadores',
+    loadChildren: () => import('./pages/crear-aprobadores/crear-aprobadores.module').then( m => m.CrearAprobadoresPageModule)
+  },
+  {
+    path: 'filtro-anticipos',
+    loadChildren: () => import('./pages/filtro-anticipos/filtro-anticipos.module').then( m => m.FiltroAnticiposPageModule)
+  },
+  {
+    path: 'filtro-solicitudes',
+    loadChildren: () => import('./pages/filtro-solicitudes/filtro-solicitudes.module').then( m => m.FiltroSolicitudesPageModule)
   }
 
 
-
-
-
-
-  
-
-
-
-
- 
-
-
-
-
-
-
-
- 
 ];
 
 @NgModule({

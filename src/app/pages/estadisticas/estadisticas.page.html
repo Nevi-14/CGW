@@ -1,22 +1,22 @@
-<ion-header class="ion-no-border">
+<ion-header  mode="ios">
  
-  <ion-toolbar>
+  <ion-toolbar mode="md">
     <ion-button slot="start" (click)="regresar()" fill="clear">
       <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
      </ion-button>
-    <ion-title>ESTADISTICAS</ion-title>
+    <ion-title>Estadisticas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-col size="12">
-    <div style="margin-top: 2rem;">
+ 
+    
       <ion-card>
         <ion-card-header>
           Gráfico De Barras
         </ion-card-header>
         <ion-card-content>
-          <canvas  id="barCanvas2"  style="position: relative; height:100%;min-height: 30vh; width:100%"></canvas>
+          <canvas  id="barCanvas2"  style="position: relative; height:100%;min-height: 40vh; width:100%"></canvas>
         </ion-card-content>
       </ion-card>
   
@@ -26,7 +26,7 @@
 
         </ion-card-header>
         <ion-card-content>
-          <canvas  id="doughnutCanvas"  #doughnutCanvas style="position: relative; max-height:35vh; width:100%"></canvas>
+          <canvas  id="doughnutCanvas"  #doughnutCanvas style="position: relative; max-height:40vh; width:100%"></canvas>
         </ion-card-content>
       </ion-card>
 
@@ -38,10 +38,9 @@
 
         </ion-card-header>
         <ion-card-content>
-          <canvas  id="lineCanvas"  #lineCanvas style="position: relative; max-height:35vh; width:100%"></canvas>
+          <canvas  id="lineCanvas"  #lineCanvas style="position: relative; max-height:40vh; width:100%"></canvas>
         </ion-card-content>
       </ion-card>
-    </div>
-  </ion-col>
+ 
 
 </ion-content>

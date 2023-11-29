@@ -1,21 +1,36 @@
 <ion-content class="ion-padding">
 
-  <form id="form" (ngSubmit)="login(fLogin)" #fLogin="ngForm">
+  <form  (ngSubmit)="login(fLogin)" #fLogin="ngForm">
     <ion-grid>
       <ion-row>
         <ion-col size="12" class="ion-text-center">
-          <img   style="margin: 0 auto;" src="assets/coris.png" alt="">
-          <h1>Inicio Sesión</h1>
+     
+          <img   src="assets/coris.png" alt="">
+     
   
         </ion-col>
-  
+        <ion-col size="12" class="ion-text-center">
+          <h2>Inicio Sesión</h2>
+        </ion-col>
+        <ion-col size="12">
+          <app-input    name="correo" type="text" label="Correo" ngModel="{{correo}}"></app-input>
+           
+        </ion-col>
+  <ion-col size="12">
+    <app-input   name="clave" type="password" label="Contraseña" ngModel="{{clave}}"></app-input>
+    
+  </ion-col>
+  <ion-col size="12">
+    <a routerLink="/recuperar-contrasena" class="forgot-password-link">Recuperar Contrasena </a>
+ 
+  </ion-col>
+  <ion-col size="12">
+          
+    <app-button label="Iniciar Sesión"></app-button>
+  </ion-col>
       </ion-row>
     </ion-grid>
-    <app-input    name="correo" type="text" label="Correo" ngModel="{{correo}}"></app-input>
-    <app-input   name="clave" type="password" label="Contraseña" ngModel="{{clave}}"></app-input>
-
-
-    <app-button label="Iniciar Sessión"></app-button>
+ 
  
 
   </form>

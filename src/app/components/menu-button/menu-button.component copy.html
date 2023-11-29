@@ -1,0 +1,32 @@
+<ion-header  class="{{!mostrarUsuario ? 'ion-no-border' : ''}}" mode="ios">
+  <ion-toolbar  >
+    <ion-button
+      slot="start"
+      contentId="main-content"
+      (click)="toggle()"
+      fill="clear"
+    >
+  
+      <ion-icon
+        color="dark"
+        [name]="!this.configuracionesService.menu ? 'menu' : 'close-outline'"
+        size="large"
+      ></ion-icon>
+    </ion-button>
+    <span *ngIf="mostrarUsuario" slot="end" (click)="perfil()">
+      <ion-avatar style="height: 2.5rem; width: 2.5rem">
+        <img src="assets/imgs/user.svg" />
+      </ion-avatar>
+      <ion-label
+        >{{ usuariosService.usuario.nombre }}
+        {{ usuariosService.usuario.apellido }}</ion-label
+      >
+    </span>
+    <span  *ngIf="mostrarUsuario" slot="end" style="position: relative;">
+      <ion-button expand="block" fill="clear" shape="round">
+        <ion-icon style="font-size: 28px;" name="notifications-outline"></ion-icon>
+      </ion-button>
+      <ion-badge style="position: absolute;top: 5px;right: 5px;" color="danger" mode="ios">{{alertas}}</ion-badge>
+    </span>
+  </ion-toolbar>
+</ion-header>

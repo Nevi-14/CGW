@@ -1,0 +1,63 @@
+<ion-header class="ion-no-border" mode="ios">
+  <ion-toolbar mode="md">
+    <ion-button slot="start" (click)="regresar()" fill="clear">
+      <ion-icon  size="large" slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-title>Crear Aprobadores</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form id="form"  #fRegistroGasto="ngForm">
+    <ion-list>
+<ion-grid >
+  <ion-row class="ion-margin-bottom">
+    <ion-col size="6">
+ 
+      <ion-label class="label">Compania</ion-label>
+      <ion-select class="select" name="compania" [(ngModel)]="compania"  placeholder="Seleccionar">
+        <ion-select-option *ngFor="let compania of companias" [value]="compania.id">{{compania.nombre}}</ion-select-option>
+       
+      </ion-select>
+    </ion-col>
+    <ion-col size="6">
+      <ion-label class="label">Role</ion-label>
+      <ion-select class="select" [(ngModel)]="role"  placeholder="Seleccionar">
+        <ion-select-option *ngFor="let role of roles" [value]="role.id">{{role.nombre}}</ion-select-option>
+       
+      </ion-select>
+        
+    </ion-col>
+    <ion-col size="6">
+      <h3>Usuarios</h3>
+    </ion-col>
+    <ion-col size="6" class="search-box">
+      <ion-item  mode="md" >
+        <ion-icon slot="start" name="search"></ion-icon>
+      <ion-input  (ionChange)="onSearchChange($event)" [debounce]="250" mode="ios" placeholder="Buscar"></ion-input>
+      </ion-item>
+
+    </ion-col>
+  </ion-row>
+ 
+</ion-grid>
+   
+    </ion-list>
+  <ion-list>
+ 
+    <ion-item *ngFor="let item of usuarios | filtro: textoBuscar:'nombre';" >
+      <ion-avatar slot="start">
+        <img src="assets/imgs/user.svg" />
+      </ion-avatar>
+      <ion-label  >{{item.nombre}} {{item.apellido}}</ion-label>
+      <ion-checkbox [(ngModel)]="item.seleccionado" slot="end"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+ 
+  </form>
+</ion-content>
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <app-button   (click)="generarPost()"   label="Crear Aprobadores"></app-button>
+  </ion-toolbar>
+</ion-footer>
